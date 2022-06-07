@@ -1,35 +1,35 @@
 #include <iostream>
-#include "Videojuego.h"
+#include "VideoJuego.h"
 
 using namespace std;
 
-videojuego::videojuego(string nombre, string descripcion, int prom_punt){
+VideoJuego::VideoJuego(string nombre, string descripcion, int prom_punt){
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->promedio_puntuacion = prom_punt;
 }
 
 
-string videojuego::getNombre(){
+string VideoJuego::getNombre(){
     return this->nombre;
 }
 
-void videojuego::setNombre(string nombre){
+void VideoJuego::setNombre(string nombre){
     this->nombre = nombre;
 }
 
-string videojuego::getDescripcion(){
+string VideoJuego::getDescripcion(){
     return this->descripcion;
 }
 
-void videojuego::setDescripcion(string descripcion){
+void VideoJuego::setDescripcion(string descripcion){
     this->descripcion = descripcion;
 }
 
-int videojuego::getPromedio_puntuacion(){
+int VideoJuego::getPromedio_puntuacion(){
     return this->promedio_puntuacion;
 }
 
-void videojuego::setPromedio_puntuacion(int promedio_puntuacion){
+void VideoJuego::setPromedio_puntuacion(int promedio_puntuacion){
     this->promedio_puntuacion = promedio_puntuacion;
 }
