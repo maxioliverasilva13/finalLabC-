@@ -5,13 +5,13 @@
 
 using namespace std;
 
-class VideoJuego {
+class Videojuego {
     private:
         string nombre;
         string descripcion;
         int promedio_puntuacion;
     public:
-        VideoJuego(string, string, int);
+        Videojuego(string, string, int);
         string getNombre();
         string getDescripcion();
         int getPromedio_puntuacion();
