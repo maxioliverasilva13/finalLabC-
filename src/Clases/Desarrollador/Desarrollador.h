@@ -5,11 +5,11 @@
 #include "../Usuario/Usuario.h"
 using namespace std;
 
-class desarrollador : public usuario {
+class Desarrollador : public Usuario {
     private:
         string nomEmpresa;
     public:
-        desarrollador(string, string, string);
+        Desarrollador(string, string, string);
         void setNomEmpresa(string);
         string getNomEmpresa();
 };

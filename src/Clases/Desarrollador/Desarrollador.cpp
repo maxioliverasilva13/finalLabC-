@@ -3,14 +3,14 @@
 
 using namespace std;
 
-desarrollador::desarrollador(string ne, string email, string pass):usuario(email, pass){
+Desarrollador::Desarrollador(string ne, string email, string pass):Usuario(email, pass){
     this->nomEmpresa = ne;
 }
 
-void desarrollador::setNomEmpresa(string ne) {
+void Desarrollador::setNomEmpresa(string ne) {
     this->nomEmpresa = ne;
 }
 
-string desarrollador::getNomEmpresa() {
+string Desarrollador::getNomEmpresa() {
     return this->nomEmpresa;
 }

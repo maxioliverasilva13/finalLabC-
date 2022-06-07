@@ -3,24 +3,24 @@
 
 using namespace std;
 
-jugador::jugador(string nick, string desc, string email, string pass):usuario(email, pass){
+Jugador::Jugador(string nick, string desc, string email, string pass):Usuario(email, pass){
     this->nickname = nick;
     this->descripcion = desc;
 }
 
-void jugador::setNickname(string nick) {
+void Jugador::setNickname(string nick) {
     this->nickname = nick;
 }
 
-void jugador::setDescripcion(string des) {
+void Jugador::setDescripcion(string des) {
     this->descripcion = des;
 }
 
-string jugador::getNickname() {
+string Jugador::getNickname() {
     return this->nickname;
 }
 
-string jugador::getDescripcion() {
+string Jugador::getDescripcion() {
     return this->descripcion;
 }
 

@@ -5,7 +5,7 @@
 #include "../Usuario/Usuario.h"
 using namespace std;
 
-class jugador : public usuario {
+class Jugador : public Usuario {
     private:
         string nickname;
         string descripcion;
@@ -13,17 +13,17 @@ class jugador : public usuario {
         contratacion ** contrataciones; //JUGADOR VE (tiene) CONTRATACIONES.
         
     public:
-        jugador(string, string, string, string);
+        Jugador(string, string, string, string);
         void setNickname(string);
         void setDescripcion(string);
         string getNickname();
         string getDescripcion();
-        void iniciarPartidaMultijugador(jugador **, bool);
+        void iniciarPartidaMultijugador(Jugador **, bool);
         string * listarVideojuegosActivos(string);              // cambiar a collection
         DtPartida * listarHistorialPartidasFinalizadas(string); // cambiar a collection
         void continuar(int);
         void iniciarPartidaIndividual(bool);
-        void iniciarPartidaMultijugador(jugador **, bool);      // el parámetro recibiría colección de jugadores.
+        void iniciarPartidaMultijugador(Jugador **, bool);      // el parámetro recibiría colección de jugadores.
         void suscribirseAVideojuego(int, string, ETipoPago);
         void cancelarContratacion(int);
         void finalizarPartida(int);

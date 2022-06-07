@@ -4,12 +4,12 @@
 #include<iostream>
 using namespace std;
 
-class usuario {
+class Usuario {
     private:
         string email;
         string password;
     public:
-        usuario(string, string);
+        Usuario(string, string);
         void setEmail(string);
         void setPassword(string);
         string getEmail();
