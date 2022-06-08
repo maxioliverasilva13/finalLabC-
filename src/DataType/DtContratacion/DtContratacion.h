@@ -4,10 +4,7 @@
 #include<iostream>
 
 #include "../DtFechaHora/DtFechaHora.h"
-
-enum ETipoPago { PAYPAL = "PAYPAL", TARJETA = "TARJETA" };
-
-
+#include "../../Enum/index.cpp"
 
 class DtContratacion{
     private:
