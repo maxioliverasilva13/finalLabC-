@@ -2,16 +2,14 @@
 #define DTINFOSUSCRIPCION_HEADER
 
 #include<iostream>
-
-enum EPeriodo { MENSUAL = "MENSUAL", TRIMESTRAL = "TRIMESTRAL", ANUAL = "ANUAL", VITALICIA = "VITALICIA" };
-
+#include "../../Enum/index.cpp"
 
 class DtInfoSuscripcion{
     private:
        int id;
        EPeriodo periodo;
-       precio:float;
-       suscrito: bool;
+       float precio;
+       bool suscrito;
     public:
       DtInfoSuscripcion(int id, EPeriodo periodo, float precio, bool suscrito);
       int getId();
