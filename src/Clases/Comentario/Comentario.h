@@ -10,15 +10,16 @@ using namespace std;
 class Comentario {
     private:
         string texto;
-        DtFechaHora* fechaHoraEnvio;
+        DtFechaHora fechaHoraEnvio;
         Jugador* creador;
+        //tambien puede tener una coleccion de comentarios (respuestas)
     public:
-        Comentario(string, DtFechaHora*);
+        Comentario(string, DtFechaHora);
         void setTexto(string);
-        void setFechaHoraEnvio(DtFechaHora*);
+        void setFechaHoraEnvio(DtFechaHora);
         void setCreador(Jugador*);
         string getTexto();
-        DtFechaHora* getFechaHoraEnvio();
+        DtFechaHora getFechaHoraEnvio();
         Jugador* getJugador();
 };
 
