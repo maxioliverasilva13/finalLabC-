@@ -3,6 +3,8 @@
 
 #include<iostream>
 #include "../Partida/Partida.h"
+#include "../EstadoJugador/EstadoJugador.h"
+#include "../../ICollection/interfaces/ICollection.h"
 
 using namespace std;
 
@@ -11,13 +13,15 @@ class PartidaMultijugador: public Partida {
       bool enVivo;
       float duracion;
     public:
-      PartidaMultijugador(bool, float, int, int);
+      ICollection * estadosJugador;
+      PartidaMultijugador(bool, float, int, EEstado, DtFechaHora *);
       void finalizarPartida();
-      string getDtPartida();
+      DtPartida * getDtPartida();
       void setEnVivo(bool);
       void setDuracion(float);
       bool getEnVivo();
       float getDuracion();
+      void agregarEstadoJugador(EstadoJugador *);
 };
 
 #endif

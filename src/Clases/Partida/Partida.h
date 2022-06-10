@@ -2,21 +2,29 @@
 #define PARTIDA_HEADER
 
 #include<iostream>
+#include "../../ICollection/interfaces/ICollectible.h"
+#include "../../Enum/index.cpp"
+#include "../../DataType/DtPartida/DtPartida.h"
+#include "../../DataType/DtFechaHora/DtFechaHora.h"
 
 using namespace std;
 
-class Partida {
+class Partida : public ICollectible {
     private:
       int id;
-      int estado;
+      EEstado estado;
+      DtFechaHora * fecha;
     public:
-      Partida(int,int);
+      Partida(int, EEstado, DtFechaHora *);
+      ~Partida();
       string darNombreJuego();
-      void setEstado(int);
+      void setEstado(EEstado);
       void setId(int);
+      void setFecha(DtFechaHora *);
       int getEstado();
       int getId();
-      virtual string getDtPartida() = 0;
+      DtFechaHora * getFecha();
+      virtual DtPartida * getDtPartida() = 0;
       virtual void finalizarPartida() = 0;
 };
 

@@ -3,21 +3,23 @@
 
 #include<iostream>
 #include "../Partida/Partida.h"
+#include "../Jugador/Jugador.h"
 
 using namespace std;
 
-class EstadoJugador {
+class EstadoJugador: public ICollectible {
     private:
-      int fechaHoraEntrada;
-      int fechaHoraSalida;
+      DtFechaHora * fechaHoraEntrada;
+      DtFechaHora * fechaHoraSalida;
       Partida * partida = NULL;
+      Jugador * jugador = NULL;
     public:
-      EstadoJugador(int, int, Partida *);
-      void setFechaHoraEntrada(int);
-      void setFechaHoraSalida(int);
+      EstadoJugador(DtFechaHora *, Partida *, Jugador *);
+      void setFechaHoraEntrada(DtFechaHora *);
+      void setFechaHoraSalida(DtFechaHora *);
       void setPartida(Partida *);
-      int getFechaHoraEntrada();
-      int getFechaHoraSalida();
+      DtFechaHora * getFechaHoraEntrada();
+      DtFechaHora * getFechaHoraSalida();
       Partida * getPartida();
 };
 

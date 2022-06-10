@@ -1,11 +1,13 @@
 #include "PartidaMultijugador.h"
+#include "../../DataType/DtPartida/DtPartida.h"
 
 using namespace std;
 
 
-PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, int estado):Partida(id,estado) {
+PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, EEstado estado, DtFechaHora * fecha):Partida(id,estado, fecha) {
     this->enVivo = enVivo;
     this->duracion = duracion;
+    this->estadosJugador = new List();
 };
 
 
@@ -13,8 +15,9 @@ void PartidaMultijugador::finalizarPartida() {
   cout << "Finalizar Partida";
 }
 
-string PartidaMultijugador::getDtPartida(){
-  return "DtPartidaMultijugador";
+DtPartida * PartidaMultijugador::getDtPartida(){
+  DtPartida * dtpart = new DtPartida(this->getId(),this->getFecha(),0);
+  return dtpart;
 };
 
 void PartidaMultijugador::setEnVivo(bool enVivo){
@@ -33,3 +36,6 @@ float PartidaMultijugador::getDuracion(){
     return this->duracion;
 };
 
+void PartidaMultijugador::agregarEstadoJugador(EstadoJugador * status) {
+    this->estadosJugador->add(status);
+}

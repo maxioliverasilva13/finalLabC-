@@ -5,17 +5,15 @@
 
 #include "../DtFechaHora/DtFechaHora.h"
 
-
-
 class DtPartida{
     private:
        int id;
-       DtFechaHora fecha;
+       DtFechaHora * fecha;
        int duracion;
     public:
-      DtInfoSuscripcion(int id, DtFechaHora fecha, int duracion);
+      DtPartida(int, DtFechaHora *, int);
       int getId();
-      DtFechaHora getFecha();
+      DtFechaHora * getFecha();
       int getDuracion();
 };
 
