@@ -6,6 +6,8 @@ using namespace std;
 Jugador::Jugador(string nick, string desc, string email, string pass):Usuario(email, pass){
     this->nickname = nick;
     this->descripcion = desc;
+    this->partidas = new OrderedDictionary();
+    this->contrataciones = new OrderedDictionary();
 }
 
 void Jugador::setNickname(string nick) {
@@ -23,4 +25,3 @@ string Jugador::getNickname() {
 string Jugador::getDescripcion() {
     return this->descripcion;
 }
-

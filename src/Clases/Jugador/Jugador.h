@@ -5,6 +5,8 @@
 #include "../Usuario/Usuario.h"
 #include "../../ICollection/interfaces/ICollection.h"
 #include "../../ICollection/interfaces/IDictionary.h"
+#include "../../ICollection/collections/OrderedDictionary.h"
+
 
 using namespace std;
 
