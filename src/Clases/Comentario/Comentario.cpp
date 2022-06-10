@@ -3,16 +3,19 @@
 
 using namespace std;
 
-Comentario::Comentario(string texto, DtFechaHora FechaHoraEnvio) {
+Comentario::Comentario(string texto, DtFechaHora* FechaHoraEnvio, Jugador* creador, PartidaMultijugador* partida) {
         this->texto = texto;
         this->fechaHoraEnvio = FechaHoraEnvio;
+        this->partida = partida;
+        this->creador = creador;
+        this->comentarios = new OrderedDictionary();
 }
 
 void Comentario::setTexto(string texto) {
         this->texto = texto;
 }
 
-void Comentario::setFechaHoraEnvio(DtFechaHora fechaHoraEnvio) {
+void Comentario::setFechaHoraEnvio(DtFechaHora* fechaHoraEnvio) {
         this->fechaHoraEnvio = fechaHoraEnvio;
 }
 
@@ -24,7 +27,7 @@ string Comentario::getTexto(){
     return this->getTexto();
 }
 
-DtFechaHora Comentario::getFechaHoraEnvio(){
+DtFechaHora* Comentario::getFechaHoraEnvio(){
     return this->fechaHoraEnvio;
 }
 
