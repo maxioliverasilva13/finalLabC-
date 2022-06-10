@@ -3,6 +3,8 @@
 
 #include<iostream>
 #include "../Partida/Partida.h"
+#include "../EstadoJugador/EstadoJugador.h"
+#include "../../ICollection/interfaces/ICollection.h"
 #include "../../ICollection/interfaces/IDictionary.h"
 #include "../../ICollection/collections/OrderedDictionary.h"
 
@@ -13,14 +15,16 @@ class PartidaMultijugador: public Partida {
       bool enVivo;
       float duracion;
       IDictionary * comentarios;
+      ICollection * estadosJugador;
     public:
-      PartidaMultijugador(bool, float, int, int);
+      PartidaMultijugador(bool, float, int, EEstado, DtFechaHora *);
       void finalizarPartida();
-      string getDtPartida();
+      DtPartida * getDtPartida();
       void setEnVivo(bool);
       void setDuracion(float);
       bool getEnVivo();
       float getDuracion();
+      void agregarEstadoJugador(EstadoJugador *);
 };
 
 #endif

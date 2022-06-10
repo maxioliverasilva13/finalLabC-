@@ -18,6 +18,7 @@ class Jugador : public Usuario, ICollectible {
         IDictionary * contrataciones;    //JUGADOR VE (tiene) CONTRATACIONES.
     public:
         Jugador(string, string, string, string);
+        ~Jugador();
         void setNickname(string);
         void setDescripcion(string);
         string getNickname();
@@ -27,11 +28,12 @@ class Jugador : public Usuario, ICollectible {
         ICollection * listarHistorialPartidasFinalizadas(string);  // retorna coleccion de DtPartida (partidas finalizadas)
         void continuar(int);
         void iniciarPartidaIndividual(bool);
-        void iniciarPartidaMultijugador(ICollection *, bool);      // recibiría colección de jugadores por parámetro.
         void suscribirseAVideojuego(int, string, ETipoPago);
         void cancelarContratacion(int);
         void finalizarPartida(int);
-        void getContratacionByUser(int);        
+        void getContratacionByUser(int);   
+        void agregarPartida(Partida *);
+        
 };
 
 #endif

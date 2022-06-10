@@ -11,6 +11,7 @@ class DtFechaHora{
        int hour;
        int minute;
     public:
+      DtFechaHora();
       DtFechaHora(int day, int month, int year, int hour, int minute);
       int getDay();
       int getMonth();

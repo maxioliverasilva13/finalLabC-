@@ -2,16 +2,17 @@
 
 using namespace std;
 
-EstadoJugador::EstadoJugador(int fechaHoraEntrada, int fechaHoraSalida, Partida * partida) {
+EstadoJugador::EstadoJugador(DtFechaHora * fechaHoraEntrada, Partida * partida, Jugador * Jugador) {
   this->fechaHoraEntrada = fechaHoraEntrada;
   this->fechaHoraSalida = fechaHoraSalida; 
   this->partida = partida;
+  this->jugador = jugador;
 };
 
-void EstadoJugador::setFechaHoraEntrada(int fechaHoraEntrada){
+void EstadoJugador::setFechaHoraEntrada(DtFechaHora * fechaHoraEntrada){
     this->fechaHoraEntrada = fechaHoraEntrada;
 };
-void EstadoJugador::setFechaHoraSalida(int fechaHoraSalida){
+void EstadoJugador::setFechaHoraSalida(DtFechaHora * fechaHoraSalida){
     this->fechaHoraSalida = fechaHoraSalida;
 };
 
@@ -23,10 +24,10 @@ Partida * EstadoJugador::getPartida(){
     return this->partida;
 };
 
-int EstadoJugador::getFechaHoraEntrada(){
+DtFechaHora * EstadoJugador::getFechaHoraEntrada(){
     return this->fechaHoraEntrada;
 };
 
-int EstadoJugador::getFechaHoraSalida(){
+DtFechaHora * EstadoJugador::getFechaHoraSalida(){
     return this->fechaHoraSalida;
 };
