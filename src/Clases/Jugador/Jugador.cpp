@@ -8,6 +8,7 @@ Jugador::Jugador(string nick, string desc, string email, string pass):Usuario(em
     this->nickname = nick;
     this->descripcion = desc;
     this->partidas = new OrderedDictionary();
+    this->contrataciones = new OrderedDictionary();
 }
 
 Jugador::~Jugador() {
@@ -34,3 +35,4 @@ void Jugador::agregarPartida(Partida * part) {
     Integer * idKey = new Integer(part->getId());
     this->partidas->add(idKey, part);
 };
+

@@ -8,6 +8,7 @@ PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, EE
     this->enVivo = enVivo;
     this->duracion = duracion;
     this->estadosJugador = new List();
+    this->comentarios = new  OrderedDictionary();
 };
 
 

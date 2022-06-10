@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Videojuego.h"
+#include "../../ICollection/collections/List.cpp"
 
 using namespace std;
 
@@ -7,8 +8,8 @@ Videojuego::Videojuego(string nombre, string descripcion, int prom_punt){
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->promedio_puntuacion = prom_punt;
+    this->puntuaciones = new List();
 }
-
 
 string Videojuego::getNombre(){
     return this->nombre;

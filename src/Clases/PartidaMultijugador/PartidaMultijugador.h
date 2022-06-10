@@ -5,6 +5,8 @@
 #include "../Partida/Partida.h"
 #include "../EstadoJugador/EstadoJugador.h"
 #include "../../ICollection/interfaces/ICollection.h"
+#include "../../ICollection/interfaces/IDictionary.h"
+#include "../../ICollection/collections/OrderedDictionary.h"
 
 using namespace std;
 
@@ -12,8 +14,9 @@ class PartidaMultijugador: public Partida {
     private:
       bool enVivo;
       float duracion;
-    public:
+      IDictionary * comentarios;
       ICollection * estadosJugador;
+    public:
       PartidaMultijugador(bool, float, int, EEstado, DtFechaHora *);
       void finalizarPartida();
       DtPartida * getDtPartida();
