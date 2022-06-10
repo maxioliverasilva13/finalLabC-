@@ -2,9 +2,11 @@
 #define USUARIO_HEADER
 
 #include<iostream>
+#include "../../ICollection/interfaces/ICollection.h"
+
 using namespace std;
 
-class Usuario {
+class Usuario : public ICollectible {
     private:
         string email;
         string password;

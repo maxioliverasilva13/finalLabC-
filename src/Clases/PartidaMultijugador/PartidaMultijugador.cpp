@@ -6,6 +6,7 @@ using namespace std;
 PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, int estado):Partida(id,estado) {
     this->enVivo = enVivo;
     this->duracion = duracion;
+    this->comentarios = new  OrderedDictionary();
 };
 
 
