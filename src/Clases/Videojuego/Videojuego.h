@@ -1,6 +1,8 @@
 #ifndef VIDEOJUEGO_HEADER
 #define VIDEOJUEGO_HEADER
 
+
+
 #include<iostream>
 
 using namespace std;
@@ -10,6 +12,7 @@ class Videojuego {
         string nombre;
         string descripcion;
         int promedio_puntuacion;
+        ICollection* puntuaciones;
     public:
         Videojuego(string, string, int);
         string getNombre();
