@@ -4,7 +4,7 @@
 
 using namespace std;
 
-DtContratacion:DtContratacion(int id, float monto, ETipoPago tipoPago,DtFechaHora FechaHora, DtFechaHora FechaVencimiento,bool cancelada){
+DtContratacion:DtContratacion(int id, float monto, ETipoPago tipoPago,DtFechaHora * FechaHora, DtFechaHora * FechaVencimiento,bool cancelada){
     this->id = id;
     this->monto = monto;
     this->tipoPago = tipoPago;
@@ -24,11 +24,11 @@ float DtContratacion::getMonto(){
     return this->monto;
 }
 
-DtFechaHora DtContratacion::getFechaHora(){
+DtFechaHora * DtContratacion::getFechaHora(){
     return this->FechaHora;
 }
 
-DtFechaHora DtContratacion::getFechaVencimiento(){
+DtFechaHora * DtContratacion::getFechaVencimiento(){
     return this->FechaVencimiento;
 }
 
