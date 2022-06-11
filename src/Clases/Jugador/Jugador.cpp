@@ -1,6 +1,8 @@
 #include<iostream>
 #include "Jugador.h"
 #include "../Usuario/Usuario.cpp"
+#include "../../ICollection/Integer.cpp"
+#include "../../Clases/Partida/Partida.cpp"
 
 using namespace std;
 
@@ -29,6 +31,10 @@ string Jugador::getNickname() {
 
 string Jugador::getDescripcion() {
     return this->descripcion;
+}
+
+DtContratacion * Jugador::getContratacionByUser(int contratoId) {
+    return NULL;
 }
 
 void Jugador::agregarPartida(Partida * part) {
