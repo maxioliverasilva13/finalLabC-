@@ -13,6 +13,6 @@ string DtSuscripcion::getNombreVideojuego(){
     return this->nombreVideoJuego;
 }
 
-DtInfoSuscripcion ** DtSuscripcion::getNombreVideojuego(){
+ICollection *  DtSuscripcion::getNombreVideojuego(){
     return this->suscripciones;
 }

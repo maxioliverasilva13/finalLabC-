@@ -5,15 +5,17 @@
 
 #include<iostream>
 #include<string>
+#include "../../ICollection/interfaces/ICollection.h"
+
 
 class DtSuscripcion{
     private:
        string nombreVideoJuego;
-       DtInfoSuscripcion ** suscripciones;
+       ICollection *   suscripciones;
     public:
-      DtSuscripcion(string nombreVideojuego,DtInfoSuscripcion ** suscripciones);
+      DtSuscripcion(string nombreVideojuego, ICollection * suscripciones);
       string getNombreVideojuego();
-      DtInfoSuscripcion ** getSuscripcion(); 
+      ICollection *  getSuscripcion(); 
 };
 
 #endif
