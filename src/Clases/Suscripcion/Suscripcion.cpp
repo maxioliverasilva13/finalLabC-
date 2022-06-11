@@ -43,7 +43,7 @@ bool jugadorTieneContratacion(string nickname){
   /*POR IMPLEMENTAR*/
 };
 
-DtInfoSuscripcion getDatosSuscripcion(){
+DtInfoSuscripcion * getDatosSuscripcion(){
     /*POR IMPLEMENTAR*/
 };
 

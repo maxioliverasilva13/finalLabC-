@@ -33,7 +33,7 @@ class Suscripcion: public ICollectible{
         void setPrecio(float);
         string darNombreJuego();
         bool jugadorTieneContratacion(string);
-        DtInfoSuscripcion getDatosSuscripcion();    
+        DtInfoSuscripcion * getDatosSuscripcion();    
 };
 
 #endif

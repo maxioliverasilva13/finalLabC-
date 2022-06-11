@@ -3,7 +3,7 @@
 
 using namespace std;
 
- Contratacion::Contratacion(int id, ETipoPago tipoPago,float monto,DtFechaHora FechaHora,
+ Contratacion::Contratacion(int id, ETipoPago tipoPago,float monto,DtFechaHora * FechaHora,
  DtFechaHora FechaVencimiento,bool cancelada,Suscripcion * suscripcion,Jugador * duenio){
      this->id =  id;
      this->tipoPago = tipoPago;
