@@ -22,10 +22,10 @@ int Contratacion::getId(){
 float Contratacion::getMonto(){
     return this->monto;
 }
-DtFechaHora Contratacion::getFechaHora(){
+DtFechaHora * Contratacion::getFechaHora(){
     return this->FechaHora;
 }
-DtFechaHora Contratacion::getFechaVencimiento(){
+DtFechaHora * Contratacion::getFechaVencimiento(){
     return this->FechaVencimiento;
 }
 ETipoPago Contratacion::getTipoPago(){
@@ -43,11 +43,11 @@ void Contratacion::setMonto(float monto){
     this->monto = monto;
 }
 
-void Contratacion::setFechaHora(DtFechaHora fechaHora){
+void Contratacion::setFechaHora(DtFechaHora * fechaHora){
     this->FechaHora = fechaHora;
 }
 
-void Contratacion::setFechaVencimiento(DtFechaHora fechaVencimiento){
+void Contratacion::setFechaVencimiento(DtFechaHora * fechaVencimiento){
   this->FechaVencimiento = fechaVencimiento;
 }
 
