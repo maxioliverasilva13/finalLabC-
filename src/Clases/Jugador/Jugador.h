@@ -6,7 +6,7 @@
 #include "../../ICollection/interfaces/ICollection.h"
 #include "../../ICollection/interfaces/IDictionary.h"
 #include "../../ICollection/collections/OrderedDictionary.h"
-
+#include "../../DataType/DtContratacion/DtContratacion.h"
 
 using namespace std;
 
@@ -31,7 +31,7 @@ class Jugador : public Usuario, ICollectible {
         void suscribirseAVideojuego(int, string, ETipoPago);
         void cancelarContratacion(int);
         void finalizarPartida(int);
-        void getContratacionByUser(int);   
+        DtContratacion * getContratacionByUser(int);   
         void agregarPartida(Partida *);
         
 };
