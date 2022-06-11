@@ -9,8 +9,13 @@
 using namespace std;
 
 class CategoriaOtro: public Categoria {
+    private:
+      string nombre;
     public:
       CategoriaOtro(string, string);
+      void setNombre(string);
+      string getNombre();
+      string darTipo();
 };
 
 #endif

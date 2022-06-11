@@ -12,9 +12,10 @@ class CategoriaGenero: public Categoria {
     private:
       EGeneroJuego tipo;
     public:
-      CategoriaGenero(EGeneroJuego, string, string);
+      CategoriaGenero(EGeneroJuego, string);
       void setTipo(EGeneroJuego);
       EGeneroJuego getTipo();
+      string darTipo();
 };
 
 #endif
