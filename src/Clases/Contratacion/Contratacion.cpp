@@ -4,7 +4,7 @@
 using namespace std;
 
  Contratacion::Contratacion(int id, ETipoPago tipoPago,float monto,DtFechaHora FechaHora,
- DtFechaHora FechaVencimiento,bool cancelada,Suscripcion * suscripcion){
+ DtFechaHora FechaVencimiento,bool cancelada,Suscripcion * suscripcion,Jugador * duenio){
      this->id =  id;
      this->tipoPago = tipoPago;
      this->monto = monto;
@@ -12,6 +12,7 @@ using namespace std;
      this->FechaVencimiento = FechaVencimiento;
      this->cancelada = cancelada;
      this->suscripcion = suscripcion;
+     this->duenio = duenio;
  }
  
  
