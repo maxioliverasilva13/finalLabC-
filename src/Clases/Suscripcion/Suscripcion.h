@@ -11,8 +11,10 @@ using namespace std;
 
 #include "../../ICollection/interfaces/IDictionary.h"
 #include "../../ICollection/collections/OrderedDictionary.h"
+#include "../../ICollection/interfaces/ICollectible.h"
 
-class Suscripcion {
+
+class Suscripcion: public ICollectible{
     private:
         int id;
         float precio;
@@ -31,7 +33,7 @@ class Suscripcion {
         void setPrecio(float);
         string darNombreJuego();
         bool jugadorTieneContratacion(string);
-        DtInfoSuscripcion getDatosSuscripcion();    
+        DtInfoSuscripcion * getDatosSuscripcion();    
 };
 
 #endif

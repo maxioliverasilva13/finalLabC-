@@ -4,7 +4,7 @@
 
 using namespace std;
 
-DtSuscripcion::DtSuscripcion(string nombreVideoJuego, DtInfoSuscripcion ** suscripciones){
+DtSuscripcion::DtSuscripcion(string nombreVideoJuego, ICollection * suscripciones){
     this->nombreVideoJuego = nombreVideoJuego;
     this->suscripciones = suscripciones;
 };
@@ -13,6 +13,7 @@ string DtSuscripcion::getNombreVideojuego(){
     return this->nombreVideoJuego;
 }
 
-DtInfoSuscripcion ** DtSuscripcion::getNombreVideojuego(){
+ICollection *  DtSuscripcion::getSuscripcion(){
     return this->suscripciones;
 }
+

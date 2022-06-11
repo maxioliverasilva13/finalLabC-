@@ -8,6 +8,7 @@ using namespace std;
 #include "../../Enum/index.cpp"
 #include "../../DataType/DtFechaHora/DtFechaHora.h"
 #include "../Suscripcion/Suscripcion.h"
+#include "../Jugador/Jugador.h"
 #include "../../ICollection/interfaces/ICollectible.h"
 
 class Contratacion: public ICollectible {
@@ -15,19 +16,20 @@ class Contratacion: public ICollectible {
         int id;
         ETipoPago tipoPago;
         float monto;
-        DtFechaHora FechaHora;
-        DtFechaHora FechaVencimiento;
+        DtFechaHora * FechaHora;
+        DtFechaHora * FechaVencimiento;
         bool cancelada;
         Suscripcion * suscripcion;
+        Jugador * duenio;
         
     
     public:
-        Contratacion(int, ETipoPago,float,DtFechaHora,DtFechaHora,bool,Suscripcion * suscripcion);
+        Contratacion(int, ETipoPago,float,DtFechaHora*,DtFechaHora*,bool,Suscripcion * suscripcion, Jugador * duenio);
         int getId();
         float getMonto();
         ETipoPago getTipoPago();
-        DtFechaHora getFechaHora();
-        DtFechaHora getFechaVencimiento();
+        DtFechaHora * getFechaHora();
+        DtFechaHora * getFechaVencimiento();
         bool getCancelada();
         void setId(int);
         void setMonto(float);
@@ -38,8 +40,7 @@ class Contratacion: public ICollectible {
         bool getActiva();
         string getNickNameDueño();
         string getVideojuego();
-        void asociarVideojuegoSuscripcion();
-        
+        void asociarVideojuegoSuscripcion();        
 };
    
 
