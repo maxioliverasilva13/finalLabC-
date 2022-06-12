@@ -6,7 +6,9 @@
 #include "../DataType/DtContratacion/DtContratacion.h"
 #include "../Enum/index.cpp"
 #include "../Clases/Usuario/Usuario.h"
+#include "../Clases/Videojuego/Videojuego.h"
 #include<string>
+
 
 
 class Sistema {
@@ -23,11 +25,8 @@ class Sistema {
         void iniciarPartidaMultijugador(ICollection * jugadores , bool enVIvo); //jugadores es set<string>
         ICollection * listarJugadoresConSuscripcionActivaAJuego(string nombreVideojuego); // strings
         void iniciarPartidaIndividual(bool nueva);
-
         void continuar(int idpartida);
         ICollection * listarHistorialPartidasFinalizadas(string nombreVJ); //DtPartida
-        
-
         ICollection * listarVideoJuegosActivos(); // a el usuario logueado retorna strings
         ICollection * listarSuscripcionesPorVideojuego(); // DtSuscripcion
         DtContratacion * getContratacion(string nombreVideojuego);
