@@ -9,6 +9,7 @@ Videojuego::Videojuego(string nombre, string descripcion, int prom_punt){
     this->descripcion = descripcion;
     this->promedio_puntuacion = prom_punt;
     this->puntuaciones = new List();
+    this->suscripciones = new List();
 }
 
 string Videojuego::getNombre(){
@@ -33,4 +34,24 @@ int Videojuego::getPromedio_puntuacion(){
 
 void Videojuego::setPromedio_puntuacion(int promedio_puntuacion){
     this->promedio_puntuacion = promedio_puntuacion;
+}
+
+ICollection * Videojuego::getInfoSuscripciones(string nickname){
+    IIterator * it = this->suscripciones->getIterator();
+    Suscripcion * current;
+
+    ICollection * res = new List();  //DtInfoSuscripcion collection
+
+    bool jugador_tiene_contratacion;
+    while (it->hasCurrent()){
+        current = (Suscripcion*)it->getCurrent();
+        
+        jugador_tiene_contratacion = current->jugadorTieneContratacion(nickname);
+        ICollectible * item = new DtInfoSuscripcion(current->getId(), current->getPeriodo(),current->getPrecio(), jugador_tiene_contratacion);
+        res->add(item);
+    }
+
+    return res;
+
+
 }

@@ -1,7 +1,10 @@
 #ifndef VIDEOJUEGO_HEADER
 #define VIDEOJUEGO_HEADER
 
-
+ //datatype
+ #include "../../DataType/DtInfoSuscripcion/DtInfoSuscripcion.h"
+ #include "../Suscripcion/Suscripcion.h"
+ 
 
 #include<iostream>
 
@@ -12,7 +15,9 @@ class Videojuego {
         string nombre;
         string descripcion;
         int promedio_puntuacion;
-        ICollection* puntuaciones;
+        ICollection * puntuaciones;
+        ICollection * suscripciones;
+
     public:
         Videojuego(string, string, int);
         string getNombre();
@@ -21,6 +26,7 @@ class Videojuego {
         void setNombre(string);
         void setDescripcion(string);
         void setPromedio_puntuacion(int);
+        ICollection * getInfoSuscripciones(string nickname);
 };
 
 #endif

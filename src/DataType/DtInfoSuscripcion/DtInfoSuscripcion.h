@@ -3,8 +3,9 @@
 
 #include<iostream>
 #include "../../Enum/index.cpp"
+#include "../../DataType/DtInfoSuscripcion/DtInfoSuscripcion.h";
 
-class DtInfoSuscripcion{
+class DtInfoSuscripcion: public ICollectible{
     private:
        int id;
        EPeriodo periodo;

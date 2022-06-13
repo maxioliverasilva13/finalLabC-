@@ -8,6 +8,7 @@ using namespace std;
 #include "../../Enum/index.cpp"
 #include "../../DataType/DtInfoSuscripcion/DtInfoSuscripcion.h"
 #include "../Videojuego/Videojuego.h"
+#include "../Contratacion/Contratacion.h"
 
 #include "../../ICollection/interfaces/IDictionary.h"
 #include "../../ICollection/collections/OrderedDictionary.h"
@@ -21,6 +22,7 @@ class Suscripcion: public ICollectible{
         EPeriodo periodo;
         Videojuego * videojuego;
         IDictionary * contrataciones; 
+        
 
     
     public:
@@ -33,7 +35,6 @@ class Suscripcion: public ICollectible{
         void setPrecio(float);
         string darNombreJuego();
         bool jugadorTieneContratacion(string);
-        DtInfoSuscripcion * getDatosSuscripcion();    
 };
 
 #endif

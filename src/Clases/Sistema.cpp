@@ -2,8 +2,11 @@
 #include "../ICollection/interfaces/IDictionary.cpp"
 #include "../ICollection/collections/OrderedDictionary.h"
 #include "../ICollection/interfaces/IIterator.h"
+#include "../ICollection/collections/List.h"
 
 #include "./Jugador/Jugador.h"
+
+
 
 Sistema * Sistema::instance = NULL;
 
@@ -27,12 +30,25 @@ ICollection * Sistema::listarSuscripcionesPorVideojuego(){
       throw invalid_argument("Debes logearte primero");
     }
     Jugador * jugador = (Jugador*)this->loggUser;
-    cout << jugador->getNickname();
+    string nickname = jugador->getNickname();
 
+
+    ICollection * res = new List();  //Collection of DtSuscripcion
+    
+    
     IIterator * it = this->videojuegos->getIterator();
     Videojuego * current;
+    
+    string nombreV;
+    ICollection * info_suscr_current;
     while (it->hasCurrent()){
         current = (Videojuego*)it->getCurrent();
-        //Necesito la funcion de videojuego
+
+        nombreV = current->getNombre();
+        info_suscr_current = current->getInfoSuscripciones(nickname);
+
+        ICollectible * videoJuegoInfoSus = new DtSuscripcion(nombreV,info_suscr_current);
+        res->add(videoJuegoInfoSus);
     }
+    return res;
 }

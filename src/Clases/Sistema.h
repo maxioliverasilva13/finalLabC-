@@ -7,6 +7,9 @@
 #include "../Enum/index.cpp"
 #include "../Clases/Usuario/Usuario.h"
 #include "../Clases/Videojuego/Videojuego.h"
+
+//Datatypes
+#include "../DataType/DtSuscripcion/DtSuscripcion.h"
 #include<string>
 
 

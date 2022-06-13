@@ -4,7 +4,7 @@
 using namespace std;
 
  Contratacion::Contratacion(int id, ETipoPago tipoPago,float monto,DtFechaHora * FechaHora,
- DtFechaHora FechaVencimiento,bool cancelada,Suscripcion * suscripcion,Jugador * duenio){
+ DtFechaHora * FechaVencimiento,bool cancelada,Suscripcion * suscripcion,Jugador * duenio){
      this->id =  id;
      this->tipoPago = tipoPago;
      this->monto = monto;
@@ -44,11 +44,11 @@ void Contratacion::setMonto(float monto){
 }
 
 void Contratacion::setFechaHora(DtFechaHora * fechaHora){
-    this->FechaHora = fechaHora;
+    this->FechaHora = FechaHora;
 }
 
 void Contratacion::setFechaVencimiento(DtFechaHora * fechaVencimiento){
-  this->FechaVencimiento = fechaVencimiento;
+  this->FechaVencimiento = FechaVencimiento;
 }
 
 void Contratacion::setCancelada(bool cancelada){
@@ -65,7 +65,7 @@ bool Contratacion::getActiva(){
 }
 
 string Contratacion::getNickNameDueño(){
-   /*POR IMPLEMENTAR*/
+   return this->duenio->getNickname();
 }    
 
 
@@ -75,5 +75,5 @@ string Contratacion::getVideojuego(){
 
 
 void Contratacion::asociarVideojuegoSuscripcion(){
-    /*POR IMPLEMENTAR*/
+    
 }    

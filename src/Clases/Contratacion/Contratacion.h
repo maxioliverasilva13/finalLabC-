@@ -33,8 +33,8 @@ class Contratacion: public ICollectible {
         bool getCancelada();
         void setId(int);
         void setMonto(float);
-        void setFechaHora(DtFechaHora);
-        void setFechaVencimiento(DtFechaHora);
+        void setFechaHora(DtFechaHora *);
+        void setFechaVencimiento(DtFechaHora *);
         void setCancelada(bool);
         void setTipoPago(ETipoPago);
         bool getActiva();

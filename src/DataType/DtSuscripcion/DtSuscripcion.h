@@ -8,7 +8,7 @@
 #include "../../ICollection/interfaces/ICollection.h"
 
 
-class DtSuscripcion{
+class DtSuscripcion:public ICollectible{
     private:
        string nombreVideoJuego;
        ICollection *   suscripciones;
