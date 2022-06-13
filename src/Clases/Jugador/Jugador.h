@@ -4,13 +4,17 @@
 #include<iostream>
 #include "../Usuario/Usuario.h"
 #include "../../ICollection/interfaces/ICollection.h"
+#include "../../ICollection/interfaces/ICollectible.h"
+#include "../../ICollection/interfaces/ICollectible.cpp"
 #include "../../ICollection/interfaces/IDictionary.h"
 #include "../../ICollection/collections/OrderedDictionary.h"
 #include "../../DataType/DtContratacion/DtContratacion.h"
+#include "../../Clases/Partida/Partida.h"
+
 
 using namespace std;
 
-class Jugador : public Usuario, ICollectible {
+class Jugador : public Usuario {
     private:
         string nickname;
         string descripcion;
@@ -33,7 +37,6 @@ class Jugador : public Usuario, ICollectible {
         void finalizarPartida(int);
         DtContratacion * getContratacionByUser(int);   
         void agregarPartida(Partida *);
-        
 };
 
 #endif

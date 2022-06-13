@@ -1,3 +1,6 @@
+#ifndef DESARROLLADOR_CPP
+#define DESARROLLADOR_CPP
+
 #include<iostream>
 #include "Desarrollador.h"
 
@@ -14,3 +17,5 @@ void Desarrollador::setNomEmpresa(string ne) {
 string Desarrollador::getNomEmpresa() {
     return this->nomEmpresa;
 }
+
+#endif

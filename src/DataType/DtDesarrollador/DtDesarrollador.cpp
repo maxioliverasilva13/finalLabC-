@@ -1,3 +1,6 @@
+//#ifndef DTDESARROLLADOR_CPP
+//#define DTDESARROLLADOR_CPP
+
 #include<iostream>
 #include "DtDesarrollador.h"
 #include "../DtUsuario/DtUsuario.h"
@@ -13,3 +16,10 @@ DtDesarrollador::DtDesarrollador(string email,string password,string nombreEmpre
 string DtDesarrollador::getNombreEmpresa(){
     return this->nombreEmpresa;
 }
+
+// es un virtual para hacer comprobaciones con el nombre de la instancia.
+string DtDesarrollador::getTipo(){
+    return "DtDesarrollador";
+}
+
+//#endif

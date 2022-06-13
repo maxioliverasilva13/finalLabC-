@@ -4,6 +4,9 @@
 #include "../ICollection/interfaces/ICollection.h"
 #include "../ICollection/interfaces/IDictionary.h"
 #include "../DataType/DtContratacion/DtContratacion.h"
+#include "../DataType/DtUsuario/DtUsuario.cpp"
+#include "../DataType/DtJugador/DtJugador.cpp"
+#include "../DataType/DtDesarrollador/DtDesarrollador.cpp"
 #include "../Enum/index.cpp"
 #include "../Clases/Usuario/Usuario.h"
 #include<string>
@@ -15,7 +18,8 @@ class Sistema {
         IDictionary * videojuegos;
         IDictionary * usuarios;
         Usuario * loggUser = NULL;
-        static Sistema * instance;      
+        DtFechaHora * fechaHora = NULL;
+        static Sistema * instance;    
         Sistema();
 
     public:
@@ -33,11 +37,17 @@ class Sistema {
         DtContratacion * getContratacion(string nombreVideojuego);
         void cancelarSuscripcion(int idContratacion);
         void confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, ETipoPago metodoPago);
-        void altaUsuario(Usuario * user); //TODO : dataType usuario
         void agregarVideojuego(string nombre, string descricpcion, ICollection * costo_suscripcion, ICollection * categorias);
         ICollection * listarCategorias(); //dtCategoria
         void finalizarPartida(int idPartida);
         void eliminarVideoJuego(string nombreVideojuego);
+        void altaUsuarioJugador(DtJugador * user);
+        void altaUsuarioDesarrollador(DtDesarrollador * user);
+        void altaUsuario(DtUsuario * user);
+        bool iniciarSesion(string email, string password);
+        void modificarFechaSistema(DtFechaHora * fechahora);
+        DtFechaHora * getFechaSistema();
+        void recorrerUsuarios();
 };
 
 #endif
