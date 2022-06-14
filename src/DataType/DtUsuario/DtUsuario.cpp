@@ -1,6 +1,3 @@
-//#ifndef DTUSUARIO_CPP
-//#define DTUSUARIO_CPP
-
 #include <iostream>
 #include "DtUsuario.h"
 
@@ -21,8 +18,5 @@ string DtUsuario::getEmail(){
 string DtUsuario::getPassword(){
     return this->password;
 }
-
-//#endif
-
 
 

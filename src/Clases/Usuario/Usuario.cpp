@@ -1,6 +1,3 @@
-#ifndef USUARIO_CPP
-#define USUARIO_CPP
-
 #include<iostream>
 #include "Usuario.h"
 
@@ -27,4 +24,3 @@ string Usuario::getPassword() {
     return this->password;
 }
 
-#endif

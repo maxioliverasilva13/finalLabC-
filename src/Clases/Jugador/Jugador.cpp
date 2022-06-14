@@ -1,6 +1,3 @@
-#ifndef JUGADOR_CPP
-#define JUGADOR_CPP
-
 #include<iostream>
 #include "Jugador.h"
 #include "../Usuario/Usuario.cpp"
@@ -45,4 +42,3 @@ void Jugador::agregarPartida(Partida * part) {
     this->partidas->add(idKey, part);
 };
 
-#endif
