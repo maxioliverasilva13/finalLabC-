@@ -1,24 +1,36 @@
-
+#ifndef DTCOSTOSUSCRIPCION_HEADER
+#define DTCOSTOSUSCRIPCION_HEADER
 
 #include <iostream>
-#include "DtCostoSuscripcion.h"
+#include <string>
 
-using namespace std;
+using namepsace std;
+class DtCostoSuscripcion : public ICollectible
+{
+private:
+    EPeriodo tipo; // No existe
+    float costo;
 
-DtCostoSuscripcion::DtCostoSuscripcion(EPeriodo tipo,float costo){
-   this->tipo = tipo;
-   this->costo = costo;
+public:
+    DtCostoSuscripcion(EPeriodo tipo, float costo);
+    float getCosto();
+    EPeriodo getTipo();
+};
+
+DtCostoSuscripcion::DtCostoSuscripcion(EPeriodo tipo, float costo)
+{
+    this->tipo = tipo;
+    this->costo = costo;
 }
 
-
-
-EPeriodo DtCostoSuscripcion::getTipo(){
+EPeriodo DtCostoSuscripcion::getTipo()
+{
     return this->tipo;
 }
 
-
-float DtCostoSuscripcion::getCosto(){
+float DtCostoSuscripcion::getCosto()
+{
     return this->costo;
 }
 
-
+#endif
