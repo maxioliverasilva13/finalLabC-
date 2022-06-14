@@ -349,22 +349,20 @@ void Sistema::altaUsuario(DtUsuario *user)
 
       if (nominstanciaactual == "Desarrollador")
       {
-        cout << "Estoy parado en 1 Desarrollador" << endl;
         it->next();
       }
       if (nominstanciaactual == "Jugador")
       {
-        cout << "Estoy parado en 1 Jugador" << endl;
         Jugador *jg = (Jugador *)it->getCurrent();
         if (jg->getEmail() == email)
         {
           emailExiste = true;
-          throw invalid_argument("ERROR: Ya existe un usuario con ese email.");
+          throw invalid_argument("ERROR: Ya existe un usuario con el email \"" + email +  "\"");
         }
         if (jg->getNickname() == nickname)
         {
           nicknameExiste = true;
-          throw invalid_argument("ERROR: Ya existe un usuario con ese nickname.");
+          throw invalid_argument("ERROR: Ya existe un usuario con el nickname \"" + nickname + "\"");
         }
       }
       it->next();
@@ -396,7 +394,7 @@ void Sistema::altaUsuario(DtUsuario *user)
     else
     {
       delete key;
-      throw invalid_argument("ERROR: Ya existe un desarrollador con ese email.");
+      throw invalid_argument("ERROR: Ya existe un desarrollador con el email \"" + stremail + "\"");
     }
   }
 }
@@ -449,7 +447,7 @@ bool Sistema::iniciarSesion(string email, string password)
   }
   else
   {
-    throw invalid_argument("ERROR: No existe un usuario con ese email");
+    throw invalid_argument("ERROR: No existe un usuario con el email \"" + email + "\"");
   }
   return login;
 }
