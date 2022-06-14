@@ -11,3 +11,4 @@ void Categoria::setDescripcion(string descripcion) {
 string Categoria::getDescripcion() {
     return this->descripcion;
 }
+

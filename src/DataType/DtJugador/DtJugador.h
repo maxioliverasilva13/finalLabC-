@@ -13,6 +13,7 @@ class DtJugador : public DtUsuario {
       DtJugador(string email, string password, string nickname,string descripcion);
       string getNickname();
       string getDescripcion();
+      string getTipo();
 };
 
 #endif

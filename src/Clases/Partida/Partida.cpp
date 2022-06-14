@@ -3,9 +3,10 @@
 
 using namespace std;
 
-Partida::Partida(int id,EEstado estado, DtFechaHora * fecha) {
+Partida::Partida(int id,EEstado estado, Videojuego * vj, DtFechaHora * fecha) {
   this->id=id;
   this->estado=estado;
+  this->videojuego = vj;
   this->fecha = fecha;
 };
 
