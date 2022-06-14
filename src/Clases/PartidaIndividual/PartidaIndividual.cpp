@@ -5,12 +5,12 @@ using namespace std;
 
 
 PartidaIndividual::PartidaIndividual(bool nueva, int id, EEstado estado, DtFechaHora * fecha):Partida(id,estado, fecha) {
-    this->nueva = nueva;
+  this->nueva = nueva;
 };
 
 
 void PartidaIndividual::finalizarPartida() {
-  cout << "Finalizar Partida";
+    cout << "Finalizar Partida";
 }
 
 void PartidaIndividual::continuarPartida(){
@@ -29,3 +29,7 @@ void PartidaIndividual::setNueva(bool nueva){
 bool PartidaIndividual::getNueva(){
   return this->nueva;
 };
+
+void PartidaIndividual::finalizarPartida(EEstado estado) { //Debe recibir parametro para modificar el estado
+  this->setEstado(estado);
+}

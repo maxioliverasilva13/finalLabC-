@@ -14,6 +14,5 @@ enum EGeneroJuego { ACCCION, AVENTURA, ESTRATEGIA, DEPORTE };
 
 enum EPeriodo { MENSUAL, TRIMESTRAL, ANUAL, VITALICIA };
 
-
 #endif
 
