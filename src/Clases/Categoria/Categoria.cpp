@@ -1,9 +1,22 @@
-#include "Categoria.h"
-#include "../../ICollection/interfaces/ICollectible.cpp"
+#ifndef CATEGORIA_HEADER
+#define CATEGORIA_HEADER
+
 #include<iostream>
-
-
 using namespace std;
+
+class Categoria : public ICollectible {
+    private:
+      int id;
+      string descripcion;
+    public:
+      Categoria(string, int);
+      ~Categoria();
+      void setDescripcion(string);
+      void setId(int);
+      string getDescripcion();
+      int getId();
+      virtual string darTipo() = 0;
+};
 
 Categoria::Categoria(string descripcion, int id) {
     this->id = id;
@@ -29,3 +42,5 @@ void Categoria::setId(int id) {
 Categoria::~Categoria(){
     cout << "Me borro";
 }
+
+#endif
