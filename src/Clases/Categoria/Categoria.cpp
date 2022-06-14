@@ -1,6 +1,3 @@
-#ifndef CATEGORIA_CPP
-#define CATEGORIA_CPP
-
 #include "Categoria.h"
 
 Categoria::Categoria(string descripcion) {
@@ -15,4 +12,3 @@ string Categoria::getDescripcion() {
     return this->descripcion;
 }
 
-#endif
