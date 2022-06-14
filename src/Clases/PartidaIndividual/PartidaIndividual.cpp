@@ -26,7 +26,8 @@ PartidaIndividual::PartidaIndividual(bool nueva, int id, EEstado estado, DtFecha
 
 void PartidaIndividual::finalizarPartida()
 {
-  cout << "Finalizar Partida";
+  this->setEstado(FINALIZADA);
+  cout << "Partida Finalizada";
 }
 
 void PartidaIndividual::continuarPartida()

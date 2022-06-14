@@ -5,8 +5,6 @@ using namespace std;
 
 #include <iostream>
 
-using namespace std;
-
 class PartidaMultijugador : public Partida
 {
 private:
@@ -36,7 +34,24 @@ PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, EE
 
 void PartidaMultijugador::finalizarPartida()
 {
-    cout << "Finalizar Partida";
+    IIterator* It = this->estadosJugador->getIterator();
+    while (It->hasCurrent()) {
+        EstadoJugador* Es = (EstadoJugador*)It->getCurrent();
+        
+        time_t t = time(0);
+        tm *now = localtime(&t);
+        int dia = now->tm_mday;
+        int mes = 1 + now->tm_mon;
+        int anio = 1900 + now->tm_year;
+        int hora = now->tm_hour;
+        int minuto = now->tm_min;
+        DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
+        
+        Es->setFechaHoraSalida(ahora);
+        It->next();
+    }
+        this->setEstado(FINALIZADA);
+        cout << "Finalizar Partida";
 }
 
 DtPartida *PartidaMultijugador::getDtPartida()
