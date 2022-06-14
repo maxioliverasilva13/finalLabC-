@@ -72,7 +72,6 @@ string removerNumeros(string str) {
 
 
 void Sistema::altaUsuario(DtUsuario * user){
-  
   if(user->getTipo() == "DtJugador"){
     Jugador * player = (Jugador *)user;
     string email = user->getEmail();  // cambié player por user

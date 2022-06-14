@@ -41,8 +41,6 @@ class Sistema {
         ICollection * listarCategorias(); //dtCategoria
         void finalizarPartida(int idPartida);
         void eliminarVideoJuego(string nombreVideojuego);
-        void altaUsuarioJugador(DtJugador * user);
-        void altaUsuarioDesarrollador(DtDesarrollador * user);
         void altaUsuario(DtUsuario * user);
         bool iniciarSesion(string email, string password);
         void modificarFechaSistema(DtFechaHora * fechahora);
