@@ -1,10 +1,31 @@
-#include<iostream>
-#include "DtContratacion.h"
+#ifndef DTCONTRATACION_HEADER
+#define DTCONTRATACION_HEADER
 
+#include <iostream>
+class DtContratacion
+{
+private:
+    int id;
+    float monto;
+    ETipoPago tipoPago;
+    DtFechaHora FechaHora;
+    DtFechaHora FechaVencimiento;
+    bool cancelada;
+
+public:
+    DtContratacion(int id, float monto, ETipoPago tipoPago, DtFechaHora *FechaHora, DtFechaHora FechaVencimiento, bool cancelada);
+    int getId();
+    ETipoPago getTipoPago();
+    float getMonto();
+    DtFechaHora getFechaHora();
+    DtFechaHora getFechaVencimiento();
+    bool getCancelada();
+};
 
 using namespace std;
 
-DtContratacion:DtContratacion(int id, float monto, ETipoPago tipoPago,DtFechaHora * FechaHora, DtFechaHora * FechaVencimiento,bool cancelada){
+DtContratacion::DtContratacion(int id, float monto, ETipoPago tipoPago, DtFechaHora *FechaHora, DtFechaHora *FechaVencimiento, bool cancelada)
+{
     this->id = id;
     this->monto = monto;
     this->tipoPago = tipoPago;
@@ -12,26 +33,34 @@ DtContratacion:DtContratacion(int id, float monto, ETipoPago tipoPago,DtFechaHor
     this->FechaVencimiento = FechaVencimiento;
 };
 
-int DtContratacion::getId(){
+int DtContratacion::getId()
+{
     return this->id;
 }
 
-ETipoPago DtContratacion::getTipoPago(){
+ETipoPago DtContratacion::getTipoPago()
+{
     return this->tipoPago;
 }
 
-float DtContratacion::getMonto(){
+float DtContratacion::getMonto()
+{
     return this->monto;
 }
 
-DtFechaHora * DtContratacion::getFechaHora(){
+DtFechaHora *DtContratacion::getFechaHora()
+{
     return this->FechaHora;
 }
 
-DtFechaHora * DtContratacion::getFechaVencimiento(){
+DtFechaHora *DtContratacion::getFechaVencimiento()
+{
     return this->FechaVencimiento;
 }
 
-bool DtContratacion::getCancelada(){
+bool DtContratacion::getCancelada()
+{
     return this->cancelada;
 }
+
+#endif
