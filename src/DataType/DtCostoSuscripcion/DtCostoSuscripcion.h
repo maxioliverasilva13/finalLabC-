@@ -3,16 +3,18 @@
 
 
 #include "../../Enum/index.cpp"
+#include "../../ICollection/interfaces/ICollectible.h"
+
 using std::string;
 
-class DtCostoSuscripcion  {
+class DtCostoSuscripcion : public ICollectible  {
     private:
-      ETipoSuscripcion tipo;   //No existe
+      EPeriodo tipo;   //No existe
       float costo;
     public:
-      DtCostoSuscripcion(ETipoSuscripcion tipo, float costo);
+      DtCostoSuscripcion(EPeriodo tipo, float costo);
       float getCosto();
-      ETipoSuscripcion getTipo();
+      EPeriodo getTipo();
 };
 
 #endif

@@ -12,7 +12,7 @@ class CategoriaPlataforma: public Categoria {
     private:
       ETipoPlataforma tipo;
     public:
-      CategoriaPlataforma(ETipoPlataforma, string);
+      CategoriaPlataforma(ETipoPlataforma, string, int);
       void setTipo(ETipoPlataforma);
       ETipoPlataforma getTipo();
       string darTipo();

@@ -5,14 +5,14 @@
 
 using namespace std;
 
-DtCostoSuscripcion::DtCostoSuscripcion(ETipoSuscripcion tipo,float costo){
+DtCostoSuscripcion::DtCostoSuscripcion(EPeriodo tipo,float costo){
    this->tipo = tipo;
    this->costo = costo;
 }
 
 
 
-ETipoSuscripcion DtCostoSuscripcion::getTipo(){
+EPeriodo DtCostoSuscripcion::getTipo(){
     return this->tipo;
 }
 
