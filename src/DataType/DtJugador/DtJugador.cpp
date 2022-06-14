@@ -1,3 +1,8 @@
+
+#ifndef DTJUGADOR_CPP
+#define DTJUGADOR_CPP
+
+
 #include<iostream>
 #include "DtJugador.h"
 #include "../DtUsuario/DtUsuario.h"
@@ -17,3 +22,6 @@ string DtJugador::getNickname(){
 string DtJugador::getDescripcion(){
     return this->descripcion; 
 }
+
+
+#endif

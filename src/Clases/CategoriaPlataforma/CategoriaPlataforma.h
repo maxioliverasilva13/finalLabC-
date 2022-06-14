@@ -1,5 +1,5 @@
-#ifndef CATEGORIAPLATAFORMA_HEADER
-#define CATEGORIAPLATAFORMA_HEADER
+//#ifndef CATEGORIAPLATAFORMA_HEADER
+//#define CATEGORIAPLATAFORMA_HEADER
 
 #include<iostream>
 #include "../Categoria/Categoria.h"
@@ -18,4 +18,4 @@ class CategoriaPlataforma: public Categoria {
       string darTipo();
 };
 
-#endif
+//#endif

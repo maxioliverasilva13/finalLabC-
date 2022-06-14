@@ -1,5 +1,8 @@
-#include "EstadoJugador.h"
+#ifndef ESTADOJUGADOR_CPP
+#define ESTADOJUGADOR_CPP
 
+
+#include "EstadoJugador.h"
 using namespace std;
 
 EstadoJugador::EstadoJugador(DtFechaHora * fechaHoraEntrada, Partida * partida, Jugador * Jugador) {
@@ -31,3 +34,5 @@ DtFechaHora * EstadoJugador::getFechaHoraEntrada(){
 DtFechaHora * EstadoJugador::getFechaHoraSalida(){
     return this->fechaHoraSalida;
 };
+
+#endif

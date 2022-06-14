@@ -1,5 +1,5 @@
-#ifndef CATEGORIAGENERO_HEADER
-#define CATEGORIAGENERO_HEADER
+//#ifndef CATEGORIAGENERO_HEADER
+//#define CATEGORIAGENERO_HEADER
 
 #include<iostream>
 #include "../Categoria/Categoria.h"
@@ -18,4 +18,4 @@ class CategoriaGenero: public Categoria {
       string darTipo();
 };
 
-#endif
+//#endif

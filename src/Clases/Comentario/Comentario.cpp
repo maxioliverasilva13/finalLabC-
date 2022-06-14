@@ -1,3 +1,7 @@
+#ifndef COMENTARIO_CPP
+#define COMENTARIO_CPP
+
+
 #include "Comentario.h"
 #include <iostream>
 
@@ -34,3 +38,5 @@ DtFechaHora* Comentario::getFechaHoraEnvio(){
 Jugador* Comentario::getJugador(){
     return this->creador;
 }
+
+#endif

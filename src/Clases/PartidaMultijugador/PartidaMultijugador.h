@@ -1,5 +1,5 @@
-#ifndef PARTIDAMULTIJUGADOR_HEADER
-#define PARTIDAMULTIJUGADOR_HEADER
+//#ifndef PARTIDAMULTIJUGADOR_HEADER
+//#define PARTIDAMULTIJUGADOR_HEADER
 
 #include<iostream>
 #include "../Partida/Partida.h"
@@ -27,4 +27,4 @@ class PartidaMultijugador: public Partida {
       void agregarEstadoJugador(EstadoJugador *);
 };
 
-#endif
+//#endif

@@ -1,3 +1,7 @@
+#ifndef PUNTUACION_CPP
+#define PUNTUACION_CPP
+
+
 #include "Puntuacion.h"
 #include <iostream>
 
@@ -24,3 +28,5 @@ int Puntuacion::getPuntuacion() {
 Jugador* Puntuacion::getCreador() {
     return this->creador;
 }
+
+#endif

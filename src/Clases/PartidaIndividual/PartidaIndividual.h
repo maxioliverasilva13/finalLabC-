@@ -1,5 +1,5 @@
-#ifndef PARTIDAINDIVIDUAL_HEADER
-#define PARTIDAINDIVIDUAL_HEADER
+//#ifndef PARTIDAINDIVIDUAL_HEADER
+//#define PARTIDAINDIVIDUAL_HEADER
 
 #include<iostream>
 #include "../Partida/Partida.h"
@@ -18,4 +18,4 @@ class PartidaIndividual: public Partida {
       DtPartida * getDtPartida();
 };
 
-#endif
+//#endif

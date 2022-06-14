@@ -1,3 +1,6 @@
+#ifndef CATEGORIAOTRO_CPP
+#define CATEGORIAOTRO_CPP
+
 #include "CategoriaOtro.h"
 
 using namespace std;
@@ -17,3 +20,5 @@ string CategoriaOtro::getNombre() {
 string CategoriaOtro::darTipo() {
     return this->nombre;
 }
+
+#endif

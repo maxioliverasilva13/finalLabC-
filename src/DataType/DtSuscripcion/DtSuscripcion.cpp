@@ -1,3 +1,7 @@
+
+#ifndef DTSUSCRIPCION_CPP
+#define DTSUSCRIPCION_CPP
+
 #include<iostream>
 #include "DtSuscripcion.h"
 
@@ -16,4 +20,6 @@ string DtSuscripcion::getNombreVideojuego(){
 ICollection *  DtSuscripcion::getSuscripcion(){
     return this->suscripciones;
 }
+
+#endif
 

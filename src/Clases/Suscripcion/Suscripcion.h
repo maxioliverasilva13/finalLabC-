@@ -1,18 +1,22 @@
 #ifndef SUSCRIPCION_HEADER
 #define SUSCRIPCION_HEADER
 
-#include<iostream>
 
 using namespace std;
 
+#include<iostream>
+
+
 #include "../../Enum/index.cpp"
-#include "../../DataType/DtInfoSuscripcion/DtInfoSuscripcion.h"
-#include "../Videojuego/Videojuego.h"
-#include "../Contratacion/Contratacion.h"
+
+#include "../../DataType/DtInfoSuscripcion/DtInfoSuscripcion.cpp"
+#include "../Contratacion/Contratacion.cpp"
 
 #include "../../ICollection/interfaces/IDictionary.h"
 #include "../../ICollection/collections/OrderedDictionary.h"
 #include "../../ICollection/interfaces/ICollectible.h"
+
+#include "../Videojuego/Videojuego.cpp"
 
 
 class Suscripcion: public ICollectible{
@@ -24,7 +28,6 @@ class Suscripcion: public ICollectible{
         IDictionary * contrataciones; 
         
 
-    
     public:
         Suscripcion(int, float, EPeriodo,Videojuego *);
         int getId();

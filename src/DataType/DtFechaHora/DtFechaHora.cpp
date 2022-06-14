@@ -1,3 +1,7 @@
+#ifndef DTFECHAHORA_CPP
+#define DTFECHAHORA_CPP
+
+
 #include <iostream>
 #include "DtFechaHora.h"
 
@@ -56,3 +60,6 @@ int DtFechaHora::getMinute()
 {
     return this->minute;
 }
+
+
+#endif

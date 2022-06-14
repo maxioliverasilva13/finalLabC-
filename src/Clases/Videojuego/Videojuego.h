@@ -1,15 +1,20 @@
-#ifndef VIDEOJUEGO_HEADER
-#define VIDEOJUEGO_HEADER
+//#ifndef VIDEOJUEGO_HEADER
+//#define VIDEOJUEGO_HEADER
 
  //datatype
- #include "../../DataType/DtInfoSuscripcion/DtInfoSuscripcion.h"
- #include "../Suscripcion/Suscripcion.h"
- 
+ #include "../../DataType/DtInfoSuscripcion/DtInfoSuscripcion.cpp"
+
+ //collections
+ #include "../../ICollection/interfaces/ICollection.cpp"
+ #include "../../ICollection/collections/List.cpp"
+
+
+//other classes
+#include "../Suscripcion/Suscripcion.cpp"
 
 #include<iostream>
 
 using namespace std;
-
 class Videojuego {
     private:
         string nombre;
@@ -29,4 +34,4 @@ class Videojuego {
         ICollection * getInfoSuscripciones(string nickname);
 };
 
-#endif
+//#endif

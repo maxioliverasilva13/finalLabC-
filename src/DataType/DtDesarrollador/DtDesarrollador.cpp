@@ -1,3 +1,8 @@
+
+#ifndef DTDESARROLLO_CPP
+#define DTDESARROLLO_CPP
+
+
 #include<iostream>
 #include "DtDesarrollador.h"
 #include "../DtUsuario/DtUsuario.h"
@@ -13,3 +18,5 @@ DtDesarrollador::DtDesarrollador(string email,string password,string nombreEmpre
 string DtDesarrollador::getNombreEmpresa(){
     return this->nombreEmpresa;
 }
+
+#endif

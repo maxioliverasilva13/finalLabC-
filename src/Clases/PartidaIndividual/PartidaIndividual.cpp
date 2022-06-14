@@ -1,3 +1,8 @@
+
+#ifndef PARTIDAINDIVIDUAL_CPP
+#define PARTIDAINDIVIDUAL_CPP
+
+
 #include "PartidaIndividual.h"
 #include "../../DataType/DtPartida/DtPartida.h"
 
@@ -29,3 +34,5 @@ void PartidaIndividual::setNueva(bool nueva){
 bool PartidaIndividual::getNueva(){
   return this->nueva;
 };
+
+#endif

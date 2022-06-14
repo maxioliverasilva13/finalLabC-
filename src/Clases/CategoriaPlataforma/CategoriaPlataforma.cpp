@@ -1,3 +1,6 @@
+#ifndef CATEGORIAPLATAFORMA_CPP
+#define CATEGORIAPLATAFORMA_CPP
+
 #include "CategoriaPlataforma.h"
 
 using namespace std;
@@ -18,3 +21,5 @@ void CategoriaPlataforma::setTipo(ETipoPlataforma tipo) {
 ETipoPlataforma CategoriaPlataforma::getTipo() {
     return this->tipo;
 }
+
+#endif

@@ -1,15 +1,21 @@
-#ifndef SISTEMA
-#define SISTEMA
+//#ifndef SISTEMA
+//#define SISTEMA
 
 #include "../ICollection/interfaces/ICollection.h"
-#include "../ICollection/interfaces/IDictionary.h"
-#include "../DataType/DtContratacion/DtContratacion.h"
+#include "../ICollection/interfaces/IDictionary.cpp"
+#include "../DataType/DtContratacion/DtContratacion.cpp"
+#include "../ICollection/collections/OrderedDictionary.cpp"
+#include "../DataType/DtSuscripcion/DtSuscripcion.cpp"
+
+
 #include "../Enum/index.cpp"
-#include "../Clases/Usuario/Usuario.h"
-#include "../Clases/Videojuego/Videojuego.h"
+
+#include "../Clases/Usuario/Usuario.cpp"
+#include "../Clases/Videojuego/Videojuego.cpp"
+#include "./Jugador/Jugador.cpp"
+
 
 //Datatypes
-#include "../DataType/DtSuscripcion/DtSuscripcion.h"
 #include<string>
 
 
@@ -42,4 +48,4 @@ class Sistema {
         void eliminarVideoJuego(string nombreVideojuego);
 };
 
-#endif
+//#endif

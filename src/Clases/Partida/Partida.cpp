@@ -1,5 +1,8 @@
+#ifndef PARTIDA_CPP
+#define PARTIDA_CPP
+
 #include "Partida.h"
-#include "../../DataType/DtFechaHora/DtFechaHora.cpp"
+
 
 using namespace std;
 
@@ -42,3 +45,5 @@ DtFechaHora * Partida::getFecha() {
 Partida::~Partida() {
   cout << "Me borro";
 }
+
+#endif

@@ -1,10 +1,14 @@
+#ifndef DTCONTRATACION_CPP
+#define DTCONTRATACION_CPP
+
+
 #include<iostream>
 #include "DtContratacion.h"
 
 
 using namespace std;
 
-DtContratacion:DtContratacion(int id, float monto, ETipoPago tipoPago,DtFechaHora * FechaHora, DtFechaHora * FechaVencimiento,bool cancelada){
+DtContratacion::DtContratacion(int id, float monto, ETipoPago tipoPago,DtFechaHora * FechaHora, DtFechaHora * FechaVencimiento,bool cancelada){
     this->id = id;
     this->monto = monto;
     this->tipoPago = tipoPago;
@@ -35,3 +39,5 @@ DtFechaHora * DtContratacion::getFechaVencimiento(){
 bool DtContratacion::getCancelada(){
     return this->cancelada;
 }
+
+#endif

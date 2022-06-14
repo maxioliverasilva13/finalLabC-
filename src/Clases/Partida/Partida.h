@@ -1,11 +1,11 @@
-#ifndef PARTIDA_HEADER
-#define PARTIDA_HEADER
+//#ifndef PARTIDA_HEADER
+//#define PARTIDA_HEADER
 
 #include<iostream>
 #include "../../ICollection/interfaces/ICollectible.h"
 #include "../../Enum/index.cpp"
-#include "../../DataType/DtPartida/DtPartida.h"
-#include "../../DataType/DtFechaHora/DtFechaHora.h"
+#include "../../DataType/DtPartida/DtPartida.cpp"
+#include "../../DataType/DtFechaHora/DtFechaHora.cpp"
 
 using namespace std;
 
@@ -28,4 +28,4 @@ class Partida : public ICollectible {
       virtual void finalizarPartida() = 0;
 };
 
-#endif
+//#endif

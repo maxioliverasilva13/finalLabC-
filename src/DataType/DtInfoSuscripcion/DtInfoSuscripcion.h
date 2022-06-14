@@ -3,7 +3,8 @@
 
 #include<iostream>
 #include "../../Enum/index.cpp"
-#include "../../DataType/DtInfoSuscripcion/DtInfoSuscripcion.h";
+
+#include "../../ICollection/interfaces/ICollectible.h"
 
 class DtInfoSuscripcion: public ICollectible{
     private:

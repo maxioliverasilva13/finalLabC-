@@ -1,4 +1,6 @@
 
+#ifndef DTCOSTOSUSCRIPCION_CPP
+#define DTCOSTOSUSCRIPCION_CPP
 
 #include <iostream>
 #include "DtCostoSuscripcion.h"
@@ -20,5 +22,7 @@ ETipoSuscripcion DtCostoSuscripcion::getTipo(){
 float DtCostoSuscripcion::getCosto(){
     return this->costo;
 }
+
+#endif
 
 

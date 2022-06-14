@@ -4,7 +4,7 @@
 using namespace std;
 
  Contratacion::Contratacion(int id, ETipoPago tipoPago,float monto,DtFechaHora * FechaHora,
- DtFechaHora * FechaVencimiento,bool cancelada,Suscripcion * suscripcion,Jugador * duenio){
+ DtFechaHora * FechaVencimiento,bool cancelada,Jugador * duenio){
      this->id =  id;
      this->tipoPago = tipoPago;
      this->monto = monto;
@@ -64,7 +64,7 @@ bool Contratacion::getActiva(){
    /*POR IMPLEMENTAR*/
 }
 
-string Contratacion::getNickNameDueño(){
+string Contratacion::getNickNameDuenio(){
    return this->duenio->getNickname();
 }    
 

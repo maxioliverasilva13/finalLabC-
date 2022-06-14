@@ -10,5 +10,6 @@ using namespace std;
 
 
 int main() {
+   Sistema * s = s->getInstance();
 
 }

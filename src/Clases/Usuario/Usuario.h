@@ -1,5 +1,5 @@
-#ifndef USUARIO_HEADER
-#define USUARIO_HEADER
+//#ifndef USUARIO_HEADER
+//#define USUARIO_HEADER
 
 #include<iostream>
 #include "../../ICollection/interfaces/ICollection.h"
@@ -18,4 +18,4 @@ class Usuario : public ICollectible {
         string getPassword();
 };
 
-#endif
+//#endif

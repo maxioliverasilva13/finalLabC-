@@ -1,8 +1,12 @@
+
+#ifndef VIDEOJUEGO_CPP
+#define VIDEOJUEGO_CPP
+
+
 #include <iostream>
 #include "Videojuego.h"
-#include "../../ICollection/collections/List.cpp"
-
 using namespace std;
+
 
 Videojuego::Videojuego(string nombre, string descripcion, int prom_punt){
     this->nombre = nombre;
@@ -45,13 +49,14 @@ ICollection * Videojuego::getInfoSuscripciones(string nickname){
     bool jugador_tiene_contratacion;
     while (it->hasCurrent()){
         current = (Suscripcion*)it->getCurrent();
-        
+
         jugador_tiene_contratacion = current->jugadorTieneContratacion(nickname);
         ICollectible * item = new DtInfoSuscripcion(current->getId(), current->getPeriodo(),current->getPrecio(), jugador_tiene_contratacion);
         res->add(item);
     }
 
     return res;
-
-
 }
+
+
+#endif

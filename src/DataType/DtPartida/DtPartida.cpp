@@ -1,3 +1,7 @@
+#ifndef DTPARTIDA_CPP
+#define DTPARTIDA_CPP
+
+
 #include<iostream>
 #include "DtPartida.h"
 
@@ -20,3 +24,5 @@ DtFechaHora * DtPartida::getFecha(){
 int DtPartida::getDuracion(){
     return this->duracion;
 }
+
+#endif

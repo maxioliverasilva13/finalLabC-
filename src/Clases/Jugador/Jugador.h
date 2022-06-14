@@ -1,16 +1,18 @@
-#ifndef JUGADOR_HEADER
-#define JUGADOR_HEADER
+//#ifndef JUGADOR_HEADER
+//#define JUGADOR_HEADER
 
 #include<iostream>
-#include "../Usuario/Usuario.h"
+
+#include "../Partida/Partida.cpp"
+
 #include "../../ICollection/interfaces/ICollection.h"
 #include "../../ICollection/interfaces/IDictionary.h"
 #include "../../ICollection/collections/OrderedDictionary.h"
-#include "../../DataType/DtContratacion/DtContratacion.h"
+#include "../../DataType/DtContratacion/DtContratacion.cpp"
 
 using namespace std;
 
-class Jugador : public Usuario, ICollectible {
+class Jugador : public Usuario {
     private:
         string nickname;
         string descripcion;
@@ -36,4 +38,4 @@ class Jugador : public Usuario, ICollectible {
         
 };
 
-#endif
+//#endif

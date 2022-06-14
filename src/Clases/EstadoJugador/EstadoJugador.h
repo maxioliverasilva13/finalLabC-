@@ -1,5 +1,5 @@
-#ifndef ESTADOJUGADOR_HEADER
-#define ESTADOJUGADOR_HEADER
+//#ifndef ESTADOJUGADOR_HEADER
+//#define ESTADOJUGADOR_HEADER
 
 #include<iostream>
 #include "../Partida/Partida.h"
@@ -23,4 +23,4 @@ class EstadoJugador: public ICollectible {
       Partida * getPartida();
 };
 
-#endif
+//#endif

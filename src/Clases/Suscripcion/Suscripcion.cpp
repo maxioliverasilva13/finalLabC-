@@ -1,16 +1,18 @@
-#include <iostream>
+
+
 #include "Suscripcion.h"
+#include <iostream>
+
 
 using namespace std;
 
-Suscripcion::Suscripcion(int id, float precio, EPeriodo periodo,Videojuego * videojuego){
+Suscripcion::Suscripcion(int id,float precio,EPeriodo periodo,Videojuego * juego){
     this->id = id;
     this->precio = precio;
     this->periodo = periodo;
-    this->videojuego = videojuego;
-    
-    this->contrataciones = new OrderedDictionary();
-};
+    this->videojuego = juego;
+}
+
 
 int Suscripcion::getId(){
     return this->id;
@@ -46,10 +48,13 @@ bool Suscripcion::jugadorTieneContratacion(string nickname){
     bool es_duenio = false;
     while (it->hasCurrent()){
         current = (Contratacion*)it->getCurrent();
-        if(nickname == current->getNickNameDueño()){
+        if(nickname == current->getNickNameDuenio()){
             es_duenio = true;
             break;
         }
+        it->next();
     }
     return es_duenio;
 };
+
+

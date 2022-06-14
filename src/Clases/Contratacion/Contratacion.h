@@ -1,14 +1,14 @@
-#ifndef CONTRATACION_HEADER
-#define CONTRATACION_HEADER
+//#ifndef CONTRATACION_HEADER
+//#define CONTRATACION_HEADER
 
 #include<iostream>
 
 using namespace std;
 
 #include "../../Enum/index.cpp"
-#include "../../DataType/DtFechaHora/DtFechaHora.h"
-#include "../Suscripcion/Suscripcion.h"
-#include "../Jugador/Jugador.h"
+#include "../../DataType/DtFechaHora/DtFechaHora.cpp"
+#include "../Suscripcion/Suscripcion.cpp"
+#include "../Jugador/Jugador.cpp"
 #include "../../ICollection/interfaces/ICollectible.h"
 
 class Contratacion: public ICollectible {
@@ -24,7 +24,7 @@ class Contratacion: public ICollectible {
         
     
     public:
-        Contratacion(int, ETipoPago,float,DtFechaHora*,DtFechaHora*,bool,Suscripcion * suscripcion, Jugador * duenio);
+        Contratacion(int, ETipoPago,float,DtFechaHora*,DtFechaHora*,bool, Jugador *);
         int getId();
         float getMonto();
         ETipoPago getTipoPago();
@@ -38,10 +38,10 @@ class Contratacion: public ICollectible {
         void setCancelada(bool);
         void setTipoPago(ETipoPago);
         bool getActiva();
-        string getNickNameDueño();
+        string getNickNameDuenio();
         string getVideojuego();
         void asociarVideojuegoSuscripcion();        
 };
    
 
-#endif
+//#endif

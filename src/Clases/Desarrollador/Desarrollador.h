@@ -1,5 +1,5 @@
-#ifndef DESARROLLADOR_HEADER
-#define DESARROLLADOR_HEADER
+//#ifndef DESARROLLADOR_HEADER
+//#define DESARROLLADOR_HEADER
 
 #include<iostream>
 #include "../Usuario/Usuario.h"
@@ -14,4 +14,4 @@ class Desarrollador : public Usuario {
         string getNomEmpresa();
 };
 
-#endif
+//#endif

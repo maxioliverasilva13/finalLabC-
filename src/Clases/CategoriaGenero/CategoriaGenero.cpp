@@ -1,3 +1,7 @@
+
+#ifndef CATEGORIAGENERO_CPP
+#define CATEGORIAGENERO_CPP
+
 #include "CategoriaGenero.h"
 
 using namespace std;
@@ -18,3 +22,5 @@ EGeneroJuego CategoriaGenero::getTipo() {
 string CategoriaGenero::darTipo() {
     // return this->tipo;   // Hacer pasaje de enum a string.
 }
+
+#endif

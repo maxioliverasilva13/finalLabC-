@@ -1,3 +1,7 @@
+#ifndef DTINFOSUSCRIPCION_CPP
+#define DTINFOSUSCRIPCION_CPP
+
+
 #include<iostream>
 #include "DtInfoSuscripcion.h"
 
@@ -26,3 +30,5 @@ float DtInfoSuscripcion::getPrecio(){
 bool DtInfoSuscripcion::getSuscrito(){
     return this->suscrito;
 }
+
+#endif

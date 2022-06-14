@@ -1,13 +1,14 @@
 #ifndef DTSUCRIPCION_HEADER
 #define DTSUSCRIPCION_HEADER
 
-#include "../DtInfoSuscripcion/DtInfoSuscripcion.h"
-
 #include<iostream>
 #include<string>
+
+#include "../../ICollection/interfaces/ICollectible.h"
 #include "../../ICollection/interfaces/ICollection.h"
+#include "../DtInfoSuscripcion/DtInfoSuscripcion.h"
 
-
+using namespace std;
 class DtSuscripcion:public ICollectible{
     private:
        string nombreVideoJuego;

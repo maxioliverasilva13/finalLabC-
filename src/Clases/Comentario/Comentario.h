@@ -1,5 +1,5 @@
-#ifndef COMENTARIO_HEADER
-#define COMENTARIO_HEADER
+//#ifndef COMENTARIO_HEADER
+//#define COMENTARIO_HEADER
 #include "../../DataType/DtFechaHora/DtFechaHora.cpp"
 #include "../Jugador/Jugador.cpp"
 #include "../PartidaMultijugador/PartidaMultijugador.cpp"
@@ -29,4 +29,4 @@ class Comentario : public ICollectible{
         Jugador* getJugador();
 };
 
-#endif
+//#endif

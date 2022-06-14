@@ -1,3 +1,7 @@
+#ifndef PARTIDAMULTIJUGADOR_CPP
+#define PARTIDAMULTIJUGADOR_CPP
+
+
 #include "PartidaMultijugador.h"
 #include "../../DataType/DtPartida/DtPartida.h"
 
@@ -40,3 +44,5 @@ float PartidaMultijugador::getDuracion(){
 void PartidaMultijugador::agregarEstadoJugador(EstadoJugador * status) {
     this->estadosJugador->add(status);
 }
+
+#endif

@@ -1,10 +1,13 @@
+
+#ifndef SISTEMA_CPP
+#define SISTEMA_CPP
+
+
 #include "Sistema.h"
 #include "../ICollection/interfaces/IDictionary.cpp"
-#include "../ICollection/collections/OrderedDictionary.h"
 #include "../ICollection/interfaces/IIterator.h"
 #include "../ICollection/collections/List.h"
 
-#include "./Jugador/Jugador.h"
 
 
 
@@ -15,6 +18,8 @@ Sistema::Sistema(){
   this->videojuegos = new OrderedDictionary();
   this->usuarios = new OrderedDictionary();
   this->loggUser = new Jugador("maxi123", "soy un player", "maxi@maxi.com", "oliverman12");
+ 
+
 }
 
 Sistema * Sistema::getInstance(){
@@ -34,8 +39,7 @@ ICollection * Sistema::listarSuscripcionesPorVideojuego(){
 
 
     ICollection * res = new List();  //Collection of DtSuscripcion
-    
-    
+
     IIterator * it = this->videojuegos->getIterator();
     Videojuego * current;
     
@@ -43,12 +47,14 @@ ICollection * Sistema::listarSuscripcionesPorVideojuego(){
     ICollection * info_suscr_current;
     while (it->hasCurrent()){
         current = (Videojuego*)it->getCurrent();
-
         nombreV = current->getNombre();
         info_suscr_current = current->getInfoSuscripciones(nickname);
 
         ICollectible * videoJuegoInfoSus = new DtSuscripcion(nombreV,info_suscr_current);
         res->add(videoJuegoInfoSus);
+        it->next();
     }
     return res;
 }
+
+#endif

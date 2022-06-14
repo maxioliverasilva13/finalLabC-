@@ -1,5 +1,5 @@
-#ifndef CATEGORIA_HEADER
-#define CATEGORIA_HEADER
+//#ifndef CATEGORIA_HEADER
+//#define CATEGORIA_HEADER
 
 #include<iostream>
 #include "../../ICollection/interfaces/ICollection.h"
@@ -17,4 +17,4 @@ class Categoria : public ICollectible {
       virtual string darTipo() = 0;
 };
 
-#endif
+//#endif
