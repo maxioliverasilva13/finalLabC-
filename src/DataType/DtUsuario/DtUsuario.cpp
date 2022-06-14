@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include "DtUsuario.h"
 
@@ -20,7 +18,5 @@ string DtUsuario::getEmail(){
 string DtUsuario::getPassword(){
     return this->password;
 }
-
-
 
 

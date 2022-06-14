@@ -11,6 +11,7 @@ class DtDesarrollador : public DtUsuario {
     public:
       DtDesarrollador(string email, string password, string nombreEmpresa);
       string getNombreEmpresa();
+      string getTipo();
 };
 
 #endif

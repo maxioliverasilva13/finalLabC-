@@ -6,6 +6,7 @@
 #include "../../Enum/index.cpp"
 #include "../../DataType/DtPartida/DtPartida.h"
 #include "../../DataType/DtFechaHora/DtFechaHora.h"
+#include "../../Clases/VideoJuego/VideoJuego.h"
 
 using namespace std;
 
@@ -14,8 +15,9 @@ class Partida : public ICollectible {
       int id;
       EEstado estado;
       DtFechaHora * fecha;
+      Videojuego * videojuego = NULL;
     public:
-      Partida(int, EEstado, DtFechaHora *);
+      Partida(int, EEstado, Videojuego *, DtFechaHora *);
       ~Partida();
       string darNombreJuego();
       void setEstado(EEstado);

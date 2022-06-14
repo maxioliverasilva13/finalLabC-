@@ -1,3 +1,5 @@
+#ifndef DTCATEGORIA_CPP
+#define DTCATEGORIA_CPP
 #include<iostream>
 #include "DtCategoria.h"
 
@@ -20,3 +22,5 @@ string DtCategoria::getDescripcion(){
 string DtCategoria::getTipo(){
     return this->tipo;
 }
+
+#endif

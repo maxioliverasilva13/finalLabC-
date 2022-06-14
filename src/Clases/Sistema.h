@@ -31,10 +31,8 @@ public:
     void iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo);            // jugadores es set<string>
     ICollection *listarJugadoresConSuscripcionActivaAJuego(string nombreVideojuego); // strings
     void iniciarPartidaIndividual(bool nueva);
-
     void continuar(int idpartida);
     ICollection *listarHistorialPartidasFinalizadas(string nombreVJ); // DtPartida
-
     ICollection *listarVideoJuegosActivos();         // a el usuario logueado retorna strings
     ICollection *listarSuscripcionesPorVideojuego(); // DtSuscripcion
     DtContratacion *getContratacion(string nombreVideojuego);
@@ -46,6 +44,11 @@ public:
     void finalizarPartida(int idPartida);
     void eliminarVideoJuego(string nombreVideojuego);
     void listarVJ();
+    void altaUsuario(DtUsuario * user);
+    bool iniciarSesion(string email, string password);
+    void modificarFechaSistema(DtFechaHora * fechahora);
+    DtFechaHora * getFechaSistema();
+    void recorrerUsuarios();
 };
 
 #endif

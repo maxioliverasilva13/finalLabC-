@@ -23,3 +23,4 @@ string Usuario::getEmail() {
 string Usuario::getPassword() {
     return this->password;
 }
+

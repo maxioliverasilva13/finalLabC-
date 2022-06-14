@@ -28,3 +28,6 @@ public:
 
     virtual ~String();
 };
+
+//#endif	/* PROG4_STRING_H */
+

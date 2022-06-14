@@ -11,6 +11,7 @@ class DtUsuario{
       DtUsuario(string email,string password);
       string getEmail();
       string getPassword(); 
+      virtual string getTipo() = 0; // es para hacer comprobaciones con el nombre de la instancia.
 };
 
 #endif
