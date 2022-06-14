@@ -3,49 +3,51 @@
 
 using namespace std;
 
-#include<iostream>
+#include <iostream>
 
-class PartidaIndividual: public Partida {
-    private:
-      bool nueva;
-    public:
-      PartidaIndividual(bool, int, EEstado, DtFechaHora *);
-      void continuarPartida();
-      void setNueva(bool);
-      bool getNueva();
-      void finalizarPartida();
-      DtPartida * getDtPartida();
+class PartidaIndividual : public Partida
+{
+private:
+  bool nueva;
+
+public:
+  PartidaIndividual(bool, int, EEstado, DtFechaHora *, Videojuego *);
+  void continuarPartida();
+  void setNueva(bool);
+  bool getNueva();
+  void finalizarPartida();
+  DtPartida *getDtPartida();
 };
 
-
-PartidaIndividual::PartidaIndividual(bool nueva, int id, EEstado estado, DtFechaHora * fecha):Partida(id,estado, fecha) {
+PartidaIndividual::PartidaIndividual(bool nueva, int id, EEstado estado, DtFechaHora *fecha, Videojuego *vj) : Partida(id, estado, vj, fecha)
+{
   this->nueva = nueva;
 };
 
-
-void PartidaIndividual::finalizarPartida() {
-    cout << "Finalizar Partida";
+void PartidaIndividual::finalizarPartida()
+{
+  cout << "Finalizar Partida";
 }
 
-void PartidaIndividual::continuarPartida(){
+void PartidaIndividual::continuarPartida()
+{
   cout << "continuarPartida";
 };
 
-DtPartida * PartidaIndividual::getDtPartida(){
-  DtPartida * dtpart = new DtPartida(this->getId(),this->getFecha(),0);
+DtPartida *PartidaIndividual::getDtPartida()
+{
+  DtPartida *dtpart = new DtPartida(this->getId(), this->getFecha(), 0);
   return dtpart;
 };
 
-void PartidaIndividual::setNueva(bool nueva){
-  this->nueva=nueva;
+void PartidaIndividual::setNueva(bool nueva)
+{
+  this->nueva = nueva;
 };
 
-bool PartidaIndividual::getNueva(){
+bool PartidaIndividual::getNueva()
+{
   return this->nueva;
 };
-
-void PartidaIndividual::finalizarPartida(EEstado estado) { //Debe recibir parametro para modificar el estado
-  this->setEstado(estado);
-}
 
 #endif

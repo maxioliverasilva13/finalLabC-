@@ -1,45 +1,53 @@
 #ifndef CATEGORIA_HEADER
 #define CATEGORIA_HEADER
 
-#include<iostream>
+#include <iostream>
 using namespace std;
 
-class Categoria : public ICollectible {
-    private:
-      int id;
-      string descripcion;
-    public:
-      Categoria(string, int);
-      ~Categoria();
-      void setDescripcion(string);
-      void setId(int);
-      string getDescripcion();
-      int getId();
-      virtual string darTipo() = 0;
+class Categoria : public ICollectible
+{
+private:
+    int id;
+    string descripcion;
+
+public:
+    Categoria(string, int);
+    ~Categoria();
+    void setDescripcion(string);
+    void setId(int);
+    string getDescripcion();
+    int getId();
+    virtual string darTipo() = 0;
 };
 
-Categoria::Categoria(string descripcion, int id) {
+Categoria::Categoria(string descripcion, int id)
+{
     this->id = id;
     this->descripcion = descripcion;
 }
 
-void Categoria::setDescripcion(string descripcion) {
+void Categoria::setDescripcion(string descripcion)
+{
     this->descripcion = descripcion;
 }
 
-string Categoria::getDescripcion() {
+string Categoria::getDescripcion()
+{
     return this->descripcion;
 }
 
-int Categoria::getId() {
+int Categoria::getId()
+{
     return this->id;
 }
 
-void Categoria::setId(int id) {
+void Categoria::setId(int id)
+{
     this->id = id;
 }
 
-Categoria::~Categoria(){
+Categoria::~Categoria()
+{
     cout << "Me borro";
 }
 

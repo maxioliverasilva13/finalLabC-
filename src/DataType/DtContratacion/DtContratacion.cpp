@@ -2,23 +2,26 @@
 #define DTCONTRATACION_HEADER
 
 #include <iostream>
+
+using namespace std;
+
 class DtContratacion
 {
 private:
     int id;
     float monto;
     ETipoPago tipoPago;
-    DtFechaHora FechaHora;
-    DtFechaHora FechaVencimiento;
+    DtFechaHora *FechaHora;
+    DtFechaHora *FechaVencimiento;
     bool cancelada;
 
 public:
-    DtContratacion(int id, float monto, ETipoPago tipoPago, DtFechaHora *FechaHora, DtFechaHora FechaVencimiento, bool cancelada);
+    DtContratacion(int id, float monto, ETipoPago tipoPago, DtFechaHora *FechaHora, DtFechaHora *FechaVencimiento, bool cancelada);
     int getId();
     ETipoPago getTipoPago();
     float getMonto();
-    DtFechaHora getFechaHora();
-    DtFechaHora getFechaVencimiento();
+    DtFechaHora *getFechaHora();
+    DtFechaHora *getFechaVencimiento();
     bool getCancelada();
 };
 
