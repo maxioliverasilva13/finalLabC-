@@ -1,7 +1,22 @@
+#ifndef USUARIO_HEADER
+#define USUARIO_HEADER
+
 #include<iostream>
-#include "Usuario.h"
 
 using namespace std;
+
+class Usuario : public ICollectible {
+    private:
+        string email;
+        string password;
+    public:
+        Usuario(string, string);
+        void setEmail(string);
+        void setPassword(string);
+        string getEmail();
+        string getPassword();
+};
+
 
 Usuario::Usuario(string e, string p){
     this->email = e;
@@ -24,3 +39,4 @@ string Usuario::getPassword() {
     return this->password;
 }
 
+#endif

@@ -1,7 +1,28 @@
-#include "PartidaMultijugador.h"
-#include "../../DataType/DtPartida/DtPartida.h"
+#ifndef PARTIDAMULTIJUGADOR_HEADER
+#define PARTIDAMULTIJUGADOR_HEADER
 
 using namespace std;
+
+#include<iostream>
+
+using namespace std;
+
+class PartidaMultijugador: public Partida {
+    private:
+      bool enVivo;
+      float duracion;
+      IDictionary * comentarios;
+      ICollection * estadosJugador;
+    public:
+      PartidaMultijugador(bool, float, int, EEstado, DtFechaHora *);
+      void finalizarPartida();
+      DtPartida * getDtPartida();
+      void setEnVivo(bool);
+      void setDuracion(float);
+      bool getEnVivo();
+      float getDuracion();
+      void agregarEstadoJugador(EstadoJugador *);
+};
 
 
 PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, EEstado estado, DtFechaHora * fecha):Partida(id,estado, fecha) {
@@ -48,3 +69,5 @@ void PartidaMultijugador::finalizarPartida(EEstado estado, float duracion,IColle
         
     }
 }
+
+#endif

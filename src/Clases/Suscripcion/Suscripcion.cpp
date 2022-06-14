@@ -1,7 +1,35 @@
+#ifndef SUSCRIPCION_HEADER
+#define SUSCRIPCION_HEADER
+
 #include <iostream>
-#include "Suscripcion.h"
 
 using namespace std;
+
+#include <iostream>
+
+class Suscripcion : public ICollectible
+{
+private:
+    int id;
+    float precio;
+    EPeriodo periodo;
+    Videojuego *videojuego;
+    IDictionary *contrataciones;
+
+public:
+    Suscripcion(int, float, EPeriodo, Videojuego *);
+    ~Suscripcion();
+    int getId();
+    float getPrecio();
+    EPeriodo getPeriodo();
+    void setId(int);
+    void setPeriodo(EPeriodo);
+    void setPrecio(float);
+    string darNombreJuego();
+    bool jugadorTieneContratacion(string);
+    DtInfoSuscripcion *getDatosSuscripcion();
+};
+
 
 Suscripcion::Suscripcion(int id, float precio, EPeriodo periodo, Videojuego *videojuego)
 {
@@ -62,3 +90,5 @@ bool jugadorTieneContratacion(string nickname){
 DtInfoSuscripcion *getDatosSuscripcion(){
     /*POR IMPLEMENTAR*/
 };
+
+#endif
