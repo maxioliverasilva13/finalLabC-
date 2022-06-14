@@ -2,7 +2,7 @@
 #define DTDESARROLLADOR_HEADER
 
 #include <string>
-using std::string;
+using namespace std;
 
 class DtDesarrollador : public DtUsuario
 {

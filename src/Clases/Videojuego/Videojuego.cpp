@@ -3,8 +3,9 @@
 
 #include <iostream>
 
-using namespace std;
+#include "../../Clases/Puntuacion/Puntuacion.cpp"
 
+using namespace std;
 
 class Videojuego : public ICollectible
 {
@@ -31,7 +32,6 @@ public:
     void agregarCategoria(ICollectible *);
 };
 
-
 Videojuego::Videojuego(string nombre, string descripcion, int prom_punt)
 {
     this->nombre = nombre;
@@ -49,8 +49,9 @@ Videojuego::~Videojuego()
     while (iteratorPuntuaciones->hasCurrent())
     {
         Puntuacion *pun = (Puntuacion *)iteratorPuntuaciones->getCurrent();
-        this->puntuaciones->remove(pun);
-        delete pun;
+        // TODO : ADD DESTRUCTORS TO ALL CLASES OF IMPLEMENT  "REMOVE"
+        // this->puntuaciones->remove(pun);
+        // delete pun;
         iteratorPuntuaciones->next();
     }
 

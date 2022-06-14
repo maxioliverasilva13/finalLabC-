@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 
-using namepsace std;
 class DtCostoSuscripcion : public ICollectible
 {
 private:
