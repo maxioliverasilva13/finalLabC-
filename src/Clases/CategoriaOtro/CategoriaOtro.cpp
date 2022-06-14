@@ -2,7 +2,7 @@
 
 using namespace std;
 
-CategoriaOtro::CategoriaOtro(string nombre, string descripcion) : Categoria(descripcion) {
+CategoriaOtro::CategoriaOtro(string nombre, string descripcion, int id) : Categoria(descripcion, id) {
     this->nombre = nombre;
 }
 

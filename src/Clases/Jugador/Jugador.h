@@ -1,7 +1,7 @@
 #ifndef JUGADOR_HEADER
 #define JUGADOR_HEADER
 
-#include<iostream>
+#include <iostream>
 #include "../Usuario/Usuario.h"
 #include "../../ICollection/interfaces/ICollection.h"
 #include "../../ICollection/interfaces/ICollectible.h"
@@ -37,6 +37,7 @@ class Jugador : public Usuario {
         void finalizarPartida(int);
         DtContratacion * getContratacionByUser(int);   
         void agregarPartida(Partida *);
+
 };
 
 #endif
