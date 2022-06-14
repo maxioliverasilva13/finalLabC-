@@ -14,7 +14,6 @@ enum EGeneroJuego { GENERO , ACCCION, AVENTURA, ESTRATEGIA, DEPORTE };
 
 enum EPeriodo { MENSUAL, TRIMESTRAL, ANUAL, VITALICIA };
 
-
 string getETipoPago(ETipoPago p) {
     switch (p)
     {

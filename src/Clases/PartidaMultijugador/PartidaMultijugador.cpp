@@ -13,12 +13,12 @@ PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, EE
 
 
 void PartidaMultijugador::finalizarPartida() {
-  cout << "Finalizar Partida";
+    cout << "Finalizar Partida";
 }
 
 DtPartida * PartidaMultijugador::getDtPartida(){
-  DtPartida * dtpart = new DtPartida(this->getId(),this->getFecha(),0);
-  return dtpart;
+    DtPartida * dtpart = new DtPartida(this->getId(),this->getFecha(),0);
+    return dtpart;
 };
 
 void PartidaMultijugador::setEnVivo(bool enVivo){
@@ -39,4 +39,12 @@ float PartidaMultijugador::getDuracion(){
 
 void PartidaMultijugador::agregarEstadoJugador(EstadoJugador * status) {
     this->estadosJugador->add(status);
+}
+
+void PartidaMultijugador::finalizarPartida(EEstado estado, float duracion,ICollection* estadoJugador) { //Debe recibir parametro para modificar el estado
+    this->setEstado(estado);
+    this->setDuracion(duracion);
+    while (estadoJugador->getIterator() != NULL) {
+        
+    }
 }
