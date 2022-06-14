@@ -1,8 +1,18 @@
-#include "CategoriaGenero.h"
-#include "../../Clases/Categoria/Categoria.cpp"
+#ifndef CATEGORIAGENERO_HEADER
+#define CATEGORIAGENERO_HEADER
 
+#include<iostream>
 using namespace std;
 
+class CategoriaGenero: public Categoria {
+    private:
+      EGeneroJuego tipo;
+    public:
+      CategoriaGenero(EGeneroJuego, string, int);
+      void setTipo(EGeneroJuego);
+      EGeneroJuego getTipo();
+      string darTipo();
+};
 
 CategoriaGenero::CategoriaGenero(EGeneroJuego tipo, string descripcion, int id) : Categoria(descripcion, id) {
     this->tipo = tipo;
@@ -19,3 +29,5 @@ EGeneroJuego CategoriaGenero::getTipo() {
 string CategoriaGenero::darTipo() {
     return getEGeneroJuego(this->tipo);
 }
+
+#endif

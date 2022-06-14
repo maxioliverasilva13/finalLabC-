@@ -1,7 +1,19 @@
-#include "CategoriaPlataforma.h"
+#ifndef CATEGORIAPLATAFORMA_HEADER
+#define CATEGORIAPLATAFORMA_HEADER
 
 using namespace std;
 
+#include<iostream>
+
+class CategoriaPlataforma: public Categoria {
+    private:
+      ETipoPlataforma tipo;
+    public:
+      CategoriaPlataforma(ETipoPlataforma, string, int);
+      void setTipo(ETipoPlataforma);
+      ETipoPlataforma getTipo();
+      string darTipo();
+};
 
 CategoriaPlataforma::CategoriaPlataforma(ETipoPlataforma tipo, string descripcion, int id) : Categoria(descripcion, id) {
     this->tipo = tipo;
@@ -18,3 +30,5 @@ ETipoPlataforma CategoriaPlataforma::getTipo() {
 string CategoriaPlataforma::darTipo() {
     return getETipoPlataforma(this->tipo);
 }
+
+#endif
