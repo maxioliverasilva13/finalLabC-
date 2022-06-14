@@ -12,7 +12,7 @@ class CategoriaOtro: public Categoria {
     private:
       string nombre;
     public:
-      CategoriaOtro(string, string);
+      CategoriaOtro(string, string, int);
       void setNombre(string);
       string getNombre();
       string darTipo();

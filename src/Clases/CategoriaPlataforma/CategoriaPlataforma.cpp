@@ -3,12 +3,8 @@
 using namespace std;
 
 
-CategoriaPlataforma::CategoriaPlataforma(ETipoPlataforma tipo, string descripcion) : Categoria(descripcion) {
+CategoriaPlataforma::CategoriaPlataforma(ETipoPlataforma tipo, string descripcion, int id) : Categoria(descripcion, id) {
     this->tipo = tipo;
-}
-
-ETipoPlataforma CategoriaPlataforma::getTipo() {
-    return this->tipo;
 }
 
 void CategoriaPlataforma::setTipo(ETipoPlataforma tipo) {
@@ -17,4 +13,8 @@ void CategoriaPlataforma::setTipo(ETipoPlataforma tipo) {
 
 ETipoPlataforma CategoriaPlataforma::getTipo() {
     return this->tipo;
+}
+
+string CategoriaPlataforma::darTipo() {
+    return getETipoPlataforma(this->tipo);
 }

@@ -1,9 +1,10 @@
 #include "CategoriaGenero.h"
+#include "../../Clases/Categoria/Categoria.cpp"
 
 using namespace std;
 
 
-CategoriaGenero::CategoriaGenero(EGeneroJuego tipo, string descripcion) : Categoria(descripcion) {
+CategoriaGenero::CategoriaGenero(EGeneroJuego tipo, string descripcion, int id) : Categoria(descripcion, id) {
     this->tipo = tipo;
 }
 
@@ -16,5 +17,5 @@ EGeneroJuego CategoriaGenero::getTipo() {
 }
 
 string CategoriaGenero::darTipo() {
-    // return this->tipo;   // Hacer pasaje de enum a string.
+    return getEGeneroJuego(this->tipo);
 }
