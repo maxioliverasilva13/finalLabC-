@@ -31,5 +31,6 @@ public:
     bool hasSuscripcion(EPeriodo);
     void agregarCategoria(ICollectible *);
     ICollection * getInfoSuscripciones(string);
+    Suscripcion * getSuscripcion(int idSuscripcion);
 };
 #endif

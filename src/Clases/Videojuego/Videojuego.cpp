@@ -153,4 +153,13 @@ ICollection * Videojuego::getInfoSuscripciones(string nickname){
     return res;
 }
 
+Suscripcion * Videojuego::getSuscripcion(int idSuscripcion){
+     IKey * keyId = new Integer(idSuscripcion);
+     ICollectible * foundElem = this->suscripciones->find(keyId);
+     if(foundElem == NULL){
+        return NULL;
+     }
+     Suscripcion * res = (Suscripcion*)foundElem;
+     return res;
+};
 #endif

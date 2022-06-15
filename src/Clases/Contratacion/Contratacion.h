@@ -16,9 +16,10 @@ private:
     bool cancelada;
     Suscripcion *suscripcion;
     Jugador *duenio;
-
 public:
-    Contratacion(int, ETipoPago, float, DtFechaHora *, DtFechaHora *, bool, Suscripcion *, Jugador *);
+
+    static int countItems;
+    Contratacion(ETipoPago, float, DtFechaHora *, DtFechaHora *, bool, Suscripcion *, Jugador *);
     int getId();
     float getMonto();
     ETipoPago getTipoPago();

@@ -498,4 +498,31 @@ DtContratacion * Sistema::getContratacion(string nombreVideojuego){
     return res;
 }
 
+
+
+void Sistema::confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, ETipoPago metodoPago){
+  if(this->loggUser == NULL){
+    throw invalid_argument("Debes logearte primero");
+  }
+  Jugador * jugador = (Jugador*)this->loggUser;
+
+  char *charNameVj = const_cast<char *>(nombreVideojuego.c_str());
+  IKey *vjKey = new String(charNameVj);
+
+   ICollectible * vJ = this->videojuegos->find(vjKey);
+   if(vJ == NULL){  
+     throw invalid_argument("El videojuego no existe");
+   }
+   Videojuego * juego  = (Videojuego*)vJ;
+   
+   Suscripcion * sus = juego->getSuscripcion(idSuscripcion);
+   if(sus == NULL){
+    throw invalid_argument("La suscripcion no esta asociada a este videojuego");
+   }
+
+   jugador->suscribirseAVideojuego(sus,metodoPago,this->fechaHora);
+
+}
+
+
 #endif

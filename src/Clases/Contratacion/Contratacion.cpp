@@ -6,10 +6,11 @@
 using namespace std;
 
 
-Contratacion::Contratacion(int id, ETipoPago tipoPago, float monto, DtFechaHora *FechaHora,
+int Contratacion::countItems = 0;
+
+Contratacion::Contratacion(ETipoPago tipoPago, float monto, DtFechaHora *FechaHora,
                            DtFechaHora *FechaVencimiento, bool cancelada, Suscripcion *suscripcion, Jugador *duenio)
 {
-    this->id = id;
     this->tipoPago = tipoPago;
     this->monto = monto;
     this->FechaHora = FechaHora;
@@ -17,6 +18,9 @@ Contratacion::Contratacion(int id, ETipoPago tipoPago, float monto, DtFechaHora 
     this->cancelada = cancelada;
     this->suscripcion = suscripcion;
     this->duenio = duenio;
+
+    this->countItems++;
+    this->id = this->countItems;
 }
 
 int Contratacion::getId()
