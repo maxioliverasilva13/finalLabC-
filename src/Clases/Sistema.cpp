@@ -330,6 +330,7 @@ void Sistema::recorrerUsuarios()
     cout << user->getEmail() << endl;
     it->next();
   }
+  delete it;
 }
 
 void Sistema::altaUsuario(DtUsuario *user)
@@ -367,6 +368,7 @@ void Sistema::altaUsuario(DtUsuario *user)
       }
       it->next();
     }
+    delete it;
     // no se encontró usuario repetido (con ese email o nickname), se da de alta el usuario.
     if (!emailExiste && !nicknameExiste)
     {
