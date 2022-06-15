@@ -104,7 +104,7 @@ private:
   IDictionary *categorias;
   IDictionary *videojuegos;
   IDictionary *usuarios;
-  Usuario *loggUser = NULL;
+  Usuario *loggUser;
   DtFechaHora *fechaHora;
   static Sistema *instance;
 
@@ -133,6 +133,7 @@ public:
   void modificarFechaSistema(DtFechaHora *fechahora);
   DtFechaHora *getFechaSistema();
   void recorrerUsuarios();
+  Usuario * getLoggUser();
 };
 
 Sistema *Sistema::instance = NULL;
@@ -401,7 +402,6 @@ void Sistema::altaUsuario(DtUsuario *user)
   }
 }
 
-// TODO: login
 bool Sistema::iniciarSesion(string email, string password)
 { // TODO: cambiar a dtUsusario
   bool login = false;
@@ -422,7 +422,7 @@ bool Sistema::iniciarSesion(string email, string password)
       if (dev->getPassword() == password)
       {
         this->loggUser = dev;
-        cout << "¡Te logueaste como desarrollador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
+        cout << "EXITO: Te logueaste como desarrollador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
         login = true;
       }
       else
@@ -437,7 +437,7 @@ bool Sistema::iniciarSesion(string email, string password)
       if (player->getPassword() == password)
       {
         this->loggUser = player;
-        cout << "¡Te logueaste como jugador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
+        cout << "EXITO: Te logueaste como jugador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
         login = true;
       }
       else
@@ -452,6 +452,11 @@ bool Sistema::iniciarSesion(string email, string password)
     throw invalid_argument("ERROR: No existe un usuario con el email \"" + email + "\"");
   }
   return login;
+}
+
+Usuario * Sistema::getLoggUser()
+{
+  return this->loggUser;
 }
 
 #endif
