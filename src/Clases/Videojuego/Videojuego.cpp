@@ -30,6 +30,7 @@ public:
     void agergarCategoria(ICollectible *);
     bool hasSuscripcion(EPeriodo);
     void agregarCategoria(ICollectible *);
+    ICollection * getInfoSuscripciones(string);
 };
 
 Videojuego::Videojuego(string nombre, string descripcion, int prom_punt)
@@ -158,6 +159,24 @@ void Videojuego::agregarCategoria(ICollectible *categoria)
     Categoria *cat = (Categoria *)categoria;
     Integer *iKey = new Integer(cat->getId());
     this->categorias->add(iKey, categoria);
+}
+
+ICollection * Videojuego::getInfoSuscripciones(string nickname){
+    IIterator * it = this->suscripciones->getIterator();
+    Suscripcion * current;
+
+    ICollection * res = new List();  //DtInfoSuscripcion collection
+
+    bool jugador_tiene_contratacion;
+    while (it->hasCurrent()){
+        current = (Suscripcion*)it->getCurrent();
+
+        jugador_tiene_contratacion = current->jugadorTieneContratacion(nickname);
+        ICollectible * item = new DtInfoSuscripcion(current->getId(), current->getPeriodo(),current->getPrecio(), jugador_tiene_contratacion);
+        res->add(item);
+    }
+    delete it;
+    return res;
 }
 
 #endif

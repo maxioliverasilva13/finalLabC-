@@ -81,7 +81,7 @@ bool Contratacion::getActiva()
 
 string Contratacion::getNickNameDuenio()
 {
-    /*POR IMPLEMENTAR*/
+    return this->duenio->getNickname();
 }
 
 string Contratacion::getVideojuego()

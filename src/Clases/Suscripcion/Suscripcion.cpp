@@ -83,12 +83,29 @@ string Suscripcion::darNombreJuego()
     /*POR IMPLEMENTAR*/
 }
 
-bool jugadorTieneContratacion(string nickname){
-    /*POR IMPLEMENTAR*/
-};
+
 
 DtInfoSuscripcion *getDatosSuscripcion(){
     /*POR IMPLEMENTAR*/
 };
+
+bool Suscripcion::jugadorTieneContratacion(string nickname){
+    IIterator * it = this->contrataciones->getIterator();
+    Contratacion * current;
+
+    bool es_duenio = false;
+    while (it->hasCurrent()){
+        current = (Contratacion*)it->getCurrent();
+        if(nickname == current->getNickNameDuenio()){
+            es_duenio = true;
+            break;
+        }
+        it->next();
+    }
+    delete it;
+    return es_duenio;
+};
+
+
 
 #endif

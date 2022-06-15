@@ -153,6 +153,8 @@ Sistema::Sistema()
   int minuto = now->tm_min;
   DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
   this->fechaHora = ahora;
+
+  this->loggUser = new Jugador("rodrigo","ddsada","rodrigo@gmail.com","rodrigo123");
 }
 
 Sistema *Sistema::getInstance()
@@ -454,5 +456,35 @@ bool Sistema::iniciarSesion(string email, string password)
   }
   return login;
 }
+
+
+
+ICollection * Sistema::listarSuscripcionesPorVideojuego(){
+   if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    string nickname = jugador->getNickname();
+
+    ICollection * res = new List();  //Collection of DtSuscripcion
+
+    IIterator * it = this->videojuegos->getIterator();
+    Videojuego * current;
+    
+    string nombreV;
+    ICollection * info_suscr_current;
+
+    while (it->hasCurrent()){
+        current = (Videojuego*)it->getCurrent();
+        nombreV = current->getNombre();
+        info_suscr_current = current->getInfoSuscripciones(nickname);
+        
+        ICollectible * videoJuegoInfoSus = new DtSuscripcion(nombreV,info_suscr_current);
+        res->add(videoJuegoInfoSus);
+        it->next();
+    }
+    delete it;
+    return res;
+};  
 
 #endif
