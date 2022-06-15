@@ -30,7 +30,7 @@ public:
     void suscribirseAVideojuego(int, string, ETipoPago);
     void cancelarContratacion(int);
     void finalizarPartida(int);
-    DtContratacion *getContratacionByUser(int);
+    DtContratacion *getContratacionByUser(string,DtFechaHora*);
     void agregarPartida(Partida *);
 };
 
@@ -67,9 +67,30 @@ string Jugador::getDescripcion()
     return this->descripcion;
 }
 
-DtContratacion *Jugador::getContratacionByUser(int contratoId)
+DtContratacion *Jugador::getContratacionByUser(string nomV, DtFechaHora * fecha_sistema)
 {
-    return NULL;
+    IIterator * it = this->contrataciones->getIterator();
+    Contratacion * current;
+
+    DtContratacion * res = NULL;
+    while (it->hasCurrent())
+    {
+        current = (Contratacion*)it->getCurrent();
+        if(current->getActiva(fecha_sistema)){
+            if(nomV == current->getVideojuego()){
+                res = new DtContratacion(
+                    current->getId(),
+                    current->getMonto(), 
+                    current->getTipoPago(), 
+                    current->getFechaHora(),
+                    current->getFechaVencimiento(), 
+                    current->getCancelada()
+                );
+                break;
+            }
+        }
+    }
+    return res;
 }
 
 void Jugador::agregarPartida(Partida *part)

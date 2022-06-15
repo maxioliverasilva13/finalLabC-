@@ -80,7 +80,7 @@ void Suscripcion::setPrecio(float precio)
 
 string Suscripcion::darNombreJuego()
 {
-    /*POR IMPLEMENTAR*/
+    return this->videojuego->getNombre();
 }
 
 

@@ -31,7 +31,7 @@ public:
     void setFechaVencimiento(DtFechaHora *);
     void setCancelada(bool);
     void setTipoPago(ETipoPago);
-    bool getActiva();
+    bool getActiva(DtFechaHora *);
     string getNickNameDuenio();
     string getVideojuego();
     void asociarVideojuegoSuscripcion();

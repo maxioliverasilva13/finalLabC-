@@ -74,9 +74,57 @@ void Contratacion::setTipoPago(ETipoPago tipoPago)
     this->tipoPago = tipoPago;
 }
 
-bool Contratacion::getActiva()
+bool Contratacion::getActiva(DtFechaHora * ahora)
 {
-    /*POR IMPLEMENTAR*/
+    if(this->cancelada){
+        return !this->cancelada;
+    }
+
+    EPeriodo e_periodo = this->suscripcion->getPeriodo();
+    if(e_periodo == VITALICIA){
+        return true;
+    }
+
+   time_t t = time(0);
+   tm *now = localtime(&t);
+   int dia = now->tm_mday;
+   int mes = 1 + now->tm_mon;
+   int anio = 1900 + now->tm_year;
+   int hora = now->tm_hour;
+   int minuto = now->tm_min;
+    
+
+   if(ahora->getYear() > this->FechaVencimiento->getYear()){
+     return false;
+   }
+
+   if(ahora->getYear() == this->FechaVencimiento->getYear() &&
+   ahora->getMonth() > this->FechaVencimiento->getMonth()){
+     return false;
+   }  
+
+   if(ahora->getYear() == this->FechaVencimiento->getYear() &&
+   ahora->getMonth() == this->FechaVencimiento->getMonth() &&
+   ahora->getDay() > this->FechaVencimiento->getDay()){
+     return false;
+   }  
+
+   if(ahora->getYear() == this->FechaVencimiento->getYear() &&
+   ahora->getMonth() == this->FechaVencimiento->getMonth() &&
+   ahora->getDay() == this->FechaVencimiento->getDay() &&
+   ahora->getHour() > this->FechaVencimiento->getHour()){
+     return false;
+   }  
+
+ if(ahora->getYear() == this->FechaVencimiento->getYear() &&
+   ahora->getMonth() == this->FechaVencimiento->getMonth() &&
+   ahora->getDay() == this->FechaVencimiento->getDay() &&
+   ahora->getHour() == this->FechaVencimiento->getHour() &&
+   ahora->getMinute() > this->FechaVencimiento->getMinute()){
+     return false;
+  }  
+
+  return true;
 }
 
 string Contratacion::getNickNameDuenio()
@@ -86,7 +134,7 @@ string Contratacion::getNickNameDuenio()
 
 string Contratacion::getVideojuego()
 {
-    /*POR IMPLEMENTAR*/
+    return this->suscripcion->darNombreJuego();
 }
 
 void Contratacion::asociarVideojuegoSuscripcion()

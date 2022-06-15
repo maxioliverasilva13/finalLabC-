@@ -91,12 +91,13 @@ class Sistema;
 #include "../Clases/Usuario/Usuario.cpp"
 #include "../Clases/Desarrollador/Desarrollador.cpp"
 #include "../Clases/Jugador/Jugador.cpp"
+#include  "../Clases/Videojuego/Videjuego.h"
+#include "../Clases/Suscripcion/Suscripcion.cpp"
 #include "../Clases/Contratacion/Contratacion.cpp"
 #include "../Clases/Partida/Partida.cpp"
 #include "../Clases/PartidaIndividual/PartidaIndividual.cpp"
 #include "../Clases/PartidaMultijugador/PartidaMultijugador.cpp"
 #include "../Clases/Puntuacion/Puntuacion.cpp"
-#include "../Clases/Suscripcion/Suscripcion.cpp"
 #include "../Clases/Videojuego/Videojuego.cpp"
 
 class Sistema
@@ -486,5 +487,15 @@ ICollection * Sistema::listarSuscripcionesPorVideojuego(){
     delete it;
     return res;
 };  
+
+
+DtContratacion * Sistema::getContratacion(string nombreVideojuego){
+   if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    DtContratacion * res = jugador->getContratacionByUser(nombreVideojuego,this->fechaHora);
+    return res;
+}
 
 #endif
