@@ -16,7 +16,6 @@ private:
     ICollection *puntuaciones;
     IDictionary *categorias;
     IDictionary *suscripciones;
-
 public:
     Videojuego(string, string, int);
     ~Videojuego();

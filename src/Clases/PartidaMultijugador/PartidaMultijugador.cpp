@@ -49,9 +49,12 @@ void PartidaMultijugador::finalizarPartida()
         
         Es->setFechaHoraSalida(ahora);
         It->next();
+        delete Es;
     }
-        this->setEstado(FINALIZADA);
-        cout << "Finalizar Partida";
+    this->setEstado(FINALIZADA);
+    cout << "Finalizar Partida";
+    delete It;
+
 }
 
 DtPartida *PartidaMultijugador::getDtPartida()

@@ -47,6 +47,7 @@ class DtJugador;
 class DtUsuario;
 class DtPartida;
 class DtSuscripcion;
+class DtVideojuego;
 
 class Sistema;
 
@@ -79,6 +80,7 @@ class Sistema;
 #include "../DataType/DtJugador/DtJugador.cpp"
 #include "../DataType/DtPartida/DtPartida.cpp"
 #include "../DataType/DtSuscripcion/DtSuscripcion.cpp"
+#include "../DataType/DtVideojuego/DtVideojuego.cpp"
 
 // CLASES  --------------------------------------------------
 #include "../Clases/Categoria/Categoria.cpp"
@@ -133,6 +135,7 @@ public:
   void modificarFechaSistema(DtFechaHora *fechahora);
   DtFechaHora *getFechaSistema();
   void recorrerUsuarios();
+  DtVideojuego *verInfoVideojuego(string, IDictionary*);
 };
 
 Sistema *Sistema::instance = NULL;
@@ -452,6 +455,32 @@ bool Sistema::iniciarSesion(string email, string password)
     throw invalid_argument("ERROR: No existe un usuario con ese email");
   }
   return login;
+}
+
+DtVideojuego* Sistema::verInfoVideojuego(string name, IDictionary *game) {
+  if (validateExistsGameName(name, game) == false) {
+    cout << "No existe el videojuego" << endl;
+    return NULL;
+  }
+  else {
+    char *charNameVj = const_cast<char *>(name.c_str()); // paso de string a char (para poder implementar la key)
+    String *vjKey = new String(charNameVj);
+    Videojuego *juego = (Videojuego *)game->find(vjKey);
+
+    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion()/*faltan las colecciones*/);
+
+
+    juego->getCategorias();
+    juego->getSuscripciones();
+    
+
+    IIterator* It = juego->categorias->getIterator();
+    while (It->hasCurrent()) {
+
+    }
+    return Info;  
+  }
+  return NULL;
 }
 
 #endif
