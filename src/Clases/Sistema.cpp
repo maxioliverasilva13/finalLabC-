@@ -467,17 +467,8 @@ DtVideojuego* Sistema::verInfoVideojuego(string name, IDictionary *game) {
     String *vjKey = new String(charNameVj);
     Videojuego *juego = (Videojuego *)game->find(vjKey);
 
-    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion()/*faltan las colecciones*/);
-
-
-    juego->getCategorias();
-    juego->getSuscripciones();
+    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion(), juego->getPuntuaciones(), juego->getCategorias(), juego->getSuscripciones());
     
-
-    IIterator* It = juego->categorias->getIterator();
-    while (It->hasCurrent()) {
-
-    }
     return Info;  
   }
   return NULL;

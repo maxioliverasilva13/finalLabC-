@@ -22,6 +22,9 @@ public:
     string getNombre();
     string getDescripcion();
     int getPromedio_puntuacion();
+    ICollection * getPuntuaciones();
+    IDictionary * getCategorias();
+    IDictionary * getSuscripciones();
     void setNombre(string);
     void setDescripcion(string);
     void setPromedio_puntuacion(int);
@@ -157,6 +160,18 @@ void Videojuego::agregarCategoria(ICollectible *categoria)
     Categoria *cat = (Categoria *)categoria;
     Integer *iKey = new Integer(cat->getId());
     this->categorias->add(iKey, categoria);
+}
+
+ICollection* Videojuego::getPuntuaciones() {
+    return this->puntuaciones;
+}
+
+IDictionary* Videojuego::getCategorias() {
+    return this->categorias;
+}
+
+IDictionary* Videojuego::getSuscripciones() {
+    return this->suscripciones;
 }
 
 #endif

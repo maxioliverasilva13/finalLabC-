@@ -9,17 +9,23 @@ private:
     string nombre;
     string descripcion;
     int promedio_puntuacion;
+    ICollection *puntuaciones;
+    IDictionary *categorias;
+    IDictionary *suscripciones;
 public:
-    DtVideojuego(string nombre, string descripcion, int prom_puntuacion);
+    DtVideojuego(string nombre, string descripcion, int prom_puntuacion, ICollection*, IDictionary*, IDictionary*);
     string getNombreVideojuego();
     string getDescripcionVideojuego();
     int getPromedioPuntuaciones();
 };
 
-DtVideojuego::DtVideojuego(string nombre, string password, int prom_puntuacion) {
+DtVideojuego::DtVideojuego(string nombre, string password, int prom_puntuacion, ICollection * puntuaciones, IDictionary *categorias, IDictionary *suscripciones) {
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->promedio_puntuacion = prom_puntuacion;
+    this->puntuaciones = new List();
+    this->categorias = new OrderedDictionary();
+    this->suscripciones = new OrderedDictionary();
 }
 
 string DtVideojuego::getNombreVideojuego() {
