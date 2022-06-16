@@ -32,6 +32,7 @@ public:
     void finalizarPartida(int);
     DtContratacion *getContratacionByUser(int);
     void agregarPartida(Partida *);
+    string getTipo();
 };
 
 Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(email, pass)
@@ -77,5 +78,10 @@ void Jugador::agregarPartida(Partida *part)
     Integer *idKey = new Integer(part->getId());
     this->partidas->add(idKey, part);
 };
+
+string Jugador::getTipo()
+{
+    return "Jugador";
+}
 
 #endif

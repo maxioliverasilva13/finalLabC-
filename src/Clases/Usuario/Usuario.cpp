@@ -15,6 +15,7 @@ class Usuario : public ICollectible {
         void setPassword(string);
         string getEmail();
         string getPassword();
+        virtual string getTipo() = 0;
 };
 
 

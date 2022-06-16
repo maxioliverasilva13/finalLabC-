@@ -4,6 +4,8 @@
 #include <cstdlib> //es para el clear
 #include <stdlib.h> // tambien para el clear pero fuera de windows
 #include <string>
+#include <cstdlib>
+
 
 #ifdef _WIN32
 
@@ -28,14 +30,17 @@
 using namespace std;
 
 Sistema * s = Sistema::getInstance();
-Usuario * usuarioActual = NULL;
+string usuarioActual = "";
 
 void mostrarMenu();
 int leerInt();
 string leerString();
 
 void mostrarMenuDesarrollador(); //contiene la interfaz grafica del menu de desarrollador
-void menuDesarrollador(); //contiene el switch de opciones del menu del desarrollador
+void mostrarMenuJugador(); //contiene la interfaz grafica del menu de jugador
+bool menuUsuario();
+bool menuDesarrollador(); //contiene el switch de opciones del menu del desarrollador
+bool menuJugador(); //contiene el switch de opciones del menu del desarrollador
 
 // *.*.*.*.*.*.*.*. Funciones del menú .*.*.*.*.*.*.*.*.*.*
 // Usuario
@@ -75,55 +80,100 @@ void mostrarMenuDesarrollador(){
     cout << " Ingrese una opcion: (entre 1-7)" << endl;
 }
 
+// TODO: IMPLEMENTAR INTERFAZ GRAFICA
+void mostrarMenuJugador(){
+    system("cls");
+    cout <<"*********** Menu de Jugador ***********" << endl;
+    cout << " 1 - Suscribirse a videojuego." << endl;
+    cout << " 2 - Asignar puntaje a videojuego." << endl;
+    cout << " 3 - Iniciar partida." << endl;
+    cout << " 4 - Abandonar partida multijugador." << endl;
+    cout << " 5 - Finalizar partida." << endl;
+    cout << " 6 - Ver información de videojuego." << endl;
+    cout << " 7 - Modificar fecha del sistema." << endl;
+    cout << " 8 - Salir." << endl;
+    cout << "**************************************" << endl;
+    cout << " Ingrese una opcion: (entre 1-7)" << endl;
+};
 
 void menu(){
-    int eleccion;
-    bool menu = true;
-
-    while(menu){
-        if (usuarioActual == NULL){
-            mostrarMenu();
-            eleccion = leerInt();
-
-            switch (eleccion){
-                case 1: altaUsuarioMenu(); break;
-                case 2: iniciarSesionMenu();break;
-                //case 3: agregarJugadorMenu(); break;
-                case 4: menu = false; system("cls");break;
-                default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
+    try
+    {
+        if (usuarioActual == ""){
+            while(!menuUsuario()){
+                menuUsuario();
             }
         } else {
-            string instancename = typeid(*usuarioActual).name(); // almacena el nombre de la instancia en un string
-            instancename = removerNumeros(instancename);
-            if (instancename == "Desarrollador"){
-                menuDesarrollador();
-            } else if (instancename == "Jugador"){
-                //menuDesarrollador(); TODO: implementar esa funcion
-                cout << "Jugador" << endl;
+            if (usuarioActual == "Desarrollador"){
+                while(!menuDesarrollador()){
+                    menuDesarrollador();
+                }
+                //mostrarMenuDesarrollador();
+                //menu = false; // se cierra el menu normal, al salir del while.
+                sleep(2);
+            } else if (usuarioActual == "Jugador"){
+                while(!menuJugador()){
+                    menuJugador();
+                }
+                sleep(2);
             } 
         }
     }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        sleep(2);
+    } 
 }
 
-void menuDesarrollador(){
-    int eleccion;
-    bool menu = true;
+// TODO 
+// logica e interfaz grafica del menu de usuario
+bool menuUsuario(){
+        mostrarMenu();
+        int eleccion = leerInt();
 
-    while(menu){
-        mostrarMenuDesarrollador();
-        eleccion = leerInt();
         switch (eleccion){
-            //case 1: altaUsuarioMenu(); break;
-            //case 2: iniciarSesionMenu();break;
+            case 1: altaUsuarioMenu(); break;
+            case 2: iniciarSesionMenu();break;
             //case 3: agregarJugadorMenu(); break;
-            //case 4: agregarJugadorMenu(); break;
-            //case 5: agregarJugadorMenu(); break;
-            case 6: cambiarFechaSistemaMenu(); break;
-            case 7: menu = false; system("cls");break;
+            case 4: return true; /*menu = false;*/ system("cls");break;
             default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
-        }    
-    }
-    return;
+        }
+    return false;
+}
+
+// TODO
+// logica e interfaz grafica del menu de desarrollador
+bool menuDesarrollador(){
+    mostrarMenuDesarrollador();
+    int eleccion = leerInt();
+    switch (eleccion){
+        //case 1: altaUsuarioMenu(); break;
+        //case 2: iniciarSesionMenu();break;
+        //case 3: agregarJugadorMenu(); break;
+        //case 4: agregarJugadorMenu(); break;
+        //case 5: agregarJugadorMenu(); break;
+        case 6: cambiarFechaSistemaMenu(); break;
+        case 7: return true; system("cls");break;
+        default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
+    }  
+}
+
+// TODO: IMPLEMENTAR LOGICA JUGADOR
+bool menuJugador(){
+    mostrarMenuJugador();
+    int eleccion = leerInt();
+    switch (eleccion){
+        //case 1: altaUsuarioMenu(); break;
+        //case 2: iniciarSesionMenu();break;
+        //case 3: agregarJugadorMenu(); break;
+        //case 4: agregarJugadorMenu(); break;
+        //case 5: agregarJugadorMenu(); break;
+        //case 6: agregarJugadorMenu(); break;
+        case 7: cambiarFechaSistemaMenu(); break;
+        case 8: return true; system("cls");break;
+        default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
+    } 
 }
 
 int leerInt(){
@@ -169,89 +219,79 @@ void altaUsuarioMenu(){
     // 3 si existe user con el nick, se le sigue preguntando hasta q no quiera
     // 4 confirmar o cancelar el alta
 
-    system("cls");
-    string email;
-    cout << "Ingrese el EMAIL para el usuario: "<< endl;
-    email = leerString();
+    bool ok = false; // cuando el login se lleva a cabo.
+    int tipoUsuario;
+    
+    while(!ok){
+        try
+        {
+            system("cls");
+            cout << "Ingrese el EMAIL para el usuario: "<< endl;
+            string email = leerString();
 
-    system("cls");
-    string pass;
-    cout << "Ingrese PASSWORD para el usuario: "<< endl;
-    pass = leerString();
+            system("cls");
+            cout << "Ingrese PASSWORD para el usuario: "<< endl;
+            string pass = leerString();
+            
+            int tipoUsuario = menuJugadorOdesarrollador();
+            if (tipoUsuario == 1){ // eligió Jugador           
+                //bucle hasta que ponga un nickname que no exista o se quiera salir
+                //confirmar alta
+                try{
+                    system("cls");
+                    string nickname;
+                    cout << "Ingrese un NICKNAME para el usuario: "<< endl;
+                    nickname = leerString();
 
-    int tipoUsuario = menuJugadorOdesarrollador();
-
-    try{
-        if (tipoUsuario == 1){ // eligió Jugador           
-            //bucle hasta que ponga un nickname que no exista o se quiera salir
-            //confirmar alta
-            try{
-                bool ok = false;
-                bool error = false;
-                while (!ok){
-                    try
-                    {
-                        if (error == true){
-                            bool eleccion = menuDeseaContinuarOcancelar();
-                            if (eleccion == false)
-                                return;
-                        }
-                        system("cls");
-                        string nickname;
-                        cout << "Ingrese un NICKNAME para el usuario: "<< endl;
-                        nickname = leerString();
-
-                        system("cls");
-                        string descripcion;
-                        cout << "Ingrese una DESCRIPCION para el usuario: "<< endl;
-                        descripcion = leerString();
-                        DtJugador * jugador = new DtJugador(email, pass, nickname, descripcion);
-                        s->altaUsuario(jugador);
-                        system("cls");
-                        cout << "EXITO: Jugador ingresado al sistema!"<< endl;
-                        sleep(2);
-                        ok = true; // si no salta excepcion, es que no existe el nickname, llega y se corta el while
-                    }
-                    catch(const std::exception& e)
-                    {
-                        system("cls");
-                        std::cerr << e.what() << '\n';
-                        error = true;
-                        sleep(2);
-                    }
+                    system("cls");
+                    string descripcion;
+                    cout << "Ingrese una DESCRIPCION para el usuario: "<< endl;
+                    descripcion = leerString();
+                    DtJugador * jugador = new DtJugador(email, pass, nickname, descripcion);
+                    s->altaUsuario(jugador);
+                    system("cls");
+                    cout << "EXITO: Jugador ingresado al sistema!"<< endl;
+                    sleep(2);
+                    ok = true; // si no salta excepcion, es que no existe el nickname, llega y se corta el while    
+                                
+                }
+                catch(const std::exception& e)
+                {
+                    system("cls");
+                    std::cerr << e.what() << '\n';
+                    sleep(2);
+                    bool eleccion = menuDeseaContinuarOcancelar();
+                        if (eleccion == false)
+                            return;
+                }
+                
+                }else if(tipoUsuario == 2){ // si eligió Desarrollador
+                try
+                {
+                    system("cls");
+                    string nomEmp;
+                    cout << "Ingrese el NOMBRE DE LA EMPRESA en la que trabaja: "<< endl;
+                    DtDesarrollador * desarrollador = new DtDesarrollador(email, pass, nomEmp);
+                    nomEmp = leerString();
+                    s->altaUsuario(desarrollador);
+                    system("cls");
+                    cout << "EXITO: Desarrollador ingresado al sistema!"<< endl;
+                    sleep(2);
+                    ok = true;
+                }
+                catch(const std::exception& e)
+                {
+                    system("cls");
+                    std::cerr << e.what() << '\n';
+                    sleep(2);
                 }
             }
-            catch(const std::exception& e)
-            {
-                system("cls");
-                std::cerr << e.what() << '\n';
-                sleep(2);
-            }
-            
-        }else if(tipoUsuario == 2){ // si eligió Desarrollador
-            try
-            {
-                system("cls");
-                string nomEmp;
-                cout << "Ingrese el NOMBRE DE LA EMPRESA en la que trabaja: "<< endl;
-                DtDesarrollador * desarrollador = new DtDesarrollador(email, pass, nomEmp);
-                nomEmp = leerString();
-                s->altaUsuario(desarrollador);
-                system("cls");
-                cout << "EXITO: Desarrollador ingresado al sistema!"<< endl;
-                sleep(2);
-            }
-            catch(const std::exception& e)
-            {
-                system("cls");
-                std::cerr << e.what() << '\n';
-                sleep(2);
-            }
         }
-    }catch(const std::exception& e){
-        system("cls");
-        std::cerr << e.what() << '\n';
-        sleep(2);
+        catch(const std::exception& e) // cierre try abajo de while(!error && menu){
+        {
+            std::cerr << e.what() << '\n';
+            sleep(2);
+        }
     }
 }
 
@@ -280,16 +320,8 @@ void iniciarSesionMenu(){
     string email;
     string password;
     bool ok = false;
-    bool error = false;
     while (!ok){
         try{
-            if (error == true){
-                system("cls");
-                bool eleccion = menuDeseaContinuarOcancelar();
-                if (eleccion == false){
-                    return;
-                }
-            }
             system("cls");
             cout << "Ingrese EMAIL para el inicio de sesion: "<< endl;
             email = leerString();
@@ -300,16 +332,31 @@ void iniciarSesionMenu(){
 
             system("cls");
             s->iniciarSesion(email, password);
-            usuarioActual = s->getLoggUser();
+            usuarioActual = s->getTipoLoggUser();
             ok = true;
             sleep(2);
         }catch(const std::exception& e){
             system("cls");
             std::cerr << e.what() << '\n';
-            error = true;
             sleep(2);
+            bool eleccion = menuDeseaContinuarOcancelar();
+            if (eleccion == false){
+                return;
+            }
         }
     }
+    if (ok == true){
+        if (usuarioActual == "Desarrollador"){
+            while (!menuDesarrollador()){
+                menuUsuario();
+            }
+        } else if (usuarioActual == "Jugador"){
+            while(!menuJugador()){
+                menuJugador();
+            }
+        } 
+    }
+        
 }
 
 // TODO: pedir fecha con formato y parsear (LEO) xd
@@ -352,5 +399,6 @@ void cambiarFechaSistemaMenu(){
     {
         system("cls");
         std::cerr << e.what() << '\n';
+        sleep(2);
     }
 }

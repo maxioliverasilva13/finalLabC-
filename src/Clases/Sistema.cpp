@@ -133,7 +133,7 @@ public:
   void modificarFechaSistema(DtFechaHora *fechahora);
   DtFechaHora *getFechaSistema();
   void recorrerUsuarios();
-  Usuario * getLoggUser();
+  string getTipoLoggUser();
 };
 
 Sistema *Sistema::instance = NULL;
@@ -454,9 +454,9 @@ bool Sistema::iniciarSesion(string email, string password)
   return login;
 }
 
-Usuario * Sistema::getLoggUser()
+string Sistema::getTipoLoggUser()
 {
-  return this->loggUser;
+  return this->loggUser->getTipo();
 }
 
 #endif
