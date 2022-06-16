@@ -138,6 +138,8 @@ public:
   void modificarFechaSistema(DtFechaHora *fechahora);
   DtFechaHora *getFechaSistema();
   void recorrerUsuarios();
+  void asignarPuntajeVideojuego(double puntaje,string nombreV);
+
 };
 
 Sistema *Sistema::instance = NULL;
@@ -534,6 +536,24 @@ void Sistema::cancelarSuscripcion(int idContratacion){
     }
     Jugador * jugador = (Jugador*)this->loggUser;
     jugador->cancelarContratacion(idContratacion);
+    
+}
+
+void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
+  if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+  }
+  Jugador * jugador = (Jugador*)this->loggUser;
+  
+  char *charnombreV = const_cast<char *>(nombreV.c_str());
+  String *nombreGame = new String(charnombreV);
+  ICollectible * item = this->videojuegos->find(nombreGame);
+  if(item == NULL){
+    throw invalid_argument("No existe el videjuego con el nombre: " + nombreV );
+  }
+  Videojuego * videojuego = (Videojuego*)item;
+  videojuego->agregarPuntuacion(puntaje,jugador);
+  
 }
 
 #endif

@@ -32,5 +32,7 @@ public:
     void agregarCategoria(ICollectible *);
     ICollection * getInfoSuscripciones(string);
     Suscripcion * getSuscripcion(int idSuscripcion);
+    void agregarPuntuacion(int puntuacion,Jugador * jugador);
+   
 };
 #endif

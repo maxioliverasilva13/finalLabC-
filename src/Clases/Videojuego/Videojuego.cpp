@@ -162,4 +162,35 @@ Suscripcion * Videojuego::getSuscripcion(int idSuscripcion){
      Suscripcion * res = (Suscripcion*)foundElem;
      return res;
 };
+
+
+void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
+       IIterator *it  = this->puntuaciones->getIterator();
+       Puntuacion * current;
+
+       double sumPunt = 0;
+       int cantPunt = 0;
+       bool alreadyPunt = false;
+
+       Jugador * current_jugador; 
+       while (it->hasCurrent())
+       {
+         current = (Puntuacion*)it->getCurrent();
+         current_jugador = current->getCreador();
+
+         if(jugador->getNickname() == current_jugador->getNickname()){
+                alreadyPunt = true;
+                current->setPuntuacion(puntuacion);
+         }
+         sumPunt+= current->getPuntuacion();
+         cantPunt++;
+       }
+       if(!alreadyPunt){
+         Puntuacion * newPuntuacion = new Puntuacion(puntuacion,this,jugador);
+         this->puntuaciones->add(newPuntuacion);
+         sumPunt+= newPuntuacion->getPuntuacion();
+         cantPunt++;
+       }
+       this->promedio_puntuacion = sumPunt/cantPunt;
+}
 #endif

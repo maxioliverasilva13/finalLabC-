@@ -121,4 +121,5 @@ void Jugador::cancelarContratacion(int idContratacion){
        Contratacion * con = (Contratacion*)item; 
        con->setCancelada(true); 
 }
+
 #endif
