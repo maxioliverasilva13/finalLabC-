@@ -26,7 +26,7 @@ public:
     void iniciarPartidaMultijugador(ICollection *, bool);    // recibe coleccion de Jugadores.
     ICollection *listarVideojuegosActivos(string);           // retorna coleccion de Strings (nombres de videojuegos)
     ICollection *listarHistorialPartidasFinalizadas(string); // retorna coleccion de DtPartida (partidas finalizadas)
-    void continuar(int);
+    void continuarPartida(int);
     void iniciarPartidaIndividual(bool);
     void suscribirseAVideojuego(int, string, ETipoPago);
     void cancelarContratacion(int);
@@ -69,7 +69,34 @@ ICollection *Jugador::listarVideoJuegosActivos()
 
 ICollection *Jugador::listarHistorialPartidasFinalizadas(string nombrevj)
 {
-    return NULL;
+    ICollection *partidasFinalizadas = new List();
+    IIterator *it = this->partidas->getIterator();
+
+    while (it->hasCurrent())
+    {
+        Partida *c = (Partida *)it->getCurrent();
+        if (c->darTipo() == "PartidaIndividual")
+        {
+            PartidaIndividual *part = (PartidaIndividual *)it->getCurrent();
+            if (part->esFinalizada() && part->darNombreJuego() == nombrevj)
+            {
+                DtPartida *part = new DtPartida(part->getId(), part->getFecha(), part->getDuracion());
+                partidasFinalizadas->add(part);
+            }
+        }
+        it->next();
+    }
+    delete it;
+}
+
+void Jugador::continuarPartida(int idPart)
+{
+    Integer *partKey = new Integer(idPart);
+    PartidaIndividual *part = (PartidaIndividual *)this->partidas->find(partKey);
+    if (part)
+    {
+        part->continuarPartida();
+    }
 }
 
 Jugador::~Jugador()

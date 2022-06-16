@@ -121,7 +121,7 @@ public:
   void iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo);            // jugadores es set<string>
   ICollection *listarJugadoresConSuscripcionActivaAJuego(string nombreVideojuego); // strings
   void iniciarPartidaIndividual(bool nueva);
-  void continuar(int idpartida);
+  void continuarPartida(int idpartida);
   ICollection *listarHistorialPartidasFinalizadas(string nombreVJ); // DtPartida
   ICollection *listarVideoJuegosActivos();                          // a el usuario logueado retorna strings
   ICollection *listarSuscripcionesPorVideojuego();                  // DtSuscripcion
@@ -162,23 +162,16 @@ Sistema::Sistema()
 
 ICollection *Sistema::listarVideoJuegosActivos()
 {
-  if ((typeid(this->loggUser) == typeid(Jugador *)))
-  {
-    Jugador *jugadorLogueado = (Jugador *)this->loggUser;
-    return jugadorLogueado->listarVideoJuegosActivos();
-  }
-  return NULL;
+  // Validar si es un jugador
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  return jugadorLogueado->listarVideoJuegosActivos();
 }
 
 ICollection *Sistema::listarHistorialPartidasFinalizadas(string nombrevj)
 {
-  if ((typeid(this->loggUser) == typeid(Jugador *)))
-  {
-    Jugador *jugadorLogueado = (Jugador *)this->loggUser;
-    return jugadorLogueado->listarHistorialPartidasFinalizadas(nombrevj);
-  }
-
-  return NULL;
+  // Validar si es un jugador
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  return jugadorLogueado->listarHistorialPartidasFinalizadas(nombrevj);
 }
 
 Sistema *Sistema::getInstance()
@@ -223,6 +216,13 @@ string removerNumeros(string str)
 }
 
 //--------------------------------------------------------------
+
+void Sistema::continuarPartida(int idpartida)
+{
+  // Validar si es un jugador
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  jugadorLogueado->continuarPartida(idpartida);
+}
 
 void Sistema::listarVJ()
 {

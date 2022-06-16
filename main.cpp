@@ -36,6 +36,22 @@ int main()
 
         s->agregarVideojuego("God Of War 3", "Es un buen juego2", costos_suscripcion, categorias);
         s->eliminarVideoJuego("God Of War");
+
+        // Jugador *j = new Jugador("maxi", "asd", "asd@asd.com", "pass123");
+        // PartidaIndividual *p = new PartidaIndividual(true, 1, FINALIZADA, NULL, NULL, NULL);
+        // ICollection *partidas = new List();
+        // partidas->add(p);
+
+        // IIterator *it = partidas->getIterator();
+        // while (it->hasCurrent())
+        // {
+        //     Partida *c = (Partida *)it->getCurrent();
+        //     cout << "Es igual: " << c->darTipo();
+        //     cout << "jeje" << endl;
+        //     it->next();
+        // }
+
+        // cout << "si " << endl;
     }
     catch (const std::exception &e)
     {

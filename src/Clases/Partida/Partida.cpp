@@ -23,9 +23,11 @@ public:
   void setFecha(DtFechaHora *);
   int getEstado();
   int getId();
+  bool esFinalizada();
   DtFechaHora *getFecha();
   virtual DtPartida *getDtPartida() = 0;
   virtual void finalizarPartida() = 0;
+  virtual string darTipo() = 0;
 };
 
 using namespace std;
@@ -45,7 +47,7 @@ Partida::~Partida()
 
 string Partida::darNombreJuego()
 {
-  return "Juego";
+  return this->videojuego->getNombre();
 }
 
 void Partida::setEstado(EEstado estado)
@@ -77,5 +79,10 @@ DtFechaHora *Partida::getFecha()
 {
   return this->fecha;
 }
+
+bool Partida::esFinalizada()
+{
+  return this->estado == FINALIZADA;
+};
 
 #endif

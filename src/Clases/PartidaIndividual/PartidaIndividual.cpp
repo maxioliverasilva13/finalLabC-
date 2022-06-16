@@ -18,11 +18,17 @@ public:
   bool getNueva();
   void finalizarPartida();
   DtPartida *getDtPartida();
+  string darTipo();
 };
 
 PartidaIndividual::PartidaIndividual(bool nueva, int id, EEstado estado, DtFechaHora *fecha, Videojuego *vj, Jugador *j) : Partida(id, estado, vj, fecha, j)
 {
   this->nueva = nueva;
+};
+
+string PartidaIndividual::darTipo()
+{
+  return "PartidaIndividual";
 };
 
 PartidaIndividual::~PartidaIndividual()
@@ -32,12 +38,13 @@ PartidaIndividual::~PartidaIndividual()
 
 void PartidaIndividual::finalizarPartida()
 {
+  // NEcesitamos asignar el parametro de "duracion"
   cout << "Finalizar Partida";
 }
 
 void PartidaIndividual::continuarPartida()
 {
-  cout << "continuarPartida";
+  this->estado = ENCURSO;
 };
 
 DtPartida *PartidaIndividual::getDtPartida()
