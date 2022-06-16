@@ -11,7 +11,8 @@ private:
   bool nueva;
 
 public:
-  PartidaIndividual(bool, int, EEstado, DtFechaHora *, Videojuego *);
+  PartidaIndividual(bool, int, EEstado, DtFechaHora *, Videojuego *, Jugador *j);
+  ~PartidaIndividual();
   void continuarPartida();
   void setNueva(bool);
   bool getNueva();
@@ -19,10 +20,15 @@ public:
   DtPartida *getDtPartida();
 };
 
-PartidaIndividual::PartidaIndividual(bool nueva, int id, EEstado estado, DtFechaHora *fecha, Videojuego *vj) : Partida(id, estado, vj, fecha)
+PartidaIndividual::PartidaIndividual(bool nueva, int id, EEstado estado, DtFechaHora *fecha, Videojuego *vj, Jugador *j) : Partida(id, estado, vj, fecha, j)
 {
   this->nueva = nueva;
 };
+
+PartidaIndividual::~PartidaIndividual()
+{
+  this->creador->eliminarPartida(this);
+}
 
 void PartidaIndividual::finalizarPartida()
 {

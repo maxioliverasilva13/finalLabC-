@@ -1,44 +1,10 @@
-#ifndef CONTRATACION_HEADER
-#define CONTRATACION_HEADER
+#ifndef CONTRATACION_FUNCTIONS
+#define CONTRATACION_FUNCTIONS
 
 #include <iostream>
-#include "../../Clases/Suscripcion/Suscripcion.cpp"
-#include "../../Clases/Jugador/Jugador.cpp"
-#include "../../DataType/DtFechaHora/DtFechaHora.cpp"
+#include "Contratacion.h"
 
 using namespace std;
-
-class Contratacion : public ICollectible
-{
-private:
-    int id;
-    ETipoPago tipoPago;
-    float monto;
-    DtFechaHora *FechaHora;
-    DtFechaHora *FechaVencimiento;
-    bool cancelada;
-    Suscripcion *suscripcion;
-    Jugador *duenio;
-
-public:
-    Contratacion(int, ETipoPago, float, DtFechaHora *, DtFechaHora *, bool, Suscripcion *, Jugador *);
-    int getId();
-    float getMonto();
-    ETipoPago getTipoPago();
-    DtFechaHora *getFechaHora();
-    DtFechaHora *getFechaVencimiento();
-    bool getCancelada();
-    void setId(int);
-    void setMonto(float);
-    void setFechaHora(DtFechaHora *);
-    void setFechaVencimiento(DtFechaHora *);
-    void setCancelada(bool);
-    void setTipoPago(ETipoPago);
-    bool getActiva();
-    string getNickNameDuenio();
-    string getVideojuego();
-    void asociarVideojuegoSuscripcion();
-};
 
 Contratacion::Contratacion(int id, ETipoPago tipoPago, float monto, DtFechaHora *FechaHora,
                            DtFechaHora *FechaVencimiento, bool cancelada, Suscripcion *suscripcion, Jugador *duenio)
@@ -51,6 +17,15 @@ Contratacion::Contratacion(int id, ETipoPago tipoPago, float monto, DtFechaHora 
     this->cancelada = cancelada;
     this->suscripcion = suscripcion;
     this->duenio = duenio;
+}
+
+Contratacion::~Contratacion()
+{
+    this->FechaHora = NULL;
+    this->FechaVencimiento = NULL;
+    this->suscripcion = NULL;
+    this->duenio->eliminarSuscripcion(this);
+    cout << "bueno me voy a borrar" << endl;
 }
 
 int Contratacion::getId()
@@ -118,9 +93,9 @@ string Contratacion::getNickNameDuenio()
     /*POR IMPLEMENTAR*/
 }
 
-string Contratacion::getVideojuego()
+string Contratacion::getNombreVideojuego()
 {
-    /*POR IMPLEMENTAR*/
+    return this->suscripcion->darNombreJuego();
 }
 
 void Contratacion::asociarVideojuegoSuscripcion()

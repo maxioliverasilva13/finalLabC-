@@ -1,31 +1,34 @@
 #ifndef DESARROLLADOR_HEADER
 #define DESARROLLADOR_HEADER
 
+#include "../../Clases/Usuario/Usuario.cpp"
 
 using namespace std;
 
-class Desarrollador : public Usuario {
-    private:
-        string nomEmpresa;
-    public:
-        Desarrollador(string, string, string);
-        void setNomEmpresa(string);
-        string getNomEmpresa();
+class Desarrollador : public Usuario
+{
+private:
+    string nomEmpresa;
+
+public:
+    Desarrollador(string, string, string);
+    void setNomEmpresa(string);
+    string getNomEmpresa();
 };
 
-
-Desarrollador::Desarrollador(string ne, string email, string pass):Usuario(email, pass){
+Desarrollador::Desarrollador(string ne, string email, string pass) : Usuario(email, pass)
+{
     this->nomEmpresa = ne;
 }
 
-
-void Desarrollador::setNomEmpresa(string ne) {
+void Desarrollador::setNomEmpresa(string ne)
+{
     this->nomEmpresa = ne;
 }
 
-string Desarrollador::getNomEmpresa() {
+string Desarrollador::getNomEmpresa()
+{
     return this->nomEmpresa;
 }
-
 
 #endif

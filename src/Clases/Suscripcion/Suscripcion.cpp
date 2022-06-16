@@ -1,35 +1,10 @@
-#ifndef SUSCRIPCION_HEADER
-#define SUSCRIPCION_HEADER
+#ifndef SUSCRIPCION_FUNC
+#define SUSCRIPCION_FUNC
 
 #include <iostream>
+#include "Suscripcion.h"
 
 using namespace std;
-
-#include <iostream>
-
-class Suscripcion : public ICollectible
-{
-private:
-    int id;
-    float precio;
-    EPeriodo periodo;
-    Videojuego *videojuego;
-    IDictionary *contrataciones;
-
-public:
-    Suscripcion(int, float, EPeriodo, Videojuego *);
-    ~Suscripcion();
-    int getId();
-    float getPrecio();
-    EPeriodo getPeriodo();
-    void setId(int);
-    void setPeriodo(EPeriodo);
-    void setPrecio(float);
-    string darNombreJuego();
-    bool jugadorTieneContratacion(string);
-    DtInfoSuscripcion *getDatosSuscripcion();
-};
-
 
 Suscripcion::Suscripcion(int id, float precio, EPeriodo periodo, Videojuego *videojuego)
 {
@@ -43,12 +18,19 @@ Suscripcion::Suscripcion(int id, float precio, EPeriodo periodo, Videojuego *vid
 
 Suscripcion::~Suscripcion()
 {
-    this->videojuego = NULL;
     IIterator *it = this->contrataciones->getIterator();
     while (it->hasCurrent())
     {
-        /* code */
+        Contratacion *contr = (Contratacion *)it->getCurrent();
+        Integer *contrKey = new Integer(contr->getId());
+        this->contrataciones->remove(contrKey);
+        delete contr;
+        delete contrKey;
+        it->next();
     }
+    delete it;
+    this->videojuego = NULL;
+    this->contrataciones = NULL;
 }
 
 int Suscripcion::getId()
@@ -80,7 +62,7 @@ void Suscripcion::setPrecio(float precio)
 
 string Suscripcion::darNombreJuego()
 {
-    /*POR IMPLEMENTAR*/
+    return this->videojuego->getNombre();
 }
 
 bool jugadorTieneContratacion(string nickname){
@@ -90,5 +72,12 @@ bool jugadorTieneContratacion(string nickname){
 DtInfoSuscripcion *getDatosSuscripcion(){
     /*POR IMPLEMENTAR*/
 };
+
+void Suscripcion::agregarContratacion(ICollectible *contratacion)
+{
+    Contratacion *contr = (Contratacion *)contratacion;
+    Integer *contrKey = new Integer(contr->getId());
+    this->contrataciones->add(contrKey, contr);
+}
 
 #endif

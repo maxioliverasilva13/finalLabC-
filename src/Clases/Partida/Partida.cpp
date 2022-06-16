@@ -7,14 +7,15 @@ using namespace std;
 
 class Partida : public ICollectible
 {
-private:
+protected:
   int id;
   EEstado estado;
   DtFechaHora *fecha;
   Videojuego *videojuego = NULL;
+  Jugador *creador;
 
 public:
-  Partida(int, EEstado, Videojuego *, DtFechaHora *);
+  Partida(int, EEstado, Videojuego *, DtFechaHora *, Jugador *);
   ~Partida();
   string darNombreJuego();
   void setEstado(EEstado);
@@ -29,13 +30,18 @@ public:
 
 using namespace std;
 
-Partida::Partida(int id, EEstado estado, Videojuego *vj, DtFechaHora *fecha)
+Partida::Partida(int id, EEstado estado, Videojuego *vj, DtFechaHora *fecha, Jugador *j)
 {
   this->id = id;
   this->estado = estado;
   this->videojuego = vj;
   this->fecha = fecha;
+  this->creador = j;
 };
+
+Partida::~Partida()
+{
+}
 
 string Partida::darNombreJuego()
 {
@@ -70,11 +76,6 @@ int Partida::getId()
 DtFechaHora *Partida::getFecha()
 {
   return this->fecha;
-}
-
-Partida::~Partida()
-{
-  cout << "Me borro";
 }
 
 #endif

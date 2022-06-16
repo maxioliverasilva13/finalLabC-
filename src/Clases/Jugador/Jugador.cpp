@@ -15,6 +15,7 @@ private:
     string descripcion;
     IDictionary *partidas;       // JUGADOR VE (tiene) PARTIDAS.
     IDictionary *contrataciones; // JUGADOR VE (tiene) CONTRATACIONES.
+    ICollection *estadosJugador; // JUGADOR VE (tiene) CONTRATACIONES.
 public:
     Jugador(string, string, string, string);
     ~Jugador();
@@ -32,6 +33,10 @@ public:
     void finalizarPartida(int);
     DtContratacion *getContratacionByUser(int);
     void agregarPartida(Partida *);
+    void eliminarSuscripcion(ICollectible *);
+    void eliminarPartida(ICollectible *);
+    void eliminarEstadosJugador(ICollectible *);
+    ICollection *listarVideoJuegosActivos();
 };
 
 Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(email, pass)
@@ -42,9 +47,42 @@ Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(
     this->contrataciones = new OrderedDictionary();
 }
 
+ICollection *Jugador::listarVideoJuegosActivos()
+{
+    ICollection *nameJuegos = new List();
+    IIterator *it = this->contrataciones->getIterator();
+    while (it->hasCurrent())
+    {
+        Contratacion *c = (Contratacion *)it->getCurrent();
+
+        if (c->getActiva() == true)
+        {
+            string nameGame = c->getNombreVideojuego();
+            char *charNameVj = const_cast<char *>(nameGame.c_str()); // paso de string a char (para poder implementar la key)
+            String *nombre = new String(charNameVj);
+            nameJuegos->add(nombre);
+        }
+        it->next();
+    }
+    return nameJuegos;
+}
+
+ICollection *Jugador::listarHistorialPartidasFinalizadas(string nombrevj)
+{
+    return NULL;
+}
+
 Jugador::~Jugador()
 {
     cout << "Me borro";
+}
+
+void Jugador::eliminarSuscripcion(ICollectible *contratacion)
+{
+    Contratacion *contr = (Contratacion *)contratacion;
+    Integer *contrKey = new Integer(contr->getId());
+    this->contrataciones->remove(contrKey);
+    delete contrKey;
 }
 
 void Jugador::setNickname(string nick)
@@ -77,5 +115,18 @@ void Jugador::agregarPartida(Partida *part)
     Integer *idKey = new Integer(part->getId());
     this->partidas->add(idKey, part);
 };
+
+void Jugador::eliminarPartida(ICollectible *partida)
+{
+    Partida *p = (Partida *)partida;
+    Integer *pKey = new Integer(p->getId());
+    this->partidas->remove(pKey);
+    delete pKey;
+}
+
+void Jugador::eliminarEstadosJugador(ICollectible *estadojugador)
+{
+    this->estadosJugador->remove(estadojugador);
+}
 
 #endif

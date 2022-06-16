@@ -2,8 +2,6 @@
 #define PUNTUACION_HEADER
 
 #include <iostream>
-#include "../../Clases/Videojuego/Videojuego.cpp"
-#include "../../Clases/Jugador/Jugador.cpp"
 
 using namespace std;
 
@@ -16,6 +14,7 @@ private:
 
 public:
     Puntuacion(int, Videojuego *, Jugador *);
+    ~Puntuacion();
     void setPuntuacion(int);
     void setCreador(Jugador *);
     int getPuntuacion();
@@ -27,6 +26,12 @@ Puntuacion::Puntuacion(int puntuacion, Videojuego *juego, Jugador *creador)
     this->puntuacion = puntuacion;
     this->juego = juego;
     this->creador = creador;
+}
+
+Puntuacion::~Puntuacion()
+{
+    this->juego = NULL;
+    this->creador = NULL;
 }
 
 void Puntuacion::setPuntuacion(int puntuacion)

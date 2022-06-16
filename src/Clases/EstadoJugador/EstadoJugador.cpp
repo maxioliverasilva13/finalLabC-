@@ -1,10 +1,6 @@
 #ifndef ESTADOJUGADOR_HEADER
 #define ESTADOJUGADOR_HEADER
 
-#include "../../Clases/Partida/Partida.cpp"
-#include "../../Clases/Partida/Partida.cpp"
-#include "../../Clases/Jugador/Jugador.cpp"
-
 #include <iostream>
 
 using namespace std;
@@ -19,6 +15,7 @@ private:
 
 public:
     EstadoJugador(DtFechaHora *, DtFechaHora *, Partida *, Jugador *);
+    ~EstadoJugador();
     void setFechaHoraEntrada(DtFechaHora *);
     void setFechaHoraSalida(DtFechaHora *);
     void setPartida(Partida *);
@@ -34,6 +31,13 @@ EstadoJugador::EstadoJugador(DtFechaHora *fechaHoraEntrada, DtFechaHora *fechaHo
     this->partida = partida;
     this->jugador = jugador;
 };
+
+EstadoJugador::~EstadoJugador()
+{
+    this->jugador->eliminarEstadosJugador(this);
+    delete fechaHoraEntrada;
+    delete fechaHoraSalida;
+}
 
 void EstadoJugador::setFechaHoraEntrada(DtFechaHora *fechaHoraEntrada)
 {

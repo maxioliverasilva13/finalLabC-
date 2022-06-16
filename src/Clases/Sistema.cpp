@@ -22,18 +22,18 @@ class Integer;
 class String;
 
 class Partida;
+class Puntuacion;
 class PartidaIndividual;
 class PartidaMultijugador;
 class Categoria;
-class Contratacion;
 class EstadoJugador;
 class CategoriaGenero;
 class CategoriaOtro;
 class CategoriaPlataforma;
 class Comentario;
 class Desarrollador;
+class Contratacion;
 class Jugador;
-class Puntuacion;
 class Suscripcion;
 class Usuario;
 class Videojuego;
@@ -81,19 +81,25 @@ class Sistema;
 #include "../DataType/DtSuscripcion/DtSuscripcion.cpp"
 
 // CLASES  --------------------------------------------------
+
+#include "../Clases/Videojuego/Videojuego.h"
+#include "../Clases/Contratacion/Contratacion.h"
+#include "../Clases/Suscripcion/Suscripcion.h"
+
+// .h
 #include "../Clases/Categoria/Categoria.cpp"
-#include "../Clases/Contratacion/Contratacion.cpp"
-#include "../Clases/EstadoJugador/EstadoJugador.cpp"
 #include "../Clases/CategoriaGenero/CategoriaGenero.cpp"
 #include "../Clases/CategoriaOtro/CategoriaOtro.cpp"
 #include "../Clases/CategoriaPlataforma/CategoriaPlataforma.cpp"
 #include "../Clases/Comentario/Comentario.cpp"
 #include "../Clases/Desarrollador/Desarrollador.cpp"
 #include "../Clases/Jugador/Jugador.cpp"
+#include "../Clases/Contratacion/Contratacion.cpp"
+#include "../Clases/EstadoJugador/EstadoJugador.cpp"
 #include "../Clases/Partida/Partida.cpp"
+#include "../Clases/Puntuacion/Puntuacion.cpp"
 #include "../Clases/PartidaIndividual/PartidaIndividual.cpp"
 #include "../Clases/PartidaMultijugador/PartidaMultijugador.cpp"
-#include "../Clases/Puntuacion/Puntuacion.cpp"
 #include "../Clases/Suscripcion/Suscripcion.cpp"
 #include "../Clases/Usuario/Usuario.cpp"
 #include "../Clases/Videojuego/Videojuego.cpp"
@@ -152,6 +158,27 @@ Sistema::Sistema()
   int minuto = now->tm_min;
   DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
   this->fechaHora = ahora;
+}
+
+ICollection *Sistema::listarVideoJuegosActivos()
+{
+  if ((typeid(this->loggUser) == typeid(Jugador *)))
+  {
+    Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+    return jugadorLogueado->listarVideoJuegosActivos();
+  }
+  return NULL;
+}
+
+ICollection *Sistema::listarHistorialPartidasFinalizadas(string nombrevj)
+{
+  if ((typeid(this->loggUser) == typeid(Jugador *)))
+  {
+    Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+    return jugadorLogueado->listarHistorialPartidasFinalizadas(nombrevj);
+  }
+
+  return NULL;
 }
 
 Sistema *Sistema::getInstance()
