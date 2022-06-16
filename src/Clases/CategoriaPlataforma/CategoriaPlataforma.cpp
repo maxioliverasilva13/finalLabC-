@@ -13,6 +13,7 @@ class CategoriaPlataforma: public Categoria {
       void setTipo(ETipoPlataforma);
       ETipoPlataforma getTipo();
       string darTipo();
+      string darNombreInstancia();
 };
 
 CategoriaPlataforma::CategoriaPlataforma(ETipoPlataforma tipo, string descripcion, int id) : Categoria(descripcion, id) {
@@ -29,6 +30,10 @@ ETipoPlataforma CategoriaPlataforma::getTipo() {
 
 string CategoriaPlataforma::darTipo() {
     return getETipoPlataforma(this->tipo);
+}
+
+string CategoriaPlataforma::darNombreInstancia() {
+    return "CategoriaPlataforma";
 }
 
 #endif

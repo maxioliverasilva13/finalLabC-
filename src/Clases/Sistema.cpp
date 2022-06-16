@@ -459,4 +459,38 @@ string Sistema::getTipoLoggUser()
   return this->loggUser->getTipo();
 }
 
+ICollection * Sistema::listarCategorias()
+{
+  ICollection *categorias = new List();
+  IIterator *it = this->categorias->getIterator();
+
+  while(it->hasCurrent())
+  {
+    Categoria *cat = (Categoria *)it->getCurrent();
+    if (cat->darNombreInstancia() == "CategoriaPlataforma")
+    {
+      CategoriaPlataforma *catPlataforma = (CategoriaPlataforma *)cat;
+      DtCategoria * catAgregar = new DtCategoria(catPlataforma->darTipo(), catPlataforma->getDescripcion(), "Plataforma");
+      categorias->add(catAgregar);
+      it->next();
+    }
+    if (cat->darNombreInstancia() == "CategoriaGenero")
+    {
+      CategoriaGenero *catGenero = (CategoriaGenero *)cat;
+      DtCategoria * catAgregar = new DtCategoria(catGenero->darTipo(), catGenero->getDescripcion(), "Genero");
+      categorias->add(catAgregar);
+      it->next();
+    }
+    if (cat->darNombreInstancia() == "Otro")
+    {
+      CategoriaOtro *catOtro = (CategoriaOtro *)cat;
+      DtCategoria * catAgregar = new DtCategoria(catOtro->darTipo(), catOtro->getDescripcion(), "Otro");
+      categorias->add(catAgregar);
+      it->next();
+    }
+  }
+  delete it;
+  return categorias;
+}
+
 #endif

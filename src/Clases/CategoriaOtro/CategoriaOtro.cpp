@@ -13,6 +13,7 @@ class CategoriaOtro: public Categoria {
       void setNombre(string);
       string getNombre();
       string darTipo();
+      string darNombreInstancia();
 };
 
 CategoriaOtro::CategoriaOtro(string nombre, string descripcion, int id) : Categoria(descripcion, id) {
@@ -29,6 +30,10 @@ string CategoriaOtro::getNombre() {
 
 string CategoriaOtro::darTipo() {
     return this->nombre;
+}
+
+string CategoriaOtro::darNombreInstancia() {
+    return "CategoriaOtro";
 }
 
 #endif

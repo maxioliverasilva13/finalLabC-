@@ -46,9 +46,26 @@ bool menuJugador(); //contiene el switch de opciones del menu del desarrollador
 // Usuario
 void altaUsuarioMenu();
 void iniciarSesionMenu();
+void cargarDatosDePruebaMenu();
+
 
 // Desarrollador
-void cambiarFechaSistemaMenu();
+void agregarCategoriaMenu();
+void publicarVideojuegoMenu();
+void eliminarVideojuegoMenu();
+void consultarEstadisticasMenu(); 
+void verInfoVideojuegoMenu();
+void modificarFechaSistemaMenu(); //hecha
+
+//Jugador
+void suscribirseAvideojuegoMenu();
+void asignarPuntajeVJMenu();
+void iniciarPartidaMenu();
+void abandonarPartidaMJMenu();
+void finalizarPartidaMenu();
+void verInformacionVideojuegoMenu();
+//modificarFechaSistemaMenu();
+
 // *.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.
 
 // *.*.*.*.*.*. Funciones auxiliares a las del menú *.*.*.*
@@ -105,11 +122,11 @@ void mostrarMenuJugador(){
     cout << " 3 - Iniciar partida." << endl;
     cout << " 4 - Abandonar partida multijugador." << endl;
     cout << " 5 - Finalizar partida." << endl;
-    cout << " 6 - Ver información de videojuego." << endl;
+    cout << " 6 - Ver informacion de videojuego." << endl;
     cout << " 7 - Modificar fecha del sistema." << endl;
     cout << " 8 - Salir." << endl;
     cout << "**************************************" << endl;
-    cout << " Ingrese una opcion: (entre 1-7)" << endl;
+    cout << " Ingrese una opcion: (entre 1-8)" << endl;
 };
 
 void menu(){
@@ -151,8 +168,8 @@ bool menuUsuario(){
         switch (eleccion){
             case 1: altaUsuarioMenu(); break;
             case 2: iniciarSesionMenu();break;
-            //case 3: agregarJugadorMenu(); break;
-            case 4: return true; /*menu = false;*/ system("cls");break;
+            //case 3: cargarDatosDePruebaMenu(); break;
+            case 4: system("cls"); return true; break;
             default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
         }
     return false;
@@ -164,12 +181,12 @@ bool menuDesarrollador(){
     mostrarMenuDesarrollador();
     int eleccion = leerInt();
     switch (eleccion){
-        //case 1: altaUsuarioMenu(); break;
-        //case 2: iniciarSesionMenu();break;
-        //case 3: agregarJugadorMenu(); break;
-        //case 4: agregarJugadorMenu(); break;
-        //case 5: agregarJugadorMenu(); break;
-        case 6: cambiarFechaSistemaMenu(); break;
+        case 1: agregarCategoriaMenu(); break;
+        //case 2: publicarVideojuegoMenu();break;
+        //case 3: eliminarVideojuegoMenu(); break;
+        //case 4: consultarEstadisticasMenu(); break;
+        //case 5: verInfoVideojuegoMenu(); break;
+        case 6: modificarFechaSistemaMenu(); break;
         case 7: return true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
     }  
@@ -180,13 +197,13 @@ bool menuJugador(){
     mostrarMenuJugador();
     int eleccion = leerInt();
     switch (eleccion){
-        //case 1: altaUsuarioMenu(); break;
-        //case 2: iniciarSesionMenu();break;
-        //case 3: agregarJugadorMenu(); break;
-        //case 4: agregarJugadorMenu(); break;
-        //case 5: agregarJugadorMenu(); break;
-        //case 6: agregarJugadorMenu(); break;
-        case 7: cambiarFechaSistemaMenu(); break;
+        //case 1: suscribirseAvideojuegoMenu(); break;
+        //case 2: asignarPuntajeVJMenu();break;
+        //case 3: iniciarPartidaMenu(); break;
+        //case 4: abandonarPartidaMJMenu(); break;
+        //case 5: finalizarPartidaMenu(); break;
+        //case 6: verInformacionVideojuegoMenu(); break;
+        case 7: modificarFechaSistemaMenu(); break;
         case 8: return true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
     } 
@@ -217,7 +234,7 @@ void altaUsuarioMenu(){
     // 1 pido email y contrasenia
     // 2 pregunto si será jugador (nickname, descripcion) o desarrollador (nombreempresa)
     // 3 si existe user con el nick, se le sigue preguntando hasta q no quiera
-    // 4 confirmar o cancelar el alta
+    //  TODO 4 confirmar o cancelar el alta
 
     bool ok = false; // cuando el login se lleva a cabo.
     int tipoUsuario;
@@ -359,8 +376,45 @@ void iniciarSesionMenu(){
         
 }
 
+// Desarrollador
+void agregarCategoriaMenu(){
+    ICollection * cats = s->listarCategorias();
+    cats = s->listarCategorias();
+    IIterator *it = cats->getIterator();
+    // imprimo las categorias
+    while (it->hasCurrent()){
+        DtCategoria * cat = (DtCategoria*)it->getCurrent();
+        cout << cat->getNombre() << endl;
+        it->next();
+    }
+    delete it;
+    system("PAUSE");
+    // luego de listar, pregunto por la categoria a agregar
+    string nombre;
+    string descripcion;
+    string tipo;
+
+    // TODO: validar en un menu aparte las 3 opciones (Plataforma(EnumETipoPlataforma), Genero(EnumGeneroJuego) u Otro)
+    cout << "Ingrese el TIPO de la CATEGORIA a agregar: "<< endl;
+    tipo = leerString();
+    system("cls");
+
+    // TODO: dar las opciones en un menu aparte, si eligió Otro, 
+    //       le pasa un string sino en las otras 2 le pasas un Enum
+    cout << "Ingrese el NOMBRE de la CATEGORIA a agregar: "<< endl;
+    nombre = leerString();
+    system("cls");
+
+    cout << "Ingrese la DESCRIPCION para la CATEGORIA a agregar: "<< endl;
+    descripcion = leerString();
+    system("cls");
+
+    DtCategoria * categoriaNueva = new DtCategoria(nombre, descripcion, tipo);
+    s->agregarCategoria(categoriaNueva);
+    //s->agregarCategoria(); recibe un icollectible
+}
 // TODO: pedir fecha con formato y parsear (LEO) xd
-void cambiarFechaSistemaMenu(){
+void modificarFechaSistemaMenu(){
     try
     {
         int dia;
