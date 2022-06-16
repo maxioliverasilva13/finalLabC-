@@ -528,4 +528,12 @@ void Sistema::confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, E
 }
 
 
+void Sistema::cancelarSuscripcion(int idContratacion){
+    if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    jugador->cancelarContratacion(idContratacion);
+}
+
 #endif

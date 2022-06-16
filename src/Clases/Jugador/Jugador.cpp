@@ -112,5 +112,13 @@ void Jugador::suscribirseAVideojuego( Suscripcion * sus, ETipoPago tipoPago,DtFe
      this->contrataciones->add(keyId,newItem);
 }
 
-
+void Jugador::cancelarContratacion(int idContratacion){
+       IKey * key = new Integer(idContratacion);
+       ICollectible * item = this->contrataciones->find(key);
+       if(item == NULL){
+         throw invalid_argument("La contratacion no esta asociada a este usuario");
+       }
+       Contratacion * con = (Contratacion*)item; 
+       con->setCancelada(true); 
+}
 #endif
