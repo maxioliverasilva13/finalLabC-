@@ -55,6 +55,22 @@ void cambiarFechaSistemaMenu();
 int menuJugadorOdesarrollador();
 // *.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.
 
+int leerInt(){
+    int eleccion;
+    while (!(cin >> eleccion)) {
+		cout << "Solo numeros por favor..."<< endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	}
+    return eleccion;
+}
+
+string leerString(){
+    string eleccion;
+    getline(cin >> ws, eleccion); //ws hace que se puedan almacenar espacios.
+    return eleccion;
+}
+
 void mostrarMenu(){
     system("cls");
     cout <<"******** Menu de Interaccion ********" << endl;
@@ -174,22 +190,6 @@ bool menuJugador(){
         case 8: return true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
     } 
-}
-
-int leerInt(){
-    int eleccion;
-    while (!(cin >> eleccion)) {
-		cout << "Solo numeros por favor..."<< endl;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(),'\n');
-	}
-    return eleccion;
-}
-
-string leerString(){
-    string eleccion;
-    getline(cin >> ws, eleccion); //ws hace que se puedan almacenar espacios.
-    return eleccion;
 }
 
 bool menuDeseaContinuarOcancelar(){
