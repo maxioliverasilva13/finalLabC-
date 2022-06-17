@@ -27,7 +27,7 @@ public:
     ICollection *listarVideojuegosActivos(string);           // retorna coleccion de Strings (nombres de videojuegos)
     ICollection *listarHistorialPartidasFinalizadas(string); // retorna coleccion de DtPartida (partidas finalizadas)
     void continuarPartida(int);
-    void iniciarPartidaIndividual(bool);
+    void iniciarPartidaIndividual(bool, Videojuego *);
     void suscribirseAVideojuego(int, string, ETipoPago);
     void cancelarContratacion(int);
     void finalizarPartida(int);
@@ -67,6 +67,14 @@ ICollection *Jugador::listarVideoJuegosActivos()
     return nameJuegos;
 }
 
+void Jugador::iniciarPartidaIndividual(bool esNueva, Videojuego * vj) {
+    DtFechaHora * ahora;
+    PartidaIndividual * p = new PartidaIndividual(esNueva, 1, ENCURSO, ahora->getAhora(), vj, this);
+    Integer * partidaKey = new Integer(p->getId());
+    this->partidas->add(partidaKey, p);
+    delete ahora;
+}
+
 ICollection *Jugador::listarHistorialPartidasFinalizadas(string nombrevj)
 {
     ICollection *partidasFinalizadas = new List();
@@ -95,9 +103,9 @@ void Jugador::continuarPartida(int idPart)
     PartidaIndividual *part = (PartidaIndividual *)this->partidas->find(partKey);
     if (part)
     {
-        part->continuarPartida();
+ 
     }
-}
+} 
 
 Jugador::~Jugador()
 {

@@ -82,11 +82,14 @@ class Sistema;
 
 // CLASES  --------------------------------------------------
 
+// .h
 #include "../Clases/Videojuego/Videojuego.h"
+#include "../Clases/Partida/Partida.h"
 #include "../Clases/Contratacion/Contratacion.h"
 #include "../Clases/Suscripcion/Suscripcion.h"
+#include "../Clases/PartidaIndividual/PartidaIndividual.h"
 
-// .h
+
 #include "../Clases/Categoria/Categoria.cpp"
 #include "../Clases/CategoriaGenero/CategoriaGenero.cpp"
 #include "../Clases/CategoriaOtro/CategoriaOtro.cpp"
@@ -120,11 +123,12 @@ public:
   void agregarCategoria(ICollectible *);
   void iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo);            // jugadores es set<string>
   ICollection *listarJugadoresConSuscripcionActivaAJuego(string nombreVideojuego); // strings
-  void iniciarPartidaIndividual(bool nueva);
+  void iniciarPartidaIndividual(bool nueva, Videojuego *);
   void continuarPartida(int idpartida);
   ICollection *listarHistorialPartidasFinalizadas(string nombreVJ); // DtPartida
   ICollection *listarVideoJuegosActivos();                          // a el usuario logueado retorna strings
-  ICollection *listarSuscripcionesPorVideojuego();                  // DtSuscripcion
+  ICollection *listarSuscripcionesPorVideojuego();     
+  ICollection *listarJugadoresConSuscripcionAJuego(string nombrevj);             // DtSuscripcion
   DtContratacion *getContratacion(string nombreVideojuego);
   void cancelarSuscripcion(int idContratacion);
   void confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, ETipoPago metodoPago);
@@ -172,6 +176,24 @@ ICollection *Sistema::listarHistorialPartidasFinalizadas(string nombrevj)
   // Validar si es un jugador
   Jugador *jugadorLogueado = (Jugador *)this->loggUser;
   return jugadorLogueado->listarHistorialPartidasFinalizadas(nombrevj);
+}
+
+void Sistema::iniciarPartidaIndividual(bool nueva, Videojuego * vj) {
+  // Validar si es un jugador
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  jugadorLogueado->iniciarPartidaIndividual(nueva, vj);
+}
+
+ICollection * Sistema::listarJugadoresConSuscripcionAJuego(string nombrevj) {
+  char *charNameVj = const_cast<char *>(nombrevj.c_str()); // paso de string a char (para poder implementar la key)
+  String *vjKey = new String(charNameVj);
+  Videojuego *juego = (Videojuego *)this->videojuegos->find(vjKey);
+
+  if (juego) {
+    return juego->getJugadoresActivos();
+  } else {
+    throw invalid_argument("Este videojuego no existe");
+  }
 }
 
 Sistema *Sistema::getInstance()
