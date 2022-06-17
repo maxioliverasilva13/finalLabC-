@@ -113,7 +113,6 @@ void mostrarMenuDesarrollador(){
     cout << " Ingrese una opcion: (entre 1-7)" << endl;
 }
 
-// TODO: IMPLEMENTAR INTERFAZ GRAFICA
 void mostrarMenuJugador(){
     system("cls");
     cout <<"*********** Menu de Jugador ***********" << endl;
@@ -159,8 +158,6 @@ void menu(){
     } 
 }
 
-// TODO 
-// logica e interfaz grafica del menu de usuario
 bool menuUsuario(){
         mostrarMenu();
         int eleccion = leerInt();
@@ -168,41 +165,39 @@ bool menuUsuario(){
         switch (eleccion){
             case 1: altaUsuarioMenu(); break;
             case 2: iniciarSesionMenu();break;
-            //case 3: cargarDatosDePruebaMenu(); break;
+            //case 3: cargarDatosDePruebaMenu(); break; // TODO
             case 4: system("cls"); return true; break;
             default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
         }
     return false;
 }
 
-// TODO
 // logica e interfaz grafica del menu de desarrollador
 bool menuDesarrollador(){
     mostrarMenuDesarrollador();
     int eleccion = leerInt();
     switch (eleccion){
         case 1: agregarCategoriaMenu(); break;
-        //case 2: publicarVideojuegoMenu();break;
-        //case 3: eliminarVideojuegoMenu(); break;
-        //case 4: consultarEstadisticasMenu(); break;
-        //case 5: verInfoVideojuegoMenu(); break;
+        //case 2: publicarVideojuegoMenu();break; // TODO
+        //case 3: eliminarVideojuegoMenu(); break; // TODO
+        //case 4: consultarEstadisticasMenu(); break; // TODO
+        //case 5: verInfoVideojuegoMenu(); break; // TODO
         case 6: modificarFechaSistemaMenu(); break;
         case 7: return true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
     }  
 }
 
-// TODO: IMPLEMENTAR LOGICA JUGADOR
 bool menuJugador(){
     mostrarMenuJugador();
     int eleccion = leerInt();
     switch (eleccion){
-        //case 1: suscribirseAvideojuegoMenu(); break;
-        //case 2: asignarPuntajeVJMenu();break;
-        //case 3: iniciarPartidaMenu(); break;
-        //case 4: abandonarPartidaMJMenu(); break;
-        //case 5: finalizarPartidaMenu(); break;
-        //case 6: verInformacionVideojuegoMenu(); break;
+        //case 1: suscribirseAvideojuegoMenu(); break; // TODO
+        //case 2: asignarPuntajeVJMenu();break; // TODO
+        //case 3: iniciarPartidaMenu(); break; // TODO
+        //case 4: abandonarPartidaMJMenu(); break; // TODO
+        //case 5: finalizarPartidaMenu(); break; // TODO
+        //case 6: verInformacionVideojuegoMenu(); break; // TODO
         case 7: modificarFechaSistemaMenu(); break;
         case 8: return true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
@@ -231,11 +226,6 @@ bool menuDeseaContinuarOcancelar(){
 }
 
 void altaUsuarioMenu(){
-    // 1 pido email y contrasenia
-    // 2 pregunto si será jugador (nickname, descripcion) o desarrollador (nombreempresa)
-    // 3 si existe user con el nick, se le sigue preguntando hasta q no quiera
-    //  TODO 4 confirmar o cancelar el alta
-
     bool ok = false; // cuando el login se lleva a cabo.
     int tipoUsuario;
     
@@ -417,37 +407,43 @@ void agregarCategoriaMenu(){
 void modificarFechaSistemaMenu(){
     try
     {
-        int dia;
-        int mes;
-        int anio;
-        int hora;
-        int minuto;
-
+        DtFechaHora * fechahoraActual = s->getFechaSistema();
         system("cls");
-        cout << "Ingrese DIA: "<< endl;
-        dia = leerInt();
+        cout << "Fecha actual: " << fechahoraActual->getDay() << "/" << fechahoraActual->getMonth() << "/" << fechahoraActual->getYear() << " " << fechahoraActual->getHour() << ":" << fechahoraActual->getMinute() << endl;
+        bool ok = false;
+        while (!ok){
+            int dia;
+            int mes;
+            int anio;
+            int hora;
+            int minuto;
+            
+            cout << "Ingrese DIA: "<< endl;
+            dia = leerInt();
 
-        system("cls");
-        cout << "Ingrese MES: "<< endl;
-        mes = leerInt();
+            system("cls");
+            cout << "Ingrese MES: "<< endl;
+            mes = leerInt();
 
-        system("cls");
-        cout << "Ingrese ANIO: "<< endl;
-        anio = leerInt();
-        system("cls");
+            system("cls");
+            cout << "Ingrese ANIO: "<< endl;
+            anio = leerInt();
+            system("cls");
 
-        system("cls");
-        cout << "Ingrese HORA: "<< endl;
-        hora = leerInt();
+            system("cls");
+            cout << "Ingrese HORA: "<< endl;
+            hora = leerInt();
 
-        system("cls");
-        cout << "Ingrese MINUTOS: "<< endl;
-        minuto = leerInt();
+            system("cls");
+            cout << "Ingrese MINUTOS: "<< endl;
+            minuto = leerInt();
 
-        DtFechaHora * fechamodificada = new DtFechaHora(dia, mes, anio, hora, minuto);
-        s->modificarFechaSistema(fechamodificada);
-        cout << "EXITO: Fecha modificada.";
-        sleep(2);
+            DtFechaHora * fechamodificada = new DtFechaHora(dia, mes, anio, hora, minuto);
+            s->modificarFechaSistema(fechamodificada);
+            cout << "EXITO: Fecha modificada.";
+            ok = true;
+            sleep(2);
+        }
     }
     catch(const std::exception& e)
     {
