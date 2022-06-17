@@ -30,7 +30,7 @@ public:
     void finalizarPartida(int);
     DtContratacion *getContratacionByUser(string,DtFechaHora*);
     void agregarPartida(Partida *);
-    
+    string getTipo();
 };
 
 #endif

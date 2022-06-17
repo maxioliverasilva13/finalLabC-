@@ -47,6 +47,7 @@ class DtJugador;
 class DtUsuario;
 class DtPartida;
 class DtSuscripcion;
+class DtVideojuego;
 
 class Sistema;
 
@@ -79,20 +80,22 @@ class Sistema;
 #include "../DataType/DtJugador/DtJugador.cpp"
 #include "../DataType/DtPartida/DtPartida.cpp"
 #include "../DataType/DtSuscripcion/DtSuscripcion.cpp"
+#include "../DataType/DtVideojuego/DtVideojuego.cpp"
 
 // CLASES  --------------------------------------------------
-#include "../Clases/Categoria/Categoria.cpp"
+#include "../Clases/Jugador/Jugador.h"
+#include "../Clases/Partida/Partida.h"
+#include "../Clases/Usuario/Usuario.h"
+#include  "../Clases/Videojuego/Videjuego.h"
 #include "../Clases/Contratacion/Contratacion.h"
+
+#include "../Clases/Categoria/Categoria.cpp"
 #include "../Clases/EstadoJugador/EstadoJugador.cpp"
 #include "../Clases/CategoriaGenero/CategoriaGenero.cpp"
 #include "../Clases/CategoriaOtro/CategoriaOtro.cpp"
 #include "../Clases/CategoriaPlataforma/CategoriaPlataforma.cpp"
 #include "../Clases/Comentario/Comentario.cpp"
-#include "../Clases/Partida/Partida.h"
-#include "../Clases/Usuario/Usuario.h"
 #include "../Clases/Desarrollador/Desarrollador.cpp"
-#include "../Clases/Jugador/Jugador.h"
-#include  "../Clases/Videojuego/Videjuego.h"
 #include "../Clases/Suscripcion/Suscripcion.cpp"
 #include "../Clases/Jugador/Jugador.cpp"
 #include "../Clases/Usuario/Usuario.cpp"
@@ -138,6 +141,7 @@ public:
   void modificarFechaSistema(DtFechaHora *fechahora);
   DtFechaHora *getFechaSistema();
   void recorrerUsuarios();
+  DtVideojuego *verInfoVideojuego(string, IDictionary*);
   string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
 
@@ -461,6 +465,23 @@ bool Sistema::iniciarSesion(string email, string password)
     throw invalid_argument("ERROR: No existe un usuario con el email \"" + email + "\"");
   }
   return login;
+}
+
+DtVideojuego* Sistema::verInfoVideojuego(string name, IDictionary *game) {
+  if (validateExistsGameName(name, game) == false) {
+    cout << "No existe el videojuego" << endl;
+    return NULL;
+  }
+  else {
+    char *charNameVj = const_cast<char *>(name.c_str()); // paso de string a char (para poder implementar la key)
+    String *vjKey = new String(charNameVj);
+    Videojuego *juego = (Videojuego *)game->find(vjKey);
+
+    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion(), juego->getPuntuaciones(), juego->getCategorias(), juego->getSuscripciones());
+    
+    return Info;  
+  }
+  return NULL;
 }
 
 string Sistema::getTipoLoggUser()

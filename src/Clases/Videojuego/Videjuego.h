@@ -33,6 +33,9 @@ public:
     ICollection * getInfoSuscripciones(string);
     Suscripcion * getSuscripcion(int idSuscripcion);
     void agregarPuntuacion(int puntuacion,Jugador * jugador);
+    ICollection* getPuntuaciones();
+    IDictionary* getCategorias();
+    IDictionary* getSuscripciones();
    
 };
 #endif

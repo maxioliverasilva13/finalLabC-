@@ -2,10 +2,9 @@
 #define VIDEOJUEGO_CPP
 
 #include <iostream>
-
 #include "Videjuego.h"
-using namespace std;
 
+using namespace std;
 
 Videojuego::Videojuego(string nombre, string descripcion, int prom_punt)
 {
@@ -133,6 +132,18 @@ void Videojuego::agregarCategoria(ICollectible *categoria)
     Categoria *cat = (Categoria *)categoria;
     Integer *iKey = new Integer(cat->getId());
     this->categorias->add(iKey, categoria);
+}
+
+ICollection* Videojuego::getPuntuaciones() {
+    return this->puntuaciones;
+}
+
+IDictionary* Videojuego::getCategorias() {
+    return this->categorias;
+}
+
+IDictionary* Videojuego::getSuscripciones() {
+    return this->suscripciones;
 }
 
 ICollection * Videojuego::getInfoSuscripciones(string nickname){
