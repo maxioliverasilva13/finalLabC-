@@ -4,7 +4,7 @@
 #include <iostream>
 
 using namespace std;
-class DtInfoSuscripcion
+class DtInfoSuscripcion:public ICollectible
 {
 private:
     int id;

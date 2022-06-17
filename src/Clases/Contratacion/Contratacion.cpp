@@ -6,10 +6,11 @@
 
 using namespace std;
 
-Contratacion::Contratacion(int id, ETipoPago tipoPago, float monto, DtFechaHora *FechaHora,
+int Contratacion::countItems = 0;
+
+Contratacion::Contratacion(ETipoPago tipoPago, float monto, DtFechaHora *FechaHora,
                            DtFechaHora *FechaVencimiento, bool cancelada, Suscripcion *suscripcion, Jugador *duenio)
 {
-    this->id = id;
     this->tipoPago = tipoPago;
     this->monto = monto;
     this->FechaHora = FechaHora;
@@ -17,6 +18,9 @@ Contratacion::Contratacion(int id, ETipoPago tipoPago, float monto, DtFechaHora 
     this->cancelada = cancelada;
     this->suscripcion = suscripcion;
     this->duenio = duenio;
+
+    this->countItems++;
+    this->id = this->countItems;
 }
 
 Contratacion::~Contratacion()
@@ -83,14 +87,62 @@ void Contratacion::setTipoPago(ETipoPago tipoPago)
     this->tipoPago = tipoPago;
 }
 
-bool Contratacion::getActiva()
+bool Contratacion::getActiva(DtFechaHora * ahora)
 {
-    /*POR IMPLEMENTAR*/
+    if(this->cancelada){
+        return !this->cancelada;
+    }
+
+    EPeriodo e_periodo = this->suscripcion->getPeriodo();
+    if(e_periodo == VITALICIA){
+        return true;
+    }
+
+   time_t t = time(0);
+   tm *now = localtime(&t);
+   int dia = now->tm_mday;
+   int mes = 1 + now->tm_mon;
+   int anio = 1900 + now->tm_year;
+   int hora = now->tm_hour;
+   int minuto = now->tm_min;
+    
+
+   if(ahora->getYear() > this->FechaVencimiento->getYear()){
+     return false;
+   }
+
+   if(ahora->getYear() == this->FechaVencimiento->getYear() &&
+   ahora->getMonth() > this->FechaVencimiento->getMonth()){
+     return false;
+   }  
+
+   if(ahora->getYear() == this->FechaVencimiento->getYear() &&
+   ahora->getMonth() == this->FechaVencimiento->getMonth() &&
+   ahora->getDay() > this->FechaVencimiento->getDay()){
+     return false;
+   }  
+
+   if(ahora->getYear() == this->FechaVencimiento->getYear() &&
+   ahora->getMonth() == this->FechaVencimiento->getMonth() &&
+   ahora->getDay() == this->FechaVencimiento->getDay() &&
+   ahora->getHour() > this->FechaVencimiento->getHour()){
+     return false;
+   }  
+
+ if(ahora->getYear() == this->FechaVencimiento->getYear() &&
+   ahora->getMonth() == this->FechaVencimiento->getMonth() &&
+   ahora->getDay() == this->FechaVencimiento->getDay() &&
+   ahora->getHour() == this->FechaVencimiento->getHour() &&
+   ahora->getMinute() > this->FechaVencimiento->getMinute()){
+     return false;
+  }  
+
+  return true;
 }
 
 string Contratacion::getNickNameDuenio()
 {
-    /*POR IMPLEMENTAR*/
+    return this->duenio->getNickname();
 }
 
 string Contratacion::getNombreVideojuego()

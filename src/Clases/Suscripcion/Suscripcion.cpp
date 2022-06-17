@@ -65,9 +65,7 @@ string Suscripcion::darNombreJuego()
     return this->videojuego->getNombre();
 }
 
-bool jugadorTieneContratacion(string nickname){
-    /*POR IMPLEMENTAR*/
-};
+
 
 DtInfoSuscripcion *getDatosSuscripcion(){
     /*POR IMPLEMENTAR*/
@@ -96,5 +94,23 @@ ICollection * Suscripcion::getJugadoresActivos() {
     }
     return nombreJugadoresConSuscrAEsteJuego;
 }
+bool Suscripcion::jugadorTieneContratacion(string nickname){
+    IIterator * it = this->contrataciones->getIterator();
+    Contratacion * current;
+
+    bool es_duenio = false;
+    while (it->hasCurrent()){
+        current = (Contratacion*)it->getCurrent();
+        if(nickname == current->getNickNameDuenio()){
+            es_duenio = true;
+            break;
+        }
+        it->next();
+    }
+    delete it;
+    return es_duenio;
+};
+
+
 
 #endif

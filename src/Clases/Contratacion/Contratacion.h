@@ -18,7 +18,8 @@ private:
     Jugador *duenio;
 
 public:
-    Contratacion(int, ETipoPago, float, DtFechaHora *, DtFechaHora *, bool, Suscripcion *, Jugador *);
+    static int countItems;
+    Contratacion(ETipoPago, float, DtFechaHora *, DtFechaHora *, bool, Suscripcion *, Jugador *);
     ~Contratacion();
     int getId();
     float getMonto();
@@ -32,9 +33,18 @@ public:
     void setFechaVencimiento(DtFechaHora *);
     void setCancelada(bool);
     void setTipoPago(ETipoPago);
+<<<<<<< HEAD
     bool getActiva();
     string getNickNameDuenio();
     string getNombreVideojuego();
     void asociarVideojuegoSuscripcion();
 };
+=======
+    bool getActiva(DtFechaHora *);
+    string getNickNameDuenio();
+    string getVideojuego();
+    void asociarVideojuegoSuscripcion();
+};
+
+>>>>>>> 0526c5c6e7fe2fed2054c341c199beb6df9533e7
 #endif

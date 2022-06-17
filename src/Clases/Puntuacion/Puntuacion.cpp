@@ -8,16 +8,16 @@ using namespace std;
 class Puntuacion : public ICollectible
 {
 private:
-    int puntuacion;
+    double puntuacion;
     Videojuego *juego;
     Jugador *creador;
 
 public:
     Puntuacion(int, Videojuego *, Jugador *);
     ~Puntuacion();
-    void setPuntuacion(int);
+    void setPuntuacion(double);
     void setCreador(Jugador *);
-    int getPuntuacion();
+    double getPuntuacion();
     Jugador *getCreador();
 };
 
@@ -34,7 +34,7 @@ Puntuacion::~Puntuacion()
     this->creador = NULL;
 }
 
-void Puntuacion::setPuntuacion(int puntuacion)
+void Puntuacion::setPuntuacion(double puntuacion)
 {
     this->puntuacion = puntuacion;
 }
@@ -44,7 +44,7 @@ void Puntuacion::setCreador(Jugador *creador)
     this->creador = creador;
 }
 
-int Puntuacion::getPuntuacion()
+double Puntuacion::getPuntuacion()
 {
     return this->puntuacion;
 }

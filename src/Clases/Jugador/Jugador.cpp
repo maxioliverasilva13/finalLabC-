@@ -1,13 +1,10 @@
-#ifndef JUGADOR_HEADER
-#define JUGADOR_HEADER
-
-#include <iostream>
-#include "../../DataType/DtContratacion/DtContratacion.cpp"
-#include "../../Clases/Usuario/Usuario.cpp"
-#include "../../Clases/Partida/Partida.cpp"
+#ifndef JUGADOR_CPP
+#define JUGADOR_CPP
+#include "./Jugador.h"
 
 using namespace std;
 
+<<<<<<< HEAD
 class Jugador : public Usuario
 {
 private:
@@ -38,6 +35,31 @@ public:
     void eliminarEstadosJugador(ICollectible *);
     ICollection *listarVideoJuegosActivos();
 };
+=======
+DtFechaHora * getFechaVencimientoByPeriodo(DtFechaHora * date, EPeriodo periodo){
+    DtFechaHora * fechaVenc;
+    if(periodo == VITALICIA){
+        fechaVenc = NULL;
+     }else if(periodo == MENSUAL){
+        if(date->getMonth() + 1 > 12){
+            fechaVenc = new DtFechaHora(date->getDay(),1,date->getYear() + 1, date->getHour(),date->getMinute());
+        }else{
+           fechaVenc = new DtFechaHora(date->getDay(),date->getMonth()+ 1,date->getYear() , date->getHour(),date->getMinute()); 
+        }
+     }else if(periodo == TRIMESTRAL){
+        
+        if((date->getMonth() + 3) > 12){
+            int difMes = (date->getMonth() + 3) - 12;
+            fechaVenc = new DtFechaHora(date->getDay(),difMes,date->getYear() + 1, date->getHour(),date->getMinute());
+        }else{
+           fechaVenc = new DtFechaHora(date->getDay(),date->getMonth()+ 1,date->getYear() , date->getHour(),date->getMinute()); 
+        }
+     }else if(periodo == ANUAL){
+        fechaVenc = new DtFechaHora(date->getDay(),date->getMonth(),date->getYear() + 1 , date->getHour(),date->getMinute()); 
+     }
+     return fechaVenc;
+}
+>>>>>>> 0526c5c6e7fe2fed2054c341c199beb6df9533e7
 
 Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(email, pass)
 {
@@ -140,9 +162,31 @@ string Jugador::getDescripcion()
     return this->descripcion;
 }
 
-DtContratacion *Jugador::getContratacionByUser(int contratoId)
+DtContratacion *Jugador::getContratacionByUser(string nomV, DtFechaHora * fecha_sistema)
 {
-    return NULL;
+    IIterator * it = this->contrataciones->getIterator();
+    Contratacion * current;
+
+    DtContratacion * res = NULL;
+    while (it->hasCurrent())
+    {
+        current = (Contratacion*)it->getCurrent();
+        if(current->getActiva(fecha_sistema)){
+            if(nomV == current->getVideojuego()){
+                res = new DtContratacion(
+                    current->getId(),
+                    current->getMonto(), 
+                    current->getTipoPago(), 
+                    current->getFechaHora(),
+                    current->getFechaVencimiento(), 
+                    current->getCancelada()
+                );
+                break;
+            }
+        }
+    }
+    delete it;
+    return res;
 }
 
 void Jugador::agregarPartida(Partida *part)
@@ -150,6 +194,36 @@ void Jugador::agregarPartida(Partida *part)
     Integer *idKey = new Integer(part->getId());
     this->partidas->add(idKey, part);
 };
+//int id, ETipoPago tipoPago, float monto, DtFechaHora *FechaHora,
+  //         DtFechaHora *FechaVencimiento, bool cancelada, Suscripcion *suscripcion, Jugador *duenio)
+void Jugador::suscribirseAVideojuego( Suscripcion * sus, ETipoPago tipoPago,DtFechaHora * fecha_sistema){
+     float monto = sus->getPrecio();
+     EPeriodo periodo = sus->getPeriodo();
+
+     DtFechaHora *fechaVenc = getFechaVencimientoByPeriodo(fecha_sistema,periodo);
+
+     Contratacion * newContratacion = new Contratacion(tipoPago,monto,fecha_sistema,fechaVenc,false,sus,this);
+     
+     IKey * keyId = new Integer(newContratacion->getId());
+     ICollectible * newItem = (ICollectible*)newContratacion;
+
+     this->contrataciones->add(keyId,newItem);
+}
+
+void Jugador::cancelarContratacion(int idContratacion){
+       IKey * key = new Integer(idContratacion);
+       ICollectible * item = this->contrataciones->find(key);
+       if(item == NULL){
+         throw invalid_argument("La contratacion no esta asociada a este usuario");
+       }
+       Contratacion * con = (Contratacion*)item; 
+       con->setCancelada(true); 
+}
+
+string Jugador::getTipo()
+{
+    return "Jugador";
+}
 
 void Jugador::eliminarPartida(ICollectible *partida)
 {

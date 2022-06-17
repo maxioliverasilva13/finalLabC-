@@ -47,6 +47,7 @@ class DtJugador;
 class DtUsuario;
 class DtPartida;
 class DtSuscripcion;
+class DtVideojuego;
 
 class Sistema;
 
@@ -79,6 +80,7 @@ class Sistema;
 #include "../DataType/DtJugador/DtJugador.cpp"
 #include "../DataType/DtPartida/DtPartida.cpp"
 #include "../DataType/DtSuscripcion/DtSuscripcion.cpp"
+#include "../DataType/DtVideojuego/DtVideojuego.cpp"
 
 // CLASES  --------------------------------------------------
 
@@ -96,6 +98,7 @@ class Sistema;
 #include "../Clases/CategoriaPlataforma/CategoriaPlataforma.cpp"
 #include "../Clases/Comentario/Comentario.cpp"
 #include "../Clases/Desarrollador/Desarrollador.cpp"
+#include "../Clases/Suscripcion/Suscripcion.cpp"
 #include "../Clases/Jugador/Jugador.cpp"
 #include "../Clases/Contratacion/Contratacion.cpp"
 #include "../Clases/EstadoJugador/EstadoJugador.cpp"
@@ -103,7 +106,6 @@ class Sistema;
 #include "../Clases/Puntuacion/Puntuacion.cpp"
 #include "../Clases/PartidaIndividual/PartidaIndividual.cpp"
 #include "../Clases/PartidaMultijugador/PartidaMultijugador.cpp"
-#include "../Clases/Suscripcion/Suscripcion.cpp"
 #include "../Clases/Usuario/Usuario.cpp"
 #include "../Clases/Videojuego/Videojuego.cpp"
 
@@ -113,7 +115,7 @@ private:
   IDictionary *categorias;
   IDictionary *videojuegos;
   IDictionary *usuarios;
-  Usuario *loggUser = NULL;
+  Usuario *loggUser;
   DtFechaHora *fechaHora;
   static Sistema *instance;
 
@@ -143,6 +145,10 @@ public:
   void modificarFechaSistema(DtFechaHora *fechahora);
   DtFechaHora *getFechaSistema();
   void recorrerUsuarios();
+  DtVideojuego *verInfoVideojuego(string, IDictionary*);
+  string getTipoLoggUser();
+  void asignarPuntajeVideojuego(double puntaje,string nombreV);
+
 };
 
 Sistema *Sistema::instance = NULL;
@@ -162,6 +168,8 @@ Sistema::Sistema()
   int minuto = now->tm_min;
   DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
   this->fechaHora = ahora;
+
+  this->loggUser = new Jugador("rodrigo","ddsada","rodrigo@gmail.com","rodrigo123");
 }
 
 ICollection *Sistema::listarVideoJuegosActivos()
@@ -379,6 +387,7 @@ void Sistema::recorrerUsuarios()
     cout << user->getEmail() << endl;
     it->next();
   }
+  delete it;
 }
 
 void Sistema::altaUsuario(DtUsuario *user)
@@ -398,26 +407,25 @@ void Sistema::altaUsuario(DtUsuario *user)
 
       if (nominstanciaactual == "Desarrollador")
       {
-        cout << "Estoy parado en 1 Desarrollador" << endl;
         it->next();
       }
       if (nominstanciaactual == "Jugador")
       {
-        cout << "Estoy parado en 1 Jugador" << endl;
         Jugador *jg = (Jugador *)it->getCurrent();
         if (jg->getEmail() == email)
         {
           emailExiste = true;
-          throw invalid_argument("ERROR: Ya existe un usuario con ese email.");
+          throw invalid_argument("ERROR: Ya existe un usuario con el email \"" + email +  "\"");
         }
         if (jg->getNickname() == nickname)
         {
           nicknameExiste = true;
-          throw invalid_argument("ERROR: Ya existe un usuario con ese nickname.");
+          throw invalid_argument("ERROR: Ya existe un usuario con el nickname \"" + nickname + "\"");
         }
       }
       it->next();
     }
+    delete it;
     // no se encontró usuario repetido (con ese email o nickname), se da de alta el usuario.
     if (!emailExiste && !nicknameExiste)
     {
@@ -445,12 +453,11 @@ void Sistema::altaUsuario(DtUsuario *user)
     else
     {
       delete key;
-      throw invalid_argument("ERROR: Ya existe un desarrollador con ese email.");
+      throw invalid_argument("ERROR: Ya existe un desarrollador con el email \"" + stremail + "\"");
     }
   }
 }
 
-// TODO: login
 bool Sistema::iniciarSesion(string email, string password)
 { // TODO: cambiar a dtUsusario
   bool login = false;
@@ -471,7 +478,7 @@ bool Sistema::iniciarSesion(string email, string password)
       if (dev->getPassword() == password)
       {
         this->loggUser = dev;
-        cout << "¡Te logueaste como desarrollador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
+        cout << "EXITO: Te logueaste como desarrollador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
         login = true;
       }
       else
@@ -486,7 +493,7 @@ bool Sistema::iniciarSesion(string email, string password)
       if (player->getPassword() == password)
       {
         this->loggUser = player;
-        cout << "¡Te logueaste como jugador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
+        cout << "EXITO: Te logueaste como jugador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
         login = true;
       }
       else
@@ -498,9 +505,165 @@ bool Sistema::iniciarSesion(string email, string password)
   }
   else
   {
-    throw invalid_argument("ERROR: No existe un usuario con ese email");
+    throw invalid_argument("ERROR: No existe un usuario con el email \"" + email + "\"");
   }
   return login;
 }
+
+DtVideojuego* Sistema::verInfoVideojuego(string name, IDictionary *game) {
+  if (validateExistsGameName(name, game) == false) {
+    cout << "No existe el videojuego" << endl;
+    return NULL;
+  }
+  else {
+    char *charNameVj = const_cast<char *>(name.c_str()); // paso de string a char (para poder implementar la key)
+    String *vjKey = new String(charNameVj);
+    Videojuego *juego = (Videojuego *)game->find(vjKey);
+
+    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion(), juego->getPuntuaciones(), juego->getCategorias(), juego->getSuscripciones());
+    
+    return Info;  
+  }
+  return NULL;
+}
+
+string Sistema::getTipoLoggUser()
+{
+  return this->loggUser->getTipo();
+}
+
+ICollection * Sistema::listarCategorias()
+{
+  ICollection *categorias = new List();
+  IIterator *it = this->categorias->getIterator();
+
+  while(it->hasCurrent())
+  {
+    Categoria *cat = (Categoria *)it->getCurrent();
+    if (cat->darNombreInstancia() == "CategoriaPlataforma")
+    {
+      CategoriaPlataforma *catPlataforma = (CategoriaPlataforma *)cat;
+      DtCategoria * catAgregar = new DtCategoria(catPlataforma->darTipo(), catPlataforma->getDescripcion(), "Plataforma");
+      categorias->add(catAgregar);
+      it->next();
+    }
+    if (cat->darNombreInstancia() == "CategoriaGenero")
+    {
+      CategoriaGenero *catGenero = (CategoriaGenero *)cat;
+      DtCategoria * catAgregar = new DtCategoria(catGenero->darTipo(), catGenero->getDescripcion(), "Genero");
+      categorias->add(catAgregar);
+      it->next();
+    }
+    if (cat->darNombreInstancia() == "Otro")
+    {
+      CategoriaOtro *catOtro = (CategoriaOtro *)cat;
+      DtCategoria * catAgregar = new DtCategoria(catOtro->darTipo(), catOtro->getDescripcion(), "Otro");
+      categorias->add(catAgregar);
+      it->next();
+    }
+  }
+  delete it;
+  return categorias;
+}
+
+ICollection * Sistema::listarSuscripcionesPorVideojuego(){
+   if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    string nickname = jugador->getNickname();
+
+    ICollection * res = new List();  //Collection of DtSuscripcion
+
+    IIterator * it = this->videojuegos->getIterator();
+    Videojuego * current;
+    
+    string nombreV;
+    ICollection * info_suscr_current;
+
+    while (it->hasCurrent()){
+        current = (Videojuego*)it->getCurrent();
+        nombreV = current->getNombre();
+        info_suscr_current = current->getInfoSuscripciones(nickname);
+        
+        ICollectible * videoJuegoInfoSus = new DtSuscripcion(nombreV,info_suscr_current);
+        res->add(videoJuegoInfoSus);
+        it->next();
+    }
+    delete it;
+    return res;
+};  
+
+
+DtContratacion * Sistema::getContratacion(string nombreVideojuego){
+   if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    DtContratacion * res = jugador->getContratacionByUser(nombreVideojuego,this->fechaHora);
+    return res;
+}
+
+
+
+void Sistema::confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, ETipoPago metodoPago){
+  if(this->loggUser == NULL){
+    throw invalid_argument("Debes logearte primero");
+  }
+  Jugador * jugador = (Jugador*)this->loggUser;
+
+  char *charNameVj = const_cast<char *>(nombreVideojuego.c_str());
+  IKey *vjKey = new String(charNameVj);
+
+   ICollectible * vJ = this->videojuegos->find(vjKey);
+   if(vJ == NULL){  
+     throw invalid_argument("El videojuego no existe");
+   }
+   Videojuego * juego  = (Videojuego*)vJ;
+   
+   Suscripcion * sus = juego->getSuscripcion(idSuscripcion);
+   if(sus == NULL){
+    throw invalid_argument("La suscripcion no esta asociada a este videojuego");
+   }
+
+   jugador->suscribirseAVideojuego(sus,metodoPago,this->fechaHora);
+
+}
+
+
+void Sistema::cancelarSuscripcion(int idContratacion){
+    if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    jugador->cancelarContratacion(idContratacion);
+    
+}
+
+void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
+  if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+  }
+  Jugador * jugador = (Jugador*)this->loggUser;
+  
+  char *charnombreV = const_cast<char *>(nombreV.c_str());
+  String *nombreGame = new String(charnombreV);
+  ICollectible * item = this->videojuegos->find(nombreGame);
+  if(item == NULL){
+    throw invalid_argument("No existe el videjuego con el nombre: " + nombreV );
+  }
+  Videojuego * videojuego = (Videojuego*)item;
+  videojuego->agregarPuntuacion(puntaje,jugador);
+
+}
+
+
+  void Sistema::finalizarPartida(int idPartida){
+     if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+     }
+     Jugador * jugador = (Jugador*)this->loggUser;
+     
+  }
 
 #endif

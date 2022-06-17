@@ -21,8 +21,7 @@ PartidaIndividual::~PartidaIndividual()
 
 void PartidaIndividual::finalizarPartida()
 {
-  // NEcesitamos asignar el parametro de "duracion"
-  cout << "Finalizar Partida";
+  this->setEstado(FINALIZADA);
 }
 
 void PartidaIndividual::continuarPartida()

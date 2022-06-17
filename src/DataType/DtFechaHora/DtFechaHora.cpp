@@ -37,7 +37,7 @@ DtFechaHora::DtFechaHora(int day, int month, int year, int hour, int minute)
     }
     if (year < 1900)
     {
-        throw invalid_argument("Año invalido");
+        throw invalid_argument("Anio invalido");
     }
     if (hour < 0 || hour > 23)
     {

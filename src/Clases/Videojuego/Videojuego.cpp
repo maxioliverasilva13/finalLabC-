@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 #ifndef VIDEOJUEGO_FUNC
 #define VIDEOJUEGO_FUNC
 
 #include <iostream>
 #include "Videojuego.h"
+=======
+#ifndef VIDEOJUEGO_CPP
+#define VIDEOJUEGO_CPP
+
+#include <iostream>
+#include "Videjuego.h"
+>>>>>>> 0526c5c6e7fe2fed2054c341c199beb6df9533e7
 
 using namespace std;
 
@@ -145,6 +153,7 @@ void Videojuego::agregarCategoria(ICollectible *categoria)
     this->categorias->add(iKey, categoria);
 }
 
+<<<<<<< HEAD
 void Videojuego::agregarPuntuacion(ICollectible *puntuacion)
 {
     Puntuacion *punt = (Puntuacion *)puntuacion;
@@ -173,4 +182,76 @@ ICollection * Videojuego::getJugadoresActivos() {
     return nombreJugadores;
 }
 
+=======
+ICollection* Videojuego::getPuntuaciones() {
+    return this->puntuaciones;
+}
+
+IDictionary* Videojuego::getCategorias() {
+    return this->categorias;
+}
+
+IDictionary* Videojuego::getSuscripciones() {
+    return this->suscripciones;
+}
+
+ICollection * Videojuego::getInfoSuscripciones(string nickname){
+    IIterator * it = this->suscripciones->getIterator();
+    Suscripcion * current;
+
+    ICollection * res = new List();  //DtInfoSuscripcion collection
+
+    bool jugador_tiene_contratacion;
+    while (it->hasCurrent()){
+        current = (Suscripcion*)it->getCurrent();
+
+        jugador_tiene_contratacion = current->jugadorTieneContratacion(nickname);
+        ICollectible * item = new DtInfoSuscripcion(current->getId(), current->getPeriodo(),current->getPrecio(), jugador_tiene_contratacion);
+        res->add(item);
+    }
+    delete it;
+    return res;
+}
+
+Suscripcion * Videojuego::getSuscripcion(int idSuscripcion){
+     IKey * keyId = new Integer(idSuscripcion);
+     ICollectible * foundElem = this->suscripciones->find(keyId);
+     if(foundElem == NULL){
+        return NULL;
+     }
+     Suscripcion * res = (Suscripcion*)foundElem;
+     return res;
+};
+
+
+void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
+       IIterator *it  = this->puntuaciones->getIterator();
+       Puntuacion * current;
+
+       double sumPunt = 0;
+       int cantPunt = 0;
+       bool alreadyPunt = false;
+
+       Jugador * current_jugador; 
+       while (it->hasCurrent())
+       {
+         current = (Puntuacion*)it->getCurrent();
+         current_jugador = current->getCreador();
+
+         if(jugador->getNickname() == current_jugador->getNickname()){
+                alreadyPunt = true;
+                current->setPuntuacion(puntuacion);
+         }
+         sumPunt+= current->getPuntuacion();
+         cantPunt++;
+       }
+       if(!alreadyPunt){
+         Puntuacion * newPuntuacion = new Puntuacion(puntuacion,this,jugador);
+         this->puntuaciones->add(newPuntuacion);
+         sumPunt+= newPuntuacion->getPuntuacion();
+         cantPunt++;
+       }
+       this->promedio_puntuacion = sumPunt/cantPunt;
+}
+>>>>>>> 0526c5c6e7fe2fed2054c341c199beb6df9533e7
 #endif

@@ -12,10 +12,9 @@ protected:
   EEstado estado;
   DtFechaHora *fecha;
   Videojuego *videojuego = NULL;
-  Jugador *creador;
 
 public:
-  Partida(int, EEstado, Videojuego *, DtFechaHora *, Jugador *);
+  Partida(int, EEstado, Videojuego *, DtFechaHora *);
   ~Partida();
   string darNombreJuego();
   void setEstado(EEstado);
@@ -28,6 +27,8 @@ public:
   virtual DtPartida *getDtPartida() = 0;
   virtual void finalizarPartida() = 0;
   virtual string darTipo() = 0;
+  DtFechaHora *getFecha();
+  virtual DtPartida *getDtPartida() = 0;
+  virtual void finalizarPartida() = 0;
 };
 
-#endif
