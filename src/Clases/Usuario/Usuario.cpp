@@ -1,22 +1,10 @@
-#ifndef USUARIO_HEADER
-#define USUARIO_HEADER
+#ifndef USUARIO_CPP
+#define USUARIO_CPP
 
 #include<iostream>
+#include "./Usuario.h"
 
 using namespace std;
-
-class Usuario : public ICollectible {
-    private:
-        string email;
-        string password;
-    public:
-        Usuario(string, string);
-        void setEmail(string);
-        void setPassword(string);
-        string getEmail();
-        string getPassword();
-};
-
 
 Usuario::Usuario(string e, string p){
     this->email = e;

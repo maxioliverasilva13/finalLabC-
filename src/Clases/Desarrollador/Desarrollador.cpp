@@ -11,6 +11,7 @@ class Desarrollador : public Usuario {
         Desarrollador(string, string, string);
         void setNomEmpresa(string);
         string getNomEmpresa();
+        string getTipo();
 };
 
 
@@ -27,5 +28,8 @@ string Desarrollador::getNomEmpresa() {
     return this->nomEmpresa;
 }
 
+string Desarrollador::getTipo() {
+    return "Desarrollador";
+}
 
 #endif
