@@ -27,6 +27,7 @@ public:
     bool jugadorTieneContratacion(string);
     DtInfoSuscripcion *getDatosSuscripcion();
     void agregarContratacion(ICollectible *);
+    ICollection * getJugadoresActivos();
 };
 
 #endif

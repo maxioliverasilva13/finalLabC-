@@ -151,4 +151,26 @@ void Videojuego::agregarPuntuacion(ICollectible *puntuacion)
     this->puntuaciones->add(punt);
 }
 
+ICollection * Videojuego::getJugadoresActivos() {
+    ICollection * nombreJugadores = new List(); 
+    IIterator * it = this->suscripciones->getIterator();
+    while (it->hasCurrent())
+    {
+        Suscripcion * suscr = (Suscripcion *)it->getCurrent();
+        ICollection * nombresJugadoresEnEstaSuscr = suscr->getJugadoresActivos();
+        IIterator * iterNombres = nombresJugadoresEnEstaSuscr->getIterator();
+        while (iterNombres->hasCurrent())
+        {   
+            String * nameDuenio = (String *)iterNombres->getCurrent();
+            nombreJugadores->add(nameDuenio);
+            iterNombres->next();
+        }
+        delete nombresJugadoresEnEstaSuscr;
+        delete iterNombres;
+        it->next();
+    }
+    delete it;
+    return nombreJugadores;
+}
+
 #endif

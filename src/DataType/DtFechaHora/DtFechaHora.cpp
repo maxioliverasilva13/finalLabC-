@@ -20,6 +20,7 @@ public:
     int getYear();
     int getHour();
     int getMinute();
+    DtFechaHora * getAhora();
 };
 
 using namespace std;
@@ -51,6 +52,18 @@ DtFechaHora::DtFechaHora(int day, int month, int year, int hour, int minute)
     this->year = year;
     this->hour = hour;
     this->minute = minute;
+}
+
+DtFechaHora * DtFechaHora::getAhora() {
+  time_t t = time(0);
+  tm *now = localtime(&t);
+  int dia = now->tm_mday;
+  int mes = 1 + now->tm_mon;
+  int anio = 1900 + now->tm_year;
+  int hora = now->tm_hour;
+  int minuto = now->tm_min;
+  DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
+  return ahora;
 }
 
 int DtFechaHora::getDay()

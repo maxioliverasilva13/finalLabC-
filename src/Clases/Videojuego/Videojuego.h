@@ -26,9 +26,9 @@ public:
     void setDescripcion(string);
     void setPromedio_puntuacion(int);
     void agregarSuscripcion(ICollectible *);
-    void agergarCategoria(ICollectible *);
     bool hasSuscripcion(EPeriodo);
     void agregarCategoria(ICollectible *);
     void agregarPuntuacion(ICollectible *puntuacion);
+    ICollection * getJugadoresActivos();
 };
 #endif

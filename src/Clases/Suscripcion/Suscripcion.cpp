@@ -80,4 +80,21 @@ void Suscripcion::agregarContratacion(ICollectible *contratacion)
     this->contrataciones->add(contrKey, contr);
 }
 
+ICollection * Suscripcion::getJugadoresActivos() {
+    ICollection * nombreJugadoresConSuscrAEsteJuego = new List();
+    IIterator * it = this->contrataciones->getIterator();
+    while (it->hasCurrent())
+    {
+        Contratacion * contr = (Contratacion *)it->getCurrent();
+        if (contr->getActiva()) {
+            string nameDuenio = contr->getNickNameDuenio();
+            char *charName = const_cast<char *>(nameDuenio.c_str()); // paso de string a char (para poder implementar la key)
+            String *nameKey = new String(charName);
+            nombreJugadoresConSuscrAEsteJuego->add(nameKey);
+        }
+        it->next();
+    }
+    return nombreJugadoresConSuscrAEsteJuego;
+}
+
 #endif

@@ -1,25 +1,8 @@
-#ifndef PARTIDAINDIVIDUAL_HEADER
-#define PARTIDAINDIVIDUAL_HEADER
+#ifndef PARTIDAINDIVIDUAL_FUNCTIONS
+#define PARTIDAINDIVIDUAL_FUNCTIONS
 
-using namespace std;
 
-#include <iostream>
-
-class PartidaIndividual : public Partida
-{
-private:
-  bool nueva;
-
-public:
-  PartidaIndividual(bool, int, EEstado, DtFechaHora *, Videojuego *, Jugador *j);
-  ~PartidaIndividual();
-  void continuarPartida();
-  void setNueva(bool);
-  bool getNueva();
-  void finalizarPartida();
-  DtPartida *getDtPartida();
-  string darTipo();
-};
+#include "PartidaIndividual.h"
 
 PartidaIndividual::PartidaIndividual(bool nueva, int id, EEstado estado, DtFechaHora *fecha, Videojuego *vj, Jugador *j) : Partida(id, estado, vj, fecha, j)
 {
@@ -62,5 +45,6 @@ bool PartidaIndividual::getNueva()
 {
   return this->nueva;
 };
+
 
 #endif
