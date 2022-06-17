@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-#include "../../Clases/Puntuacion/Puntuacion.cpp"
-
 using namespace std;
 
 class Videojuego : public ICollectible
@@ -16,6 +14,7 @@ private:
     ICollection *puntuaciones;
     IDictionary *categorias;
     IDictionary *suscripciones;
+    IDictionary *partidas;
 
 public:
     Videojuego(string, string, int);
@@ -27,15 +26,16 @@ public:
     void setDescripcion(string);
     void setPromedio_puntuacion(int);
     void agregarSuscripcion(ICollectible *);
-    void agergarCategoria(ICollectible *);
     bool hasSuscripcion(EPeriodo);
     void agregarCategoria(ICollectible *);
+    void agregarPuntuacion(ICollectible *puntuacion);
+    ICollection * getJugadoresActivos();
+    ICollection *getPuntuaciones();
+    IDictionary *getCategorias();
+    IDictionary *getSuscripciones();
     ICollection * getInfoSuscripciones(string);
-    Suscripcion * getSuscripcion(int idSuscripcion);
-    void agregarPuntuacion(int puntuacion,Jugador * jugador);
-    ICollection* getPuntuaciones();
-    IDictionary* getCategorias();
-    IDictionary* getSuscripciones();
-   
+    Suscripcion * getSuscripcion(int);
+    void agregarPuntuacion(int ,Jugador *);
 };
+
 #endif

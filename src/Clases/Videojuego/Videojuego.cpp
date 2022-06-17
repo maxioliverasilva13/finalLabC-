@@ -1,8 +1,8 @@
-#ifndef VIDEOJUEGO_CPP
-#define VIDEOJUEGO_CPP
+#ifndef VIDEOJUEGO_FUNC
+#define VIDEOJUEGO_FUNC
 
 #include <iostream>
-#include "Videjuego.h"
+#include "Videojuego.h"
 
 using namespace std;
 
@@ -14,26 +14,34 @@ Videojuego::Videojuego(string nombre, string descripcion, int prom_punt)
     this->puntuaciones = new List();
     this->categorias = new OrderedDictionary();
     this->suscripciones = new OrderedDictionary();
+    this->partidas = new OrderedDictionary();
 }
 
 Videojuego::~Videojuego()
 {
-    cout << "Me destruyo";
+    IIterator *iteratorPartidas = this->partidas->getIterator();
+    while (iteratorPartidas->hasCurrent())
+    {
+        Partida *part = (Partida *)iteratorPartidas->getCurrent();
+        Integer *partKey = new Integer(part->getId());
+        this->puntuaciones->remove(partKey);
+        delete part;
+        delete partKey;
+        iteratorPartidas->next();
+    }
+
     IIterator *iteratorPuntuaciones = this->puntuaciones->getIterator();
     while (iteratorPuntuaciones->hasCurrent())
     {
         Puntuacion *pun = (Puntuacion *)iteratorPuntuaciones->getCurrent();
-        // TODO : ADD DESTRUCTORS TO ALL CLASES OF IMPLEMENT  "REMOVE"
-        // this->puntuaciones->remove(pun);
-        // delete pun;
+        this->puntuaciones->remove(pun);
+        delete pun;
         iteratorPuntuaciones->next();
     }
 
     IIterator *iteratorCategorias = this->categorias->getIterator();
     while (iteratorCategorias->hasCurrent())
     {
-        cout << endl
-             << "+1 categoria borrada";
         Categoria *categoria = (Categoria *)iteratorCategorias->getCurrent();
         Integer *categoriaKey = new Integer(categoria->getId());
         this->categorias->remove(categoriaKey);
@@ -45,17 +53,20 @@ Videojuego::~Videojuego()
     IIterator *iteratorSuscripciones = this->suscripciones->getIterator();
     while (iteratorSuscripciones->hasCurrent())
     {
-        cout << endl
-             << "+1 suscripcion borrada";
         Suscripcion *sucr = (Suscripcion *)iteratorSuscripciones->getCurrent();
         Integer *suscrId = new Integer(sucr->getId());
-        this->categorias->remove(suscrId);
+        this->suscripciones->remove(suscrId);
         delete sucr;
         delete suscrId;
         iteratorSuscripciones->next();
     }
 
+    delete iteratorCategorias;
+    delete iteratorSuscripciones;
+    delete iteratorPuntuaciones;
     this->suscripciones = NULL;
+    this->puntuaciones = NULL;
+    this->categorias = NULL;
 }
 
 string Videojuego::getNombre()
@@ -132,6 +143,34 @@ void Videojuego::agregarCategoria(ICollectible *categoria)
     Categoria *cat = (Categoria *)categoria;
     Integer *iKey = new Integer(cat->getId());
     this->categorias->add(iKey, categoria);
+}
+
+void Videojuego::agregarPuntuacion(ICollectible *puntuacion)
+{
+    Puntuacion *punt = (Puntuacion *)puntuacion;
+    this->puntuaciones->add(punt);
+}
+
+ICollection * Videojuego::getJugadoresActivos() {
+    ICollection * nombreJugadores = new List(); 
+    IIterator * it = this->suscripciones->getIterator();
+    while (it->hasCurrent())
+    {
+        Suscripcion * suscr = (Suscripcion *)it->getCurrent();
+        ICollection * nombresJugadoresEnEstaSuscr = suscr->getJugadoresActivos();
+        IIterator * iterNombres = nombresJugadoresEnEstaSuscr->getIterator();
+        while (iterNombres->hasCurrent())
+        {   
+            String * nameDuenio = (String *)iterNombres->getCurrent();
+            nombreJugadores->add(nameDuenio);
+            iterNombres->next();
+        }
+        delete nombresJugadoresEnEstaSuscr;
+        delete iterNombres;
+        it->next();
+    }
+    delete it;
+    return nombreJugadores;
 }
 
 ICollection* Videojuego::getPuntuaciones() {

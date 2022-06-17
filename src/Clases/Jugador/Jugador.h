@@ -13,6 +13,8 @@ private:
     string descripcion;
     IDictionary *partidas;       // JUGADOR VE (tiene) PARTIDAS.
     IDictionary *contrataciones; // JUGADOR VE (tiene) CONTRATACIONES
+    ICollection *estadosJugador;
+
 public:
     Jugador(string, string, string, string);
     ~Jugador();
@@ -23,14 +25,19 @@ public:
     void iniciarPartidaMultijugador(ICollection *, bool);    // recibe coleccion de Jugadores.
     ICollection *listarVideojuegosActivos(string);           // retorna coleccion de Strings (nombres de videojuegos)
     ICollection *listarHistorialPartidasFinalizadas(string); // retorna coleccion de DtPartida (partidas finalizadas)
-    void continuar(int);
+    void continuarPartida(int);
     void iniciarPartidaIndividual(bool);
     void suscribirseAVideojuego(Suscripcion *, ETipoPago,DtFechaHora *);
     void cancelarContratacion(int);
     void finalizarPartida(int);
     DtContratacion *getContratacionByUser(string,DtFechaHora*);
     void agregarPartida(Partida *);
+    void eliminarSuscripcion(ICollectible *);
+    void eliminarPartida(ICollectible *);
+    void eliminarEstadosJugador(ICollectible *);
     string getTipo();
+    ICollection *listarVideoJuegosActivos();
+    void iniciarPartidaIndividual(bool, Videojuego *);
 };
 
 #endif

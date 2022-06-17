@@ -1,8 +1,8 @@
 #ifndef CONTRATACION_HEADER
 #define CONTRATACION_HEADER
 
-
 #include <iostream>
+
 using namespace std;
 
 class Contratacion : public ICollectible
@@ -16,10 +16,11 @@ private:
     bool cancelada;
     Suscripcion *suscripcion;
     Jugador *duenio;
-public:
 
+public:
     static int countItems;
     Contratacion(ETipoPago, float, DtFechaHora *, DtFechaHora *, bool, Suscripcion *, Jugador *);
+    ~Contratacion();
     int getId();
     float getMonto();
     ETipoPago getTipoPago();
@@ -34,8 +35,7 @@ public:
     void setTipoPago(ETipoPago);
     bool getActiva(DtFechaHora *);
     string getNickNameDuenio();
-    string getVideojuego();
+    string getNombreVideojuego();
     void asociarVideojuegoSuscripcion();
 };
-
 #endif

@@ -36,9 +36,77 @@ Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(
     this->contrataciones = new OrderedDictionary();
 }
 
+ICollection *Jugador::listarVideoJuegosActivos()
+{
+    ICollection *nameJuegos = new List();
+    IIterator *it = this->contrataciones->getIterator();
+    while (it->hasCurrent())
+    {
+        Contratacion *c = (Contratacion *)it->getCurrent();
+
+        if (c->getActiva(NULL) == true)
+        {
+            string nameGame = c->getNombreVideojuego();
+            char *charNameVj = const_cast<char *>(nameGame.c_str()); // paso de string a char (para poder implementar la key)
+            String *nombre = new String(charNameVj);
+            nameJuegos->add(nombre);
+        }
+        it->next();
+    }
+    return nameJuegos;
+}
+
+void Jugador::iniciarPartidaIndividual(bool esNueva, Videojuego * vj) {
+    DtFechaHora * ahora;
+    PartidaIndividual * p = new PartidaIndividual(esNueva, 1, ENCURSO, ahora->getAhora(), vj, this);
+    Integer * partidaKey = new Integer(p->getId());
+    this->partidas->add(partidaKey, p);
+    delete ahora;
+}
+
+ICollection *Jugador::listarHistorialPartidasFinalizadas(string nombrevj)
+{
+    ICollection *partidasFinalizadas = new List();
+    IIterator *it = this->partidas->getIterator();
+
+    while (it->hasCurrent())
+    {
+        Partida *c = (Partida *)it->getCurrent();
+        if (c->darTipo() == "PartidaIndividual")
+        {
+            PartidaIndividual *part = (PartidaIndividual *)it->getCurrent();
+            if (part->esFinalizada() && part->darNombreJuego() == nombrevj)
+            {
+                DtPartida *part = new DtPartida(part->getId(), part->getFecha(), part->getDuracion());
+                partidasFinalizadas->add(part);
+            }
+        }
+        it->next();
+    }
+    delete it;
+}
+
+void Jugador::continuarPartida(int idPart)
+{
+    Integer *partKey = new Integer(idPart);
+    PartidaIndividual *part = (PartidaIndividual *)this->partidas->find(partKey);
+    if (part)
+    {
+ 
+    }
+} 
+
 Jugador::~Jugador()
 {
     cout << "Me borro";
+}
+
+void Jugador::eliminarSuscripcion(ICollectible *contratacion)
+{
+    Contratacion *contr = (Contratacion *)contratacion;
+    Integer *contrKey = new Integer(contr->getId());
+    this->contrataciones->remove(contrKey);
+    delete contrKey;
 }
 
 void Jugador::setNickname(string nick)
@@ -71,7 +139,7 @@ DtContratacion *Jugador::getContratacionByUser(string nomV, DtFechaHora * fecha_
     {
         current = (Contratacion*)it->getCurrent();
         if(current->getActiva(fecha_sistema)){
-            if(nomV == current->getVideojuego()){
+            if(nomV == current->getNombreVideojuego()){
                 res = new DtContratacion(
                     current->getId(),
                     current->getMonto(), 
@@ -122,6 +190,19 @@ void Jugador::cancelarContratacion(int idContratacion){
 string Jugador::getTipo()
 {
     return "Jugador";
+}
+
+void Jugador::eliminarPartida(ICollectible *partida)
+{
+    Partida *p = (Partida *)partida;
+    Integer *pKey = new Integer(p->getId());
+    this->partidas->remove(pKey);
+    delete pKey;
+}
+
+void Jugador::eliminarEstadosJugador(ICollectible *estadojugador)
+{
+    this->estadosJugador->remove(estadojugador);
 }
 
 #endif

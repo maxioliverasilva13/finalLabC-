@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-class DtPartida
+class DtPartida : public ICollectible
 {
 private:
     int id;

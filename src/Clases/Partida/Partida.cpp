@@ -1,23 +1,27 @@
-#ifndef PARTIDA_CPP
-#define PARTIDA_CPP
+#ifndef PARTIDA_FUNCTIONS
+#define PARTIDA_FUNCTIONS
 
 #include <iostream>
+#include "Partida.h"
 
 using namespace std;
 
-#include "./Partida.h"
-
-Partida::Partida(int id, EEstado estado, Videojuego *vj, DtFechaHora *fecha)
+Partida::Partida(int id, EEstado estado, Videojuego *vj, DtFechaHora *fecha, Jugador *j)
 {
   this->id = id;
   this->estado = estado;
   this->videojuego = vj;
   this->fecha = fecha;
+  this->creador = j;
 };
+
+Partida::~Partida()
+{
+}
 
 string Partida::darNombreJuego()
 {
-  return "Juego";
+  return this->videojuego->getNombre();
 }
 
 void Partida::setEstado(EEstado estado)
@@ -50,9 +54,9 @@ DtFechaHora *Partida::getFecha()
   return this->fecha;
 }
 
-Partida::~Partida()
+bool Partida::esFinalizada()
 {
-  cout << "Me borro";
-}
+  return this->estado == FINALIZADA;
+};
 
 #endif

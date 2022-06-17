@@ -7,14 +7,15 @@ using namespace std;
 
 class Partida : public ICollectible
 {
-private:
+protected:
   int id;
   EEstado estado;
   DtFechaHora *fecha;
   Videojuego *videojuego = NULL;
+  Jugador *creador;
 
 public:
-  Partida(int, EEstado, Videojuego *, DtFechaHora *);
+  Partida(int, EEstado, Videojuego *, DtFechaHora *, Jugador *);
   ~Partida();
   string darNombreJuego();
   void setEstado(EEstado);
@@ -22,11 +23,12 @@ public:
   void setFecha(DtFechaHora *);
   int getEstado();
   int getId();
+  bool esFinalizada();
   DtFechaHora *getFecha();
+  virtual string darTipo() = 0;
   virtual DtPartida *getDtPartida() = 0;
   virtual void finalizarPartida() = 0;
 };
 
-
-
 #endif
+

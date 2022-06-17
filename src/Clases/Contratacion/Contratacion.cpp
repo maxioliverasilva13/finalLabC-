@@ -1,10 +1,10 @@
-#ifndef CONTRATACION_CPP
-#define CONTRATACION_CPP
+#ifndef CONTRATACION_FUNCTIONS
+#define CONTRATACION_FUNCTIONS
 
 #include <iostream>
 #include "Contratacion.h"
-using namespace std;
 
+using namespace std;
 
 int Contratacion::countItems = 0;
 
@@ -21,6 +21,15 @@ Contratacion::Contratacion(ETipoPago tipoPago, float monto, DtFechaHora *FechaHo
 
     this->countItems++;
     this->id = this->countItems;
+}
+
+Contratacion::~Contratacion()
+{
+    this->FechaHora = NULL;
+    this->FechaVencimiento = NULL;
+    this->suscripcion = NULL;
+    this->duenio->eliminarSuscripcion(this);
+    cout << "bueno me voy a borrar" << endl;
 }
 
 int Contratacion::getId()
@@ -136,7 +145,7 @@ string Contratacion::getNickNameDuenio()
     return this->duenio->getNickname();
 }
 
-string Contratacion::getVideojuego()
+string Contratacion::getNombreVideojuego()
 {
     return this->suscripcion->darNombreJuego();
 }

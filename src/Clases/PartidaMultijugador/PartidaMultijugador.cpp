@@ -1,36 +1,38 @@
-#ifndef PARTIDAMULTIJUGADOR_HEADER
-#define PARTIDAMULTIJUGADOR_HEADER
+#ifndef PARTIDAMULTIJUGADOR_FUNCTIONS
+#define PARTIDAMULTIJUGADOR_FUNCTIONS
+#include "PartidaMultijugador.h"
 
 using namespace std;
 
 #include <iostream>
 
-class PartidaMultijugador : public Partida
-{
-private:
-    bool enVivo;
-    float duracion;
-    IDictionary *comentarios;
-    ICollection *estadosJugador;
-
-public:
-    PartidaMultijugador(bool, float, int, EEstado, DtFechaHora *, Videojuego *);
-    void finalizarPartida();
-    DtPartida *getDtPartida();
-    void setEnVivo(bool);
-    void setDuracion(float);
-    bool getEnVivo();
-    float getDuracion();
-    void agregarEstadoJugador(EstadoJugador *);
-};
-
-PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, EEstado estado, DtFechaHora *fecha, Videojuego *vj) : Partida(id, estado, vj, fecha)
+PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, EEstado estado, DtFechaHora *fecha, Videojuego *vj, Jugador *j) : Partida(id, estado, vj, fecha, j)
 {
     this->enVivo = enVivo;
     this->duracion = duracion;
     this->estadosJugador = new List();
     this->comentarios = new OrderedDictionary();
 };
+
+string PartidaMultijugador::darTipo()
+{
+    return "PartidaMultijugador";
+};
+
+PartidaMultijugador::~PartidaMultijugador()
+{
+    this->creador->eliminarPartida(this);
+    IIterator *itEstados = this->estadosJugador->getIterator();
+    while (itEstados->hasCurrent())
+    {
+        EstadoJugador *estado = (EstadoJugador *)itEstados->getCurrent();
+        this->estadosJugador->remove(estado);
+        delete estado;
+        itEstados->next();
+    }
+
+    delete itEstados;
+}
 
 void PartidaMultijugador::finalizarPartida()
 {

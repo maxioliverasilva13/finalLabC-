@@ -22,18 +22,18 @@ class Integer;
 class String;
 
 class Partida;
+class Puntuacion;
 class PartidaIndividual;
 class PartidaMultijugador;
 class Categoria;
-class Contratacion;
 class EstadoJugador;
 class CategoriaGenero;
 class CategoriaOtro;
 class CategoriaPlataforma;
 class Comentario;
 class Desarrollador;
+class Contratacion;
 class Jugador;
-class Puntuacion;
 class Suscripcion;
 class Usuario;
 class Videojuego;
@@ -48,8 +48,6 @@ class DtUsuario;
 class DtPartida;
 class DtSuscripcion;
 class DtVideojuego;
-
-class Sistema;
 
 // ENUM
 #include "../Enum/index.cpp"
@@ -83,14 +81,21 @@ class Sistema;
 #include "../DataType/DtVideojuego/DtVideojuego.cpp"
 
 // CLASES  --------------------------------------------------
-#include "../Clases/Jugador/Jugador.h"
-#include "../Clases/Partida/Partida.h"
+
+// .h
 #include "../Clases/Usuario/Usuario.h"
-#include  "../Clases/Videojuego/Videjuego.h"
+#include "../Clases/Videojuego/Videojuego.h"
+#include "../Clases/Partida/Partida.h"
 #include "../Clases/Contratacion/Contratacion.h"
+#include "../Clases/Suscripcion/Suscripcion.h"
+#include "../Clases/Puntuacion/Puntuacion.h"
+#include "../Clases/PartidaIndividual/PartidaIndividual.h"
+#include "../Clases/PartidaMultijugador/PartidaMultijugador.h"
+#include "../Clases/EstadoJugador/EstadoJugador.h"
+#include "../Clases/Desarrollador/Desarrollador.h"
+
 
 #include "../Clases/Categoria/Categoria.cpp"
-#include "../Clases/EstadoJugador/EstadoJugador.cpp"
 #include "../Clases/CategoriaGenero/CategoriaGenero.cpp"
 #include "../Clases/CategoriaOtro/CategoriaOtro.cpp"
 #include "../Clases/CategoriaPlataforma/CategoriaPlataforma.cpp"
@@ -98,12 +103,13 @@ class Sistema;
 #include "../Clases/Desarrollador/Desarrollador.cpp"
 #include "../Clases/Suscripcion/Suscripcion.cpp"
 #include "../Clases/Jugador/Jugador.cpp"
-#include "../Clases/Usuario/Usuario.cpp"
 #include "../Clases/Contratacion/Contratacion.cpp"
+#include "../Clases/EstadoJugador/EstadoJugador.cpp"
 #include "../Clases/Partida/Partida.cpp"
+#include "../Clases/Puntuacion/Puntuacion.cpp"
 #include "../Clases/PartidaIndividual/PartidaIndividual.cpp"
 #include "../Clases/PartidaMultijugador/PartidaMultijugador.cpp"
-#include "../Clases/Puntuacion/Puntuacion.cpp"
+#include "../Clases/Usuario/Usuario.cpp"
 #include "../Clases/Videojuego/Videojuego.cpp"
 
 class Sistema
@@ -122,11 +128,12 @@ public:
   void agregarCategoria(ICollectible *);
   void iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo);            // jugadores es set<string>
   ICollection *listarJugadoresConSuscripcionActivaAJuego(string nombreVideojuego); // strings
-  void iniciarPartidaIndividual(bool nueva);
-  void continuar(int idpartida);
+  void iniciarPartidaIndividual(bool nueva, Videojuego *);
+  void continuarPartida(int idpartida);
   ICollection *listarHistorialPartidasFinalizadas(string nombreVJ); // DtPartida
   ICollection *listarVideoJuegosActivos();                          // a el usuario logueado retorna strings
-  ICollection *listarSuscripcionesPorVideojuego();                  // DtSuscripcion
+  ICollection *listarSuscripcionesPorVideojuego();     
+  ICollection *listarJugadoresConSuscripcionAJuego(string nombrevj);             // DtSuscripcion
   DtContratacion *getContratacion(string nombreVideojuego);
   void cancelarSuscripcion(int idContratacion);
   void confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, ETipoPago metodoPago);
@@ -166,6 +173,38 @@ Sistema::Sistema()
   this->fechaHora = ahora;
 
   this->loggUser = new Jugador("rodrigo","ddsada","rodrigo@gmail.com","rodrigo123");
+}
+
+ICollection *Sistema::listarVideoJuegosActivos()
+{
+  // Validar si es un jugador
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  return jugadorLogueado->listarVideoJuegosActivos();
+}
+
+ICollection *Sistema::listarHistorialPartidasFinalizadas(string nombrevj)
+{
+  // Validar si es un jugador
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  return jugadorLogueado->listarHistorialPartidasFinalizadas(nombrevj);
+}
+
+void Sistema::iniciarPartidaIndividual(bool nueva, Videojuego * vj) {
+  // Validar si es un jugador
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  jugadorLogueado->iniciarPartidaIndividual(nueva, vj);
+}
+
+ICollection * Sistema::listarJugadoresConSuscripcionAJuego(string nombrevj) {
+  char *charNameVj = const_cast<char *>(nombrevj.c_str()); // paso de string a char (para poder implementar la key)
+  String *vjKey = new String(charNameVj);
+  Videojuego *juego = (Videojuego *)this->videojuegos->find(vjKey);
+
+  if (juego) {
+    return juego->getJugadoresActivos();
+  } else {
+    throw invalid_argument("Este videojuego no existe");
+  }
 }
 
 Sistema *Sistema::getInstance()
@@ -210,6 +249,13 @@ string removerNumeros(string str)
 }
 
 //--------------------------------------------------------------
+
+void Sistema::continuarPartida(int idpartida)
+{
+  // Validar si es un jugador
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  jugadorLogueado->continuarPartida(idpartida);
+}
 
 void Sistema::listarVJ()
 {

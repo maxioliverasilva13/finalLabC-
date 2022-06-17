@@ -1,30 +1,21 @@
-#ifndef DESARROLLADOR_HEADER
-#define DESARROLLADOR_HEADER
-
+#ifndef DESARROLLADOR_FUNCTIONS
+#define DESARROLLADOR_FUNCTIONS
+#include "Desarrollador.h"
 
 using namespace std;
 
-class Desarrollador : public Usuario {
-    private:
-        string nomEmpresa;
-    public:
-        Desarrollador(string, string, string);
-        void setNomEmpresa(string);
-        string getNomEmpresa();
-        string getTipo();
-};
-
-
-Desarrollador::Desarrollador(string ne, string email, string pass):Usuario(email, pass){
+Desarrollador::Desarrollador(string ne, string email, string pass) : Usuario(email, pass)
+{
     this->nomEmpresa = ne;
 }
 
-
-void Desarrollador::setNomEmpresa(string ne) {
+void Desarrollador::setNomEmpresa(string ne)
+{
     this->nomEmpresa = ne;
 }
 
-string Desarrollador::getNomEmpresa() {
+string Desarrollador::getNomEmpresa()
+{
     return this->nomEmpresa;
 }
 

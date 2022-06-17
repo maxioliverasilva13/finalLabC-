@@ -1,35 +1,10 @@
-#ifndef SUSCRIPCION_HEADER
-#define SUSCRIPCION_HEADER
+#ifndef SUSCRIPCION_FUNC
+#define SUSCRIPCION_FUNC
 
 #include <iostream>
+#include "Suscripcion.h"
 
 using namespace std;
-
-#include <iostream>
-
-class Suscripcion : public ICollectible
-{
-private:
-    int id;
-    float precio;
-    EPeriodo periodo;
-    Videojuego *videojuego;
-    IDictionary *contrataciones;
-
-public:
-    Suscripcion(int, float, EPeriodo, Videojuego *);
-    ~Suscripcion();
-    int getId();
-    float getPrecio();
-    EPeriodo getPeriodo();
-    void setId(int);
-    void setPeriodo(EPeriodo);
-    void setPrecio(float);
-    string darNombreJuego();
-    bool jugadorTieneContratacion(string);
-    DtInfoSuscripcion *getDatosSuscripcion();
-};
-
 
 Suscripcion::Suscripcion(int id, float precio, EPeriodo periodo, Videojuego *videojuego)
 {
@@ -43,12 +18,19 @@ Suscripcion::Suscripcion(int id, float precio, EPeriodo periodo, Videojuego *vid
 
 Suscripcion::~Suscripcion()
 {
-    this->videojuego = NULL;
     IIterator *it = this->contrataciones->getIterator();
     while (it->hasCurrent())
     {
-        /* code */
+        Contratacion *contr = (Contratacion *)it->getCurrent();
+        Integer *contrKey = new Integer(contr->getId());
+        this->contrataciones->remove(contrKey);
+        delete contr;
+        delete contrKey;
+        it->next();
     }
+    delete it;
+    this->videojuego = NULL;
+    this->contrataciones = NULL;
 }
 
 int Suscripcion::getId()
@@ -89,6 +71,29 @@ DtInfoSuscripcion *getDatosSuscripcion(){
     /*POR IMPLEMENTAR*/
 };
 
+void Suscripcion::agregarContratacion(ICollectible *contratacion)
+{
+    Contratacion *contr = (Contratacion *)contratacion;
+    Integer *contrKey = new Integer(contr->getId());
+    this->contrataciones->add(contrKey, contr);
+}
+
+ICollection * Suscripcion::getJugadoresActivos() {
+    ICollection * nombreJugadoresConSuscrAEsteJuego = new List();
+    IIterator * it = this->contrataciones->getIterator();
+    while (it->hasCurrent())
+    {
+        Contratacion * contr = (Contratacion *)it->getCurrent();
+        if (contr->getActiva(NULL)) {
+            string nameDuenio = contr->getNickNameDuenio();
+            char *charName = const_cast<char *>(nameDuenio.c_str()); // paso de string a char (para poder implementar la key)
+            String *nameKey = new String(charName);
+            nombreJugadoresConSuscrAEsteJuego->add(nameKey);
+        }
+        it->next();
+    }
+    return nombreJugadoresConSuscrAEsteJuego;
+}
 bool Suscripcion::jugadorTieneContratacion(string nickname){
     IIterator * it = this->contrataciones->getIterator();
     Contratacion * current;
