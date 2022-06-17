@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class DtSuscripcion
+class DtSuscripcion:public ICollectible
 {
 private:
     string nombreVideoJuego;
