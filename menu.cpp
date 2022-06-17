@@ -1,4 +1,3 @@
-#include "./src/Clases/Sistema.cpp"
 #include <limits> // para validar ints en el cin
 #include <iostream> 
 #include <cstdlib> //es para el clear

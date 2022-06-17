@@ -49,8 +49,6 @@ class DtPartida;
 class DtSuscripcion;
 class DtVideojuego;
 
-class Sistema;
-
 // ENUM
 #include "../Enum/index.cpp"
 
@@ -85,11 +83,16 @@ class Sistema;
 // CLASES  --------------------------------------------------
 
 // .h
+#include "../Clases/Usuario/Usuario.h"
 #include "../Clases/Videojuego/Videojuego.h"
 #include "../Clases/Partida/Partida.h"
 #include "../Clases/Contratacion/Contratacion.h"
 #include "../Clases/Suscripcion/Suscripcion.h"
+#include "../Clases/Puntuacion/Puntuacion.h"
 #include "../Clases/PartidaIndividual/PartidaIndividual.h"
+#include "../Clases/PartidaMultijugador/PartidaMultijugador.h"
+#include "../Clases/EstadoJugador/EstadoJugador.h"
+#include "../Clases/Desarrollador/Desarrollador.h"
 
 
 #include "../Clases/Categoria/Categoria.cpp"

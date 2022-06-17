@@ -4,38 +4,6 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-class Jugador : public Usuario
-{
-private:
-    string nickname;
-    string descripcion;
-    IDictionary *partidas;       // JUGADOR VE (tiene) PARTIDAS.
-    IDictionary *contrataciones; // JUGADOR VE (tiene) CONTRATACIONES.
-    ICollection *estadosJugador; // JUGADOR VE (tiene) CONTRATACIONES.
-public:
-    Jugador(string, string, string, string);
-    ~Jugador();
-    void setNickname(string);
-    void setDescripcion(string);
-    string getNickname();
-    string getDescripcion();
-    void iniciarPartidaMultijugador(ICollection *, bool);    // recibe coleccion de Jugadores.
-    ICollection *listarVideojuegosActivos(string);           // retorna coleccion de Strings (nombres de videojuegos)
-    ICollection *listarHistorialPartidasFinalizadas(string); // retorna coleccion de DtPartida (partidas finalizadas)
-    void continuarPartida(int);
-    void iniciarPartidaIndividual(bool, Videojuego *);
-    void suscribirseAVideojuego(int, string, ETipoPago);
-    void cancelarContratacion(int);
-    void finalizarPartida(int);
-    DtContratacion *getContratacionByUser(int);
-    void agregarPartida(Partida *);
-    void eliminarSuscripcion(ICollectible *);
-    void eliminarPartida(ICollectible *);
-    void eliminarEstadosJugador(ICollectible *);
-    ICollection *listarVideoJuegosActivos();
-};
-=======
 DtFechaHora * getFechaVencimientoByPeriodo(DtFechaHora * date, EPeriodo periodo){
     DtFechaHora * fechaVenc;
     if(periodo == VITALICIA){
@@ -59,7 +27,6 @@ DtFechaHora * getFechaVencimientoByPeriodo(DtFechaHora * date, EPeriodo periodo)
      }
      return fechaVenc;
 }
->>>>>>> 0526c5c6e7fe2fed2054c341c199beb6df9533e7
 
 Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(email, pass)
 {
@@ -77,7 +44,7 @@ ICollection *Jugador::listarVideoJuegosActivos()
     {
         Contratacion *c = (Contratacion *)it->getCurrent();
 
-        if (c->getActiva() == true)
+        if (c->getActiva(NULL) == true)
         {
             string nameGame = c->getNombreVideojuego();
             char *charNameVj = const_cast<char *>(nameGame.c_str()); // paso de string a char (para poder implementar la key)
@@ -172,7 +139,7 @@ DtContratacion *Jugador::getContratacionByUser(string nomV, DtFechaHora * fecha_
     {
         current = (Contratacion*)it->getCurrent();
         if(current->getActiva(fecha_sistema)){
-            if(nomV == current->getVideojuego()){
+            if(nomV == current->getNombreVideojuego()){
                 res = new DtContratacion(
                     current->getId(),
                     current->getMonto(), 

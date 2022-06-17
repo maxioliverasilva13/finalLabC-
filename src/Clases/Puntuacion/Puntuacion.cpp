@@ -1,25 +1,10 @@
-#ifndef PUNTUACION_HEADER
-#define PUNTUACION_HEADER
+#ifndef PUNTUACION_FUNCTIONS
+#define PUNTUACION_FUNCTIONS
+#include "Puntuacion.h"
 
 #include <iostream>
 
 using namespace std;
-
-class Puntuacion : public ICollectible
-{
-private:
-    double puntuacion;
-    Videojuego *juego;
-    Jugador *creador;
-
-public:
-    Puntuacion(int, Videojuego *, Jugador *);
-    ~Puntuacion();
-    void setPuntuacion(double);
-    void setCreador(Jugador *);
-    double getPuntuacion();
-    Jugador *getCreador();
-};
 
 Puntuacion::Puntuacion(int puntuacion, Videojuego *juego, Jugador *creador)
 {

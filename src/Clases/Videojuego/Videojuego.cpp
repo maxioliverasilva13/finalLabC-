@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 #ifndef VIDEOJUEGO_FUNC
 #define VIDEOJUEGO_FUNC
 
 #include <iostream>
 #include "Videojuego.h"
-=======
-#ifndef VIDEOJUEGO_CPP
-#define VIDEOJUEGO_CPP
-
-#include <iostream>
-#include "Videjuego.h"
->>>>>>> 0526c5c6e7fe2fed2054c341c199beb6df9533e7
 
 using namespace std;
 
@@ -153,7 +145,6 @@ void Videojuego::agregarCategoria(ICollectible *categoria)
     this->categorias->add(iKey, categoria);
 }
 
-<<<<<<< HEAD
 void Videojuego::agregarPuntuacion(ICollectible *puntuacion)
 {
     Puntuacion *punt = (Puntuacion *)puntuacion;
@@ -182,7 +173,6 @@ ICollection * Videojuego::getJugadoresActivos() {
     return nombreJugadores;
 }
 
-=======
 ICollection* Videojuego::getPuntuaciones() {
     return this->puntuaciones;
 }
@@ -253,5 +243,4 @@ void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
        }
        this->promedio_puntuacion = sumPunt/cantPunt;
 }
->>>>>>> 0526c5c6e7fe2fed2054c341c199beb6df9533e7
 #endif

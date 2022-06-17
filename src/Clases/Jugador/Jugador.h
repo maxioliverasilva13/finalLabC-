@@ -13,6 +13,8 @@ private:
     string descripcion;
     IDictionary *partidas;       // JUGADOR VE (tiene) PARTIDAS.
     IDictionary *contrataciones; // JUGADOR VE (tiene) CONTRATACIONES
+    ICollection *estadosJugador;
+
 public:
     Jugador(string, string, string, string);
     ~Jugador();
@@ -34,6 +36,8 @@ public:
     void eliminarPartida(ICollectible *);
     void eliminarEstadosJugador(ICollectible *);
     string getTipo();
+    ICollection *listarVideoJuegosActivos();
+    void iniciarPartidaIndividual(bool, Videojuego *);
 };
 
 #endif

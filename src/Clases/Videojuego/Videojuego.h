@@ -30,5 +30,12 @@ public:
     void agregarCategoria(ICollectible *);
     void agregarPuntuacion(ICollectible *puntuacion);
     ICollection * getJugadoresActivos();
+    ICollection *getPuntuaciones();
+    IDictionary *getCategorias();
+    IDictionary *getSuscripciones();
+    ICollection * getInfoSuscripciones(string);
+    Suscripcion * getSuscripcion(int);
+    void agregarPuntuacion(int ,Jugador *);
 };
+
 #endif

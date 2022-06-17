@@ -1,28 +1,10 @@
-#ifndef ESTADOJUGADOR_HEADER
-#define ESTADOJUGADOR_HEADER
+#ifndef ESTADOJUGADOR_FUNCTIOS
+#define ESTADOJUGADOR_FUNCTIOS
+#include "EstadoJugador.h"
 
 #include <iostream>
 
 using namespace std;
-
-class EstadoJugador : public ICollectible
-{
-private:
-    DtFechaHora *fechaHoraEntrada;
-    DtFechaHora *fechaHoraSalida;
-    Partida *partida;
-    Jugador *jugador;
-
-public:
-    EstadoJugador(DtFechaHora *, DtFechaHora *, Partida *, Jugador *);
-    ~EstadoJugador();
-    void setFechaHoraEntrada(DtFechaHora *);
-    void setFechaHoraSalida(DtFechaHora *);
-    void setPartida(Partida *);
-    DtFechaHora *getFechaHoraEntrada();
-    DtFechaHora *getFechaHoraSalida();
-    Partida *getPartida();
-};
 
 EstadoJugador::EstadoJugador(DtFechaHora *fechaHoraEntrada, DtFechaHora *fechaHoraSalida, Partida *partida, Jugador *jugador)
 {
