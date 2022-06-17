@@ -33,18 +33,9 @@ public:
     void setFechaVencimiento(DtFechaHora *);
     void setCancelada(bool);
     void setTipoPago(ETipoPago);
-<<<<<<< HEAD
-    bool getActiva();
+    bool getActiva(DtFechaHora *);
     string getNickNameDuenio();
     string getNombreVideojuego();
     void asociarVideojuegoSuscripcion();
 };
-=======
-    bool getActiva(DtFechaHora *);
-    string getNickNameDuenio();
-    string getVideojuego();
-    void asociarVideojuegoSuscripcion();
-};
-
->>>>>>> 0526c5c6e7fe2fed2054c341c199beb6df9533e7
 #endif
