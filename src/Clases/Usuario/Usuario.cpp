@@ -2,10 +2,9 @@
 #define USUARIO_CPP
 
 #include<iostream>
+#include "./Usuario.h"
 
 using namespace std;
-
-#include "./Usuario.h"
 
 Usuario::Usuario(string e, string p){
     this->email = e;

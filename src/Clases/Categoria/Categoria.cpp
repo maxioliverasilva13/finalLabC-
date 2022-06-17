@@ -18,6 +18,7 @@ public:
     string getDescripcion();
     int getId();
     virtual string darTipo() = 0;
+    virtual string darNombreInstancia() = 0;
 };
 
 Categoria::Categoria(string descripcion, int id)

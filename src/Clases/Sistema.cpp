@@ -109,7 +109,7 @@ private:
   IDictionary *categorias;
   IDictionary *videojuegos;
   IDictionary *usuarios;
-  Usuario *loggUser = NULL;
+  Usuario *loggUser;
   DtFechaHora *fechaHora;
   static Sistema *instance;
 
@@ -138,6 +138,7 @@ public:
   void modificarFechaSistema(DtFechaHora *fechahora);
   DtFechaHora *getFechaSistema();
   void recorrerUsuarios();
+  string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
 
 };
@@ -339,6 +340,7 @@ void Sistema::recorrerUsuarios()
     cout << user->getEmail() << endl;
     it->next();
   }
+  delete it;
 }
 
 void Sistema::altaUsuario(DtUsuario *user)
@@ -358,26 +360,25 @@ void Sistema::altaUsuario(DtUsuario *user)
 
       if (nominstanciaactual == "Desarrollador")
       {
-        cout << "Estoy parado en 1 Desarrollador" << endl;
         it->next();
       }
       if (nominstanciaactual == "Jugador")
       {
-        cout << "Estoy parado en 1 Jugador" << endl;
         Jugador *jg = (Jugador *)it->getCurrent();
         if (jg->getEmail() == email)
         {
           emailExiste = true;
-          throw invalid_argument("ERROR: Ya existe un usuario con ese email.");
+          throw invalid_argument("ERROR: Ya existe un usuario con el email \"" + email +  "\"");
         }
         if (jg->getNickname() == nickname)
         {
           nicknameExiste = true;
-          throw invalid_argument("ERROR: Ya existe un usuario con ese nickname.");
+          throw invalid_argument("ERROR: Ya existe un usuario con el nickname \"" + nickname + "\"");
         }
       }
       it->next();
     }
+    delete it;
     // no se encontró usuario repetido (con ese email o nickname), se da de alta el usuario.
     if (!emailExiste && !nicknameExiste)
     {
@@ -405,12 +406,11 @@ void Sistema::altaUsuario(DtUsuario *user)
     else
     {
       delete key;
-      throw invalid_argument("ERROR: Ya existe un desarrollador con ese email.");
+      throw invalid_argument("ERROR: Ya existe un desarrollador con el email \"" + stremail + "\"");
     }
   }
 }
 
-// TODO: login
 bool Sistema::iniciarSesion(string email, string password)
 { // TODO: cambiar a dtUsusario
   bool login = false;
@@ -431,7 +431,7 @@ bool Sistema::iniciarSesion(string email, string password)
       if (dev->getPassword() == password)
       {
         this->loggUser = dev;
-        cout << "¡Te logueaste como desarrollador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
+        cout << "EXITO: Te logueaste como desarrollador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
         login = true;
       }
       else
@@ -446,7 +446,7 @@ bool Sistema::iniciarSesion(string email, string password)
       if (player->getPassword() == password)
       {
         this->loggUser = player;
-        cout << "¡Te logueaste como jugador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
+        cout << "EXITO: Te logueaste como jugador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
         login = true;
       }
       else
@@ -458,12 +458,49 @@ bool Sistema::iniciarSesion(string email, string password)
   }
   else
   {
-    throw invalid_argument("ERROR: No existe un usuario con ese email");
+    throw invalid_argument("ERROR: No existe un usuario con el email \"" + email + "\"");
   }
   return login;
 }
 
+string Sistema::getTipoLoggUser()
+{
+  return this->loggUser->getTipo();
+}
 
+ICollection * Sistema::listarCategorias()
+{
+  ICollection *categorias = new List();
+  IIterator *it = this->categorias->getIterator();
+
+  while(it->hasCurrent())
+  {
+    Categoria *cat = (Categoria *)it->getCurrent();
+    if (cat->darNombreInstancia() == "CategoriaPlataforma")
+    {
+      CategoriaPlataforma *catPlataforma = (CategoriaPlataforma *)cat;
+      DtCategoria * catAgregar = new DtCategoria(catPlataforma->darTipo(), catPlataforma->getDescripcion(), "Plataforma");
+      categorias->add(catAgregar);
+      it->next();
+    }
+    if (cat->darNombreInstancia() == "CategoriaGenero")
+    {
+      CategoriaGenero *catGenero = (CategoriaGenero *)cat;
+      DtCategoria * catAgregar = new DtCategoria(catGenero->darTipo(), catGenero->getDescripcion(), "Genero");
+      categorias->add(catAgregar);
+      it->next();
+    }
+    if (cat->darNombreInstancia() == "Otro")
+    {
+      CategoriaOtro *catOtro = (CategoriaOtro *)cat;
+      DtCategoria * catAgregar = new DtCategoria(catOtro->darTipo(), catOtro->getDescripcion(), "Otro");
+      categorias->add(catAgregar);
+      it->next();
+    }
+  }
+  delete it;
+  return categorias;
+}
 
 ICollection * Sistema::listarSuscripcionesPorVideojuego(){
    if(this->loggUser == NULL){
@@ -564,6 +601,5 @@ void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
      Jugador * jugador = (Jugador*)this->loggUser;
      
   }
-
 
 #endif

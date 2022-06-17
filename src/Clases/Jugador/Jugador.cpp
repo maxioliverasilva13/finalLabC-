@@ -4,9 +4,6 @@
 
 using namespace std;
 
-
-//AUXILIAR FUNCTION//
-
 DtFechaHora * getFechaVencimientoByPeriodo(DtFechaHora * date, EPeriodo periodo){
     DtFechaHora * fechaVenc;
     if(periodo == VITALICIA){
@@ -120,6 +117,11 @@ void Jugador::cancelarContratacion(int idContratacion){
        }
        Contratacion * con = (Contratacion*)item; 
        con->setCancelada(true); 
+}
+
+string Jugador::getTipo()
+{
+    return "Jugador";
 }
 
 #endif

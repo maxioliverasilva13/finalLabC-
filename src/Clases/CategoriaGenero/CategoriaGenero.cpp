@@ -12,6 +12,7 @@ class CategoriaGenero: public Categoria {
       void setTipo(EGeneroJuego);
       EGeneroJuego getTipo();
       string darTipo();
+      string darNombreInstancia();
 };
 
 CategoriaGenero::CategoriaGenero(EGeneroJuego tipo, string descripcion, int id) : Categoria(descripcion, id) {
@@ -28,6 +29,10 @@ EGeneroJuego CategoriaGenero::getTipo() {
 
 string CategoriaGenero::darTipo() {
     return getEGeneroJuego(this->tipo);
+}
+
+string CategoriaGenero::darNombreInstancia() {
+    return "CategoriaGenero";
 }
 
 #endif
