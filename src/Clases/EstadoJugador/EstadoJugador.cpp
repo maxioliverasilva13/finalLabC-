@@ -1,10 +1,6 @@
 #ifndef ESTADOJUGADOR_HEADER
 #define ESTADOJUGADOR_HEADER
 
-#include "../../Clases/Partida/Partida.cpp"
-#include "../../Clases/Partida/Partida.cpp"
-#include "../../Clases/Jugador/Jugador.cpp"
-
 #include <iostream>
 
 using namespace std;

@@ -82,20 +82,25 @@ class Sistema;
 
 // CLASES  --------------------------------------------------
 #include "../Clases/Categoria/Categoria.cpp"
-#include "../Clases/Contratacion/Contratacion.cpp"
+#include "../Clases/Contratacion/Contratacion.h"
 #include "../Clases/EstadoJugador/EstadoJugador.cpp"
 #include "../Clases/CategoriaGenero/CategoriaGenero.cpp"
 #include "../Clases/CategoriaOtro/CategoriaOtro.cpp"
 #include "../Clases/CategoriaPlataforma/CategoriaPlataforma.cpp"
 #include "../Clases/Comentario/Comentario.cpp"
+#include "../Clases/Partida/Partida.h"
+#include "../Clases/Usuario/Usuario.h"
 #include "../Clases/Desarrollador/Desarrollador.cpp"
+#include "../Clases/Jugador/Jugador.h"
+#include  "../Clases/Videojuego/Videjuego.h"
+#include "../Clases/Suscripcion/Suscripcion.cpp"
 #include "../Clases/Jugador/Jugador.cpp"
+#include "../Clases/Usuario/Usuario.cpp"
+#include "../Clases/Contratacion/Contratacion.cpp"
 #include "../Clases/Partida/Partida.cpp"
 #include "../Clases/PartidaIndividual/PartidaIndividual.cpp"
 #include "../Clases/PartidaMultijugador/PartidaMultijugador.cpp"
 #include "../Clases/Puntuacion/Puntuacion.cpp"
-#include "../Clases/Suscripcion/Suscripcion.cpp"
-#include "../Clases/Usuario/Usuario.cpp"
 #include "../Clases/Videojuego/Videojuego.cpp"
 
 class Sistema
@@ -134,6 +139,8 @@ public:
   DtFechaHora *getFechaSistema();
   void recorrerUsuarios();
   string getTipoLoggUser();
+  void asignarPuntajeVideojuego(double puntaje,string nombreV);
+
 };
 
 Sistema *Sistema::instance = NULL;
@@ -153,6 +160,8 @@ Sistema::Sistema()
   int minuto = now->tm_min;
   DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
   this->fechaHora = ahora;
+
+  this->loggUser = new Jugador("rodrigo","ddsada","rodrigo@gmail.com","rodrigo123");
 }
 
 Sistema *Sistema::getInstance()
@@ -492,5 +501,105 @@ ICollection * Sistema::listarCategorias()
   delete it;
   return categorias;
 }
+
+ICollection * Sistema::listarSuscripcionesPorVideojuego(){
+   if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    string nickname = jugador->getNickname();
+
+    ICollection * res = new List();  //Collection of DtSuscripcion
+
+    IIterator * it = this->videojuegos->getIterator();
+    Videojuego * current;
+    
+    string nombreV;
+    ICollection * info_suscr_current;
+
+    while (it->hasCurrent()){
+        current = (Videojuego*)it->getCurrent();
+        nombreV = current->getNombre();
+        info_suscr_current = current->getInfoSuscripciones(nickname);
+        
+        ICollectible * videoJuegoInfoSus = new DtSuscripcion(nombreV,info_suscr_current);
+        res->add(videoJuegoInfoSus);
+        it->next();
+    }
+    delete it;
+    return res;
+};  
+
+
+DtContratacion * Sistema::getContratacion(string nombreVideojuego){
+   if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    DtContratacion * res = jugador->getContratacionByUser(nombreVideojuego,this->fechaHora);
+    return res;
+}
+
+
+
+void Sistema::confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, ETipoPago metodoPago){
+  if(this->loggUser == NULL){
+    throw invalid_argument("Debes logearte primero");
+  }
+  Jugador * jugador = (Jugador*)this->loggUser;
+
+  char *charNameVj = const_cast<char *>(nombreVideojuego.c_str());
+  IKey *vjKey = new String(charNameVj);
+
+   ICollectible * vJ = this->videojuegos->find(vjKey);
+   if(vJ == NULL){  
+     throw invalid_argument("El videojuego no existe");
+   }
+   Videojuego * juego  = (Videojuego*)vJ;
+   
+   Suscripcion * sus = juego->getSuscripcion(idSuscripcion);
+   if(sus == NULL){
+    throw invalid_argument("La suscripcion no esta asociada a este videojuego");
+   }
+
+   jugador->suscribirseAVideojuego(sus,metodoPago,this->fechaHora);
+
+}
+
+
+void Sistema::cancelarSuscripcion(int idContratacion){
+    if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    jugador->cancelarContratacion(idContratacion);
+    
+}
+
+void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
+  if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+  }
+  Jugador * jugador = (Jugador*)this->loggUser;
+  
+  char *charnombreV = const_cast<char *>(nombreV.c_str());
+  String *nombreGame = new String(charnombreV);
+  ICollectible * item = this->videojuegos->find(nombreGame);
+  if(item == NULL){
+    throw invalid_argument("No existe el videjuego con el nombre: " + nombreV );
+  }
+  Videojuego * videojuego = (Videojuego*)item;
+  videojuego->agregarPuntuacion(puntaje,jugador);
+
+}
+
+
+  void Sistema::finalizarPartida(int idPartida){
+     if(this->loggUser == NULL){
+      throw invalid_argument("Debes logearte primero");
+     }
+     Jugador * jugador = (Jugador*)this->loggUser;
+     
+  }
 
 #endif
