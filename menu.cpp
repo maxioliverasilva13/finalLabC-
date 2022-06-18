@@ -215,6 +215,34 @@ void menuJugador(){
     } 
 }
 
+void cargarDatosDePruebaMenu(){
+    system("cls");
+    cout << "Cargando datos de prueba..." << endl;
+    sleep(1);
+
+    DtDesarrollador * d1 = new DtDesarrollador("ironhide@mail.com", "123", "Ironhide Game Studio");
+    DtDesarrollador * d2 = new DtDesarrollador("epic@mail.com", "123", "Epic Games");
+    DtDesarrollador * d3 = new DtDesarrollador("mojang@mail.com", "123", "Mojang Studios");
+    DtDesarrollador * d4 = new DtDesarrollador("ea@mail.com", "123", "EA Sports");
+    DtJugador * j1 = new DtJugador("gamer@mail.com", "123", "gamer", "soy gamer");
+    DtJugador * j2 = new DtJugador("ari@mail.com", "123", "ari", "soy ari");
+    DtJugador * j3 = new DtJugador("ibai@mail.com", "123", "ibai", "soy ibai");
+    DtJugador * j4 = new DtJugador("camila@mail.com", "123", "camila", "soy camila");
+    s->altaUsuario(d1);
+    s->altaUsuario(d2);
+    s->altaUsuario(d3);
+    s->altaUsuario(d4);
+    s->altaUsuario(j1);
+    s->altaUsuario(j2);
+    s->altaUsuario(j3);
+    s->altaUsuario(j4);
+    system("cls");
+    cout << "Datos de prueba cargados." << endl;
+    sleep(1);
+}
+
+
+
 bool menuDeseaContinuarOcancelar(){
     bool opcionValida = false;
     do{
@@ -448,6 +476,8 @@ string inputTipoGenero(){
 // TODO: no funciona aún
 // Desarrollador
 void agregarCategoriaMenu(){
+
+    // REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR 
     ICollection * cats = s->listarCategorias();
     cats = s->listarCategorias();
     IIterator *it = cats->getIterator();
@@ -460,6 +490,7 @@ void agregarCategoriaMenu(){
         it->next();
     }
     delete it;
+    // REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR 
 
     string nombre;
     string descripcion;
@@ -469,32 +500,28 @@ void agregarCategoriaMenu(){
     int tipoCategoria = inputTipoCategoria();
 
     if (tipoCategoria == 1){
-        //tipo = "Plataforma";
         system("cls");
-        tipo = inputTipoPlataforma();
+        nombre = inputTipoPlataforma();
+        tipo = "PLATAFORMA";   
         // luego le pido el nombre y descripcion
     }else if (tipoCategoria == 2){
-        tipo = "Genero";
         system("cls");
-        tipo = inputTipoGenero();
+        nombre = inputTipoGenero();
+        tipo = "GENERO";
     }else if (tipoCategoria == 3){
-        tipo = "Otro";
+        system("cls");
+        cout << "Ingrese el NOMBRE para la CATEGORIA a agregar: "<< endl;
+        nombre = leerString();
+        tipo = "OTRO";
     }
 
     system("cls");
-    // TODO: dar las opciones en un menu aparte, si eligió Otro, 
-    //       le pasa un string sino en las otras 2 le pasas un Enum
-    cout << "Ingrese el NOMBRE de la CATEGORIA a agregar: "<< endl;
-    nombre = leerString();
-    system("cls");
-
     cout << "Ingrese la DESCRIPCION para la CATEGORIA a agregar: "<< endl;
     descripcion = leerString();
     system("cls");
 
     DtCategoria * categoriaNueva = new DtCategoria(nombre, descripcion, tipo);
     s->agregarCategoria(categoriaNueva);
-    //s->agregarCategoria(); recibe un icollectible
 }
 
 // TODO: pedir fecha con formato y parsear (LEO) xd
