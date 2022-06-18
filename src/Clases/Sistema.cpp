@@ -537,7 +537,7 @@ string Sistema::getTipoLoggUser()
 
 ICollection * Sistema::listarCategorias()
 {
-  ICollection *categorias = new List();
+  ICollection *res = new List();
   IIterator *it = this->categorias->getIterator();
 
   while(it->hasCurrent())
@@ -546,27 +546,27 @@ ICollection * Sistema::listarCategorias()
     if (cat->darNombreInstancia() == "CategoriaPlataforma")
     {
       CategoriaPlataforma *catPlataforma = (CategoriaPlataforma *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catPlataforma->darTipo(), catPlataforma->getDescripcion(), "Plataforma");
-      categorias->add(catAgregar);
+      ICollectible * catAgregar = new DtCategoria(catPlataforma->darTipo(), catPlataforma->getDescripcion(), "PLATAFORMA");
+      res->add(catAgregar);
       it->next();
     }
     if (cat->darNombreInstancia() == "CategoriaGenero")
     {
       CategoriaGenero *catGenero = (CategoriaGenero *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catGenero->darTipo(), catGenero->getDescripcion(), "Genero");
-      categorias->add(catAgregar);
+      ICollectible * catAgregar = new DtCategoria(catGenero->darTipo(), catGenero->getDescripcion(), "GENERO");
+      res->add(catAgregar);
       it->next();
     }
-    if (cat->darNombreInstancia() == "Otro")
+    if (cat->darNombreInstancia() == "CategoriaOtro")
     {
       CategoriaOtro *catOtro = (CategoriaOtro *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catOtro->darTipo(), catOtro->getDescripcion(), "Otro");
-      categorias->add(catAgregar);
+      ICollectible * catAgregar = new DtCategoria(catOtro->getNombre(), catOtro->getDescripcion(), "OTRO");
+      res->add(catAgregar);
       it->next();
     }
   }
   delete it;
-  return categorias;
+  return res;
 }
 
 ICollection * Sistema::listarSuscripcionesPorVideojuego(){

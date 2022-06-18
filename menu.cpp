@@ -169,6 +169,7 @@ void menu(){
     } 
 }
 
+// terminado
 bool menuUsuario(){
         mostrarMenu();
         int eleccion = leerInt();
@@ -176,7 +177,7 @@ bool menuUsuario(){
         switch (eleccion){
             case 1: altaUsuarioMenu(); break;
             case 2: iniciarSesionMenu();break;
-            //case 3: cargarDatosDePruebaMenu(); break; // TODO
+            case 3: cargarDatosDePruebaMenu(); break;
             case 4: system("cls"); return true; break;
             default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
         }
@@ -184,7 +185,7 @@ bool menuUsuario(){
 }
 
 // logica e interfaz grafica del menu de desarrollador
-void menuDesarrollador(){ // PASARLA A VOID
+void menuDesarrollador(){
     mostrarMenuDesarrollador();
     int eleccion = leerInt();
     switch (eleccion){
@@ -215,6 +216,7 @@ void menuJugador(){
     } 
 }
 
+// falta cargar más datos, a medida que se agreguen funcionalidades
 void cargarDatosDePruebaMenu(){
     system("cls");
     cout << "Cargando datos de prueba..." << endl;
@@ -236,12 +238,39 @@ void cargarDatosDePruebaMenu(){
     s->altaUsuario(j2);
     s->altaUsuario(j3);
     s->altaUsuario(j4);
+
+    DtCategoria * c1 = new DtCategoria("PC", "Esta es la cat1", "PLATAFORMA");
+    DtCategoria * c2 = new DtCategoria("PS4", "Esta es la cat2", "PLATAFORMA");
+    DtCategoria * c3 = new DtCategoria("XBOXONE", "Esta es la cat3", "PLATAFORMA");
+    DtCategoria * c4 = new DtCategoria("DEPORTE", "Esta es la cat4", "GENERO");
+    DtCategoria * c5 = new DtCategoria("SUPERVIVENCIA", "Esta es la cat5", "GENERO");
+    DtCategoria * c6 = new DtCategoria("ESTRATEGIA", "Esta es la cat6", "GENERO");
+    DtCategoria * c7 = new DtCategoria("Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
+    DtCategoria * c8 = new DtCategoria("E", "Su contenido está dirigido para todo público", "OTRO");
+    DtCategoria * c9 = new DtCategoria("ACCION", "Esta es la cat9", "GENERO");
+    DtCategoria * c10 = new DtCategoria("AVENTURA", "Esta es la cat10", "GENERO");
+    DtCategoria * c11 = new DtCategoria("SWITCH", "Esta es la cat11", "PLATAFORMA");
+    DtCategoria * c12 = new DtCategoria("XBOXX", "Esta es la cat12", "PLATAFORMA");
+    DtCategoria * c13 = new DtCategoria("PS5", "Esta es la cat13", "PLATAFORMA");
+    
+    s->agregarCategoria(c1);
+    s->agregarCategoria(c2);
+    s->agregarCategoria(c3);
+    s->agregarCategoria(c4);
+    s->agregarCategoria(c5);
+    s->agregarCategoria(c6);
+    s->agregarCategoria(c7);
+    s->agregarCategoria(c8);
+    s->agregarCategoria(c9);
+    s->agregarCategoria(c10);
+    s->agregarCategoria(c11);
+    s->agregarCategoria(c12);
+    s->agregarCategoria(c13);
+
     system("cls");
     cout << "Datos de prueba cargados." << endl;
     sleep(1);
 }
-
-
 
 bool menuDeseaContinuarOcancelar(){
     bool opcionValida = false;
@@ -393,12 +422,11 @@ void iniciarSesionMenu(){
 }
 
 
-
 // *-*-*-*-*-* HELPERS PARA AGREGARCATEGORIA *-*-*-*-*-* 
 int inputTipoCategoria(){
     bool opcionValida = false;
     do{
-        system("cls");
+        //system("cls");
         cout << "Seleccione el TIPO de CATEGORIA que desea registrar: "<<endl;
         cout << "1 - Plataforma." << endl;
         cout << "2 - Genero." << endl;
@@ -469,34 +497,38 @@ string inputTipoGenero(){
         }
     } while (opcionValida == false);
 }
-// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-
-
-// TODO: no funciona aún
-// Desarrollador
-void agregarCategoriaMenu(){
-
-    // REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR 
-    ICollection * cats = s->listarCategorias();
-    cats = s->listarCategorias();
-    IIterator *it = cats->getIterator();
-    // imprimo las categorias
+void recorrerCategoriasMenu(ICollection * colecc) // ELIMINAR, SOLO CON FINES DE TESTING.
+{
+    system("cls");
+    IIterator *it = colecc->getIterator();
+    int contador_categorias = 1;
     while (it->hasCurrent()){
-        DtCategoria * cat = (DtCategoria*)it->getCurrent();
+        DtCategoria *cat = (DtCategoria *)it->getCurrent();
+        cout << "Categoria " << contador_categorias << ": " << endl;
+        cout << "Nombre: "<< cat->getNombre() << endl;
+        cout << "Descripcion: " << cat->getDescripcion() << endl;
         cout << "Tipo: " << cat->getTipo() << endl;
-        cout << "Nombre: " << cat->getNombre() << endl;
-        cout << "Descripcion: " << cat->getDescripcion() << endl << endl;
+        cout << "-----------------------------------------" << endl;
+        contador_categorias++;
         it->next();
     }
     delete it;
-    // REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR 
+}
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+
+// funcional, queda pendiente de testear.
+// Desarrollador
+void agregarCategoriaMenu(){
+    cout << "---- Categorias ya registradas: ----" << endl;
+    ICollection * cats = s->listarCategorias();
+    recorrerCategoriasMenu(cats);
 
     string nombre;
     string descripcion;
     string tipo;
 
-    // TODO: validar en un menu aparte las 3 opciones (Plataforma(EnumETipoPlataforma), Genero(EnumGeneroJuego) u Otro)
     int tipoCategoria = inputTipoCategoria();
 
     if (tipoCategoria == 1){
@@ -521,7 +553,7 @@ void agregarCategoriaMenu(){
     system("cls");
 
     DtCategoria * categoriaNueva = new DtCategoria(nombre, descripcion, tipo);
-    s->agregarCategoria(categoriaNueva);
+    s->agregarCategoria(categoriaNueva);   
 }
 
 // TODO: pedir fecha con formato y parsear (LEO) xd

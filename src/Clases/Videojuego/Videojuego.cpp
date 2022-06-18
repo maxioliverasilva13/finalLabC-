@@ -145,12 +145,6 @@ void Videojuego::agregarCategoria(ICollectible *categoria)
     this->categorias->add(iKey, categoria);
 }
 
-void Videojuego::agregarPuntuacion(ICollectible *puntuacion)
-{
-    Puntuacion *punt = (Puntuacion *)puntuacion;
-    this->puntuaciones->add(punt);
-}
-
 ICollection * Videojuego::getJugadoresActivos() {
     ICollection * nombreJugadores = new List(); 
     IIterator * it = this->suscripciones->getIterator();
