@@ -37,9 +37,11 @@ string leerString();
 
 void mostrarMenuDesarrollador(); //contiene la interfaz grafica del menu de desarrollador
 void mostrarMenuJugador(); //contiene la interfaz grafica del menu de jugador
-bool menuUsuario();
-bool menuDesarrollador(); //contiene el switch de opciones del menu del desarrollador
-bool menuJugador(); //contiene el switch de opciones del menu del desarrollador
+void menu(); // itera llamando a los menús dependiendo del tipo de usuario logueado 
+bool menuUsuario(); //contiene el switch de opciones del menu del usuario normal
+void menuDesarrollador(); //contiene el switch de opciones del menu del desarrollador
+void menuJugador(); //contiene el switch de opciones del menu del jugador
+
 
 // *.*.*.*.*.*.*.*. Funciones del menú .*.*.*.*.*.*.*.*.*.*
 // Usuario
@@ -56,6 +58,7 @@ void consultarEstadisticasMenu();
 void verInfoVideojuegoMenu();
 void modificarFechaSistemaMenu(); //hecha
 
+
 //Jugador
 void suscribirseAvideojuegoMenu();
 void asignarPuntajeVJMenu();
@@ -63,7 +66,7 @@ void iniciarPartidaMenu();
 void abandonarPartidaMJMenu();
 void finalizarPartidaMenu();
 void verInformacionVideojuegoMenu();
-//modificarFechaSistemaMenu();
+
 
 // *.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.
 
@@ -127,27 +130,36 @@ void mostrarMenuJugador(){
     cout << " Ingrese una opcion: (entre 1-8)" << endl;
 };
 
+void cerrarSesionMenu(){
+    system("cls");
+    cout << "Cerrando sesion..." << endl;
+    sleep(1);
+    usuarioActual = "";
+}
+
+
+bool cerrarMenuDesarrollador = false;
+bool cerrarMenuJugador = false;
 void menu(){
     try
     {
         if (usuarioActual == ""){
+            menuUsuario();
             while(!menuUsuario()){
-                menuUsuario();
+                menu();
             }
-        } else {
-            if (usuarioActual == "Desarrollador"){
-                while(!menuDesarrollador()){
-                    menuDesarrollador();
-                }
-                //mostrarMenuDesarrollador();
-                //menu = false; // se cierra el menu normal, al salir del while.
-                sleep(2);
-            } else if (usuarioActual == "Jugador"){
-                while(!menuJugador()){
-                    menuJugador();
-                }
-                sleep(2);
-            } 
+        } 
+        if (usuarioActual == "Desarrollador"){
+            while(!cerrarMenuDesarrollador){
+                menuDesarrollador();
+            }
+            cerrarMenuDesarrollador = false;
+        }
+        if (usuarioActual == "Jugador"){
+            while(!cerrarMenuJugador){
+                menuJugador();
+            }
+            cerrarMenuJugador = false;
         }
     }
     catch(const std::exception& e)
@@ -172,7 +184,7 @@ bool menuUsuario(){
 }
 
 // logica e interfaz grafica del menu de desarrollador
-bool menuDesarrollador(){
+void menuDesarrollador(){ // PASARLA A VOID
     mostrarMenuDesarrollador();
     int eleccion = leerInt();
     switch (eleccion){
@@ -182,12 +194,12 @@ bool menuDesarrollador(){
         //case 4: consultarEstadisticasMenu(); break; // TODO
         //case 5: verInfoVideojuegoMenu(); break; // TODO
         case 6: modificarFechaSistemaMenu(); break;
-        case 7: return true; system("cls");break;
+        case 7: cerrarSesionMenu(); cerrarMenuDesarrollador = true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
     }  
 }
 
-bool menuJugador(){
+void menuJugador(){
     mostrarMenuJugador();
     int eleccion = leerInt();
     switch (eleccion){
@@ -198,7 +210,7 @@ bool menuJugador(){
         //case 5: finalizarPartidaMenu(); break; // TODO
         //case 6: verInformacionVideojuegoMenu(); break; // TODO
         case 7: modificarFechaSistemaMenu(); break;
-        case 8: return true; system("cls");break;
+        case 8: cerrarSesionMenu(); cerrarMenuJugador = true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
     } 
 }
@@ -227,7 +239,7 @@ bool menuDeseaContinuarOcancelar(){
 void altaUsuarioMenu(){
     bool ok = false; // cuando el login se lleva a cabo.
     int tipoUsuario;
-    
+
     while(!ok){
         try
         {
@@ -270,8 +282,7 @@ void altaUsuarioMenu(){
                         if (eleccion == false)
                             return;
                 }
-                
-                }else if(tipoUsuario == 2){ // si eligió Desarrollador
+            }else if(tipoUsuario == 2){ // si eligió Desarrollador
                 try
                 {
                     system("cls");
@@ -351,20 +362,90 @@ void iniciarSesionMenu(){
             }
         }
     }
-    if (ok == true){
-        if (usuarioActual == "Desarrollador"){
-            while (!menuDesarrollador()){
-                menuUsuario();
-            }
-        } else if (usuarioActual == "Jugador"){
-            while(!menuJugador()){
-                menuJugador();
-            }
-        } 
-    }
-        
 }
 
+
+
+// *-*-*-*-*-* HELPERS PARA AGREGARCATEGORIA *-*-*-*-*-* 
+int inputTipoCategoria(){
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "Seleccione el TIPO de CATEGORIA que desea registrar: "<<endl;
+        cout << "1 - Plataforma." << endl;
+        cout << "2 - Genero." << endl;
+        cout << "3 - Otro." << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return 1; opcionValida = true; break;
+        case 2: return 2; opcionValida = true; break;
+        case 3: return 3; opcionValida = true; break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+    return -1111;
+}
+
+string inputTipoPlataforma(){
+    bool opcionValida = false;
+    do{
+        //system("cls");
+        cout << "Seleccione el TIPO de CATEGORIA que desea registrar: "<<endl;
+        cout << "1 - XBOX ONE" << endl;
+        cout << "2 - XBOX X" << endl;
+        cout << "3 - PS5" << endl;
+        cout << "4 - PC" << endl;
+        cout << "5 - SWITCH" << endl;
+        cout << "6 - PS4" << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return "XBOXONE"; opcionValida = true; break;
+        case 2: return "XBOXX"; opcionValida = true; break;
+        case 3: return "PS5"; opcionValida = true; break;
+        case 4: return "PC"; opcionValida = true; break;
+        case 5: return "SWITCH"; opcionValida = true; break;
+        case 6: return "PS4"; opcionValida = true; break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+}
+
+string inputTipoGenero(){
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "Seleccione el TIPO de CATEGORIA que desea registrar: "<<endl;
+        cout << "1 - ACCION." << endl;
+        cout << "2 - AVENTURA." << endl;
+        cout << "3 - ESTRATEGIA." << endl;
+        cout << "4 - DEPORTE." << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return "ACCION"; opcionValida = true; break;
+        case 2: return "AVENTURA"; opcionValida = true; break;
+        case 3: return "ESTRATEGIA"; opcionValida = true; break;
+        case 4: return "DEPORTE"; opcionValida = true; break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+}
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+
+
+// TODO: no funciona aún
 // Desarrollador
 void agregarCategoriaMenu(){
     ICollection * cats = s->listarCategorias();
@@ -373,21 +454,34 @@ void agregarCategoriaMenu(){
     // imprimo las categorias
     while (it->hasCurrent()){
         DtCategoria * cat = (DtCategoria*)it->getCurrent();
-        cout << cat->getNombre() << endl;
+        cout << "Tipo: " << cat->getTipo() << endl;
+        cout << "Nombre: " << cat->getNombre() << endl;
+        cout << "Descripcion: " << cat->getDescripcion() << endl << endl;
         it->next();
     }
     delete it;
-    system("PAUSE");
-    // luego de listar, pregunto por la categoria a agregar
+
     string nombre;
     string descripcion;
     string tipo;
 
     // TODO: validar en un menu aparte las 3 opciones (Plataforma(EnumETipoPlataforma), Genero(EnumGeneroJuego) u Otro)
-    cout << "Ingrese el TIPO de la CATEGORIA a agregar: "<< endl;
-    tipo = leerString();
-    system("cls");
+    int tipoCategoria = inputTipoCategoria();
 
+    if (tipoCategoria == 1){
+        //tipo = "Plataforma";
+        system("cls");
+        tipo = inputTipoPlataforma();
+        // luego le pido el nombre y descripcion
+    }else if (tipoCategoria == 2){
+        tipo = "Genero";
+        system("cls");
+        tipo = inputTipoGenero();
+    }else if (tipoCategoria == 3){
+        tipo = "Otro";
+    }
+
+    system("cls");
     // TODO: dar las opciones en un menu aparte, si eligió Otro, 
     //       le pasa un string sino en las otras 2 le pasas un Enum
     cout << "Ingrese el NOMBRE de la CATEGORIA a agregar: "<< endl;
@@ -402,6 +496,7 @@ void agregarCategoriaMenu(){
     s->agregarCategoria(categoriaNueva);
     //s->agregarCategoria(); recibe un icollectible
 }
+
 // TODO: pedir fecha con formato y parsear (LEO) xd
 void modificarFechaSistemaMenu(){
     try
