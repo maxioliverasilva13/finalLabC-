@@ -11,12 +11,12 @@ private:
   bool nueva;
 
 public:
-  PartidaIndividual(bool, int, EEstado, DtFechaHora *, Videojuego *, Jugador *j);
+  PartidaIndividual(bool, EEstado, DtFechaHora *, Videojuego *, Jugador *j);
   ~PartidaIndividual();
   void continuarPartida();
   void setNueva(bool);
   bool getNueva();
-  void finalizarPartida();
+  void finalizarPartida(DtFechaHora *);
   DtPartida *getDtPartida();
   string darTipo();
 };

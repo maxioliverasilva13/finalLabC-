@@ -6,8 +6,11 @@
 
 using namespace std;
 
-Partida::Partida(int id, EEstado estado, Videojuego *vj, DtFechaHora *fecha, Jugador *j)
+int Partida::id = 0;
+
+Partida::Partida(EEstado estado, Videojuego *vj, DtFechaHora *fecha, Jugador *j)
 {
+  Partida::id++;
   this->id = id;
   this->estado = estado;
   this->videojuego = vj;

@@ -6,24 +6,25 @@ using namespace std;
 
 class Categoria : public ICollectible
 {
-private:
-    int id;
+protected:
+    static int id;
     string descripcion;
 
 public:
-    Categoria(string, int);
+    Categoria(string);
     ~Categoria();
     void setDescripcion(string);
-    void setId(int);
     string getDescripcion();
     int getId();
     virtual string darTipo() = 0;
     virtual string darNombreInstancia() = 0;
 };
 
-Categoria::Categoria(string descripcion, int id)
+int Categoria::id;
+
+Categoria::Categoria(string descripcion)
 {
-    this->id = id;
+    Categoria::id++;
     this->descripcion = descripcion;
 }
 
@@ -39,12 +40,7 @@ string Categoria::getDescripcion()
 
 int Categoria::getId()
 {
-    return this->id;
-}
-
-void Categoria::setId(int id)
-{
-    this->id = id;
+    return Categoria::id;
 }
 
 Categoria::~Categoria()

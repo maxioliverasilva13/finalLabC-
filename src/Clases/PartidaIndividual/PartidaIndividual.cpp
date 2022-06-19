@@ -4,7 +4,7 @@
 
 #include "PartidaIndividual.h"
 
-PartidaIndividual::PartidaIndividual(bool nueva, int id, EEstado estado, DtFechaHora *fecha, Videojuego *vj, Jugador *j) : Partida(id, estado, vj, fecha, j)
+PartidaIndividual::PartidaIndividual(bool nueva, EEstado estado, DtFechaHora *fecha, Videojuego *vj, Jugador *j) : Partida(estado, vj, fecha, j)
 {
   this->nueva = nueva;
 };
@@ -19,7 +19,7 @@ PartidaIndividual::~PartidaIndividual()
   this->creador->eliminarPartida(this);
 }
 
-void PartidaIndividual::finalizarPartida()
+void PartidaIndividual::finalizarPartida(DtFechaHora * fechaSistema)
 {
   this->setEstado(FINALIZADA);
 }

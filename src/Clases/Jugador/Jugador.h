@@ -22,21 +22,20 @@ public:
     void setDescripcion(string);
     string getNickname();
     string getDescripcion();
-    void iniciarPartidaMultijugador(ICollection *, bool);    // recibe coleccion de Jugadores.
+    void iniciarPartidaMultijugador(ICollection *, bool, Videojuego *, DtFechaHora *);    // recibe coleccion de Jugadores.
     ICollection *listarVideojuegosActivos(string);           // retorna coleccion de Strings (nombres de videojuegos)
     ICollection *listarHistorialPartidasFinalizadas(string); // retorna coleccion de DtPartida (partidas finalizadas)
     void continuarPartida(int);
-    void iniciarPartidaIndividual(bool);
     void suscribirseAVideojuego(Suscripcion *, ETipoPago,DtFechaHora *);
     void cancelarContratacion(int);
-    void finalizarPartida(int);
+    void finalizarPartida(int, DtFechaHora *);
     DtContratacion *getContratacionByUser(string,DtFechaHora*);
     void agregarPartida(Partida *);
     void eliminarSuscripcion(ICollectible *);
     void eliminarPartida(ICollectible *);
     void eliminarEstadosJugador(ICollectible *);
     string getTipo();
-    ICollection *listarVideoJuegosActivos();
+    ICollection *listarVideoJuegosActivos(DtFechaHora *);
     void iniciarPartidaIndividual(bool, Videojuego *);
     ICollection * listarPartidasUnido();
     void  abandonarPartida(int idPartida,DtFechaHora * fechaSistema);

@@ -9,14 +9,14 @@ class CategoriaPlataforma: public Categoria {
     private:
       ETipoPlataforma tipo;
     public:
-      CategoriaPlataforma(ETipoPlataforma, string, int);
+      CategoriaPlataforma(ETipoPlataforma, string);
       void setTipo(ETipoPlataforma);
       ETipoPlataforma getTipo();
       string darTipo();
       string darNombreInstancia();
 };
 
-CategoriaPlataforma::CategoriaPlataforma(ETipoPlataforma tipo, string descripcion, int id) : Categoria(descripcion, id) {
+CategoriaPlataforma::CategoriaPlataforma(ETipoPlataforma tipo, string descripcion) : Categoria(descripcion) {
     this->tipo = tipo;
 }
 

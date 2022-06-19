@@ -11,12 +11,12 @@ private:
     bool enVivo;
     float duracion;
     IDictionary *comentarios;
-    ICollection *estadosJugador;
 
 public:
-    PartidaMultijugador(bool, float, int, EEstado, DtFechaHora *, Videojuego *, Jugador *);
+    ICollection *estadosJugador;
+    PartidaMultijugador(bool, float, EEstado, DtFechaHora *, Videojuego *, Jugador *);
     ~PartidaMultijugador();
-    void finalizarPartida();
+    void finalizarPartida(DtFechaHora *);
     DtPartida *getDtPartida();
     void setEnVivo(bool);
     void setDuracion(float);
