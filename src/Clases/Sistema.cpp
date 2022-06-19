@@ -154,6 +154,7 @@ public:
   string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
   ICollection * listarPartidasUnido();  //DtPartidaMultijugador
+  void abandonarPartida(int idPartida);
 };
 
 Sistema *Sistema::instance = NULL;
@@ -680,6 +681,15 @@ void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
       return res;
     
     } 
+
+  void  Sistema::abandonarPartida(int idPartida){
+    if(this->loggUser == NULL){ 
+      throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    jugador->abandonarPartida(idPartida,this->fechaHora);
+
+  }
 
 
 #endif

@@ -227,8 +227,36 @@ ICollection * Jugador::listarPartidasUnido(){
         }
         it->next();
     }
+    
     delete it;
     return res;
     
+}
+
+
+void Jugador::abandonarPartida(int idPartida,DtFechaHora * fechaSistema){
+   IIterator * it = this->estadosJugador->getIterator();
+   EstadoJugador * current ;
+   Partida * current_partida;
+   
+   int current_id_partida = 0;
+   while (it->hasCurrent())
+   {
+    current = (EstadoJugador*)it;
+    current_partida = current->getPartida();
+    current_id_partida = current_partida->getId();
+
+    if(current_partida->getCreador()->getNickname() == this->nickname && 
+    current_id_partida == idPartida){
+        throw invalid_argument("No puedes abandonar una partida donde eres el duenio,en todo caso debes finalizarla");
+    }
+  
+    if(current->getFechaHoraSalida() == NULL && current_id_partida == idPartida){
+        current->setFechaHoraSalida(fechaSistema);
+        break;
+    }
+    it->next();
+   }
+   delete it;
 }
 #endif
