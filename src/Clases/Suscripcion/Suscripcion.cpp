@@ -6,13 +6,14 @@
 
 using namespace std;
 
-Suscripcion::Suscripcion(int id, float precio, EPeriodo periodo, Videojuego *videojuego)
+int Suscripcion::id = 0;
+
+Suscripcion::Suscripcion(float precio, EPeriodo periodo, Videojuego *videojuego)
 {
-    this->id = id;
+    Suscripcion::id ++;
     this->precio = precio;
     this->periodo = periodo;
     this->videojuego = videojuego;
-
     this->contrataciones = new OrderedDictionary();
 };
 
@@ -78,13 +79,13 @@ void Suscripcion::agregarContratacion(ICollectible *contratacion)
     this->contrataciones->add(contrKey, contr);
 }
 
-ICollection * Suscripcion::getJugadoresActivos() {
+ICollection * Suscripcion::getJugadoresActivos(DtFechaHora * fecha) {
     ICollection * nombreJugadoresConSuscrAEsteJuego = new List();
     IIterator * it = this->contrataciones->getIterator();
     while (it->hasCurrent())
     {
         Contratacion * contr = (Contratacion *)it->getCurrent();
-        if (contr->getActiva(NULL)) {
+        if (contr->getActiva(fecha)) {
             string nameDuenio = contr->getNickNameDuenio();
             char *charName = const_cast<char *>(nameDuenio.c_str()); // paso de string a char (para poder implementar la key)
             String *nameKey = new String(charName);
