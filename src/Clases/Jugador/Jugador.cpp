@@ -36,7 +36,20 @@ Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(
     this->contrataciones = new OrderedDictionary();
 }
 
-ICollection *Jugador::listarVideoJuegosActivos()
+void Jugador::iniciarPartidaMultijugador(ICollection * jugadores, bool enVIvo, Videojuego * juego, DtFechaHora * fecha){
+    PartidaMultijugador * partida = new PartidaMultijugador(enVIvo, 0, ENCURSO, fecha, juego, this);
+    
+    IIterator * it = jugadores->getIterator();
+    while (it->hasCurrent())
+    {
+       Jugador * jugador = (Jugador *)it->getCurrent();
+       EstadoJugador * est = new EstadoJugador(fecha, NULL, partida, jugador);
+       partida->agregarEstadoJugador(est);
+       it->next();
+    }
+}
+
+ICollection *Jugador::listarVideoJuegosActivos(DtFechaHora * ahora)
 {
     ICollection *nameJuegos = new List();
     IIterator *it = this->contrataciones->getIterator();
@@ -58,7 +71,7 @@ ICollection *Jugador::listarVideoJuegosActivos()
 
 void Jugador::iniciarPartidaIndividual(bool esNueva, Videojuego * vj) {
     DtFechaHora * ahora;
-    PartidaIndividual * p = new PartidaIndividual(esNueva, 1, ENCURSO, ahora->getAhora(), vj, this);
+    PartidaIndividual * p = new PartidaIndividual(esNueva, ENCURSO, ahora->getAhora(), vj, this);
     Integer * partidaKey = new Integer(p->getId());
     this->partidas->add(partidaKey, p);
     delete ahora;
@@ -190,6 +203,21 @@ void Jugador::cancelarContratacion(int idContratacion){
 string Jugador::getTipo()
 {
     return "Jugador";
+}
+
+void Jugador::finalizarPartida(int idPartida, DtFechaHora * fechaSistema) {
+    IIterator * it = this->partidas->getIterator();
+    while (it->hasCurrent())
+    {
+        Partida * p = (Partida *)it->getCurrent();
+        if (p->getId() == idPartida) {
+            p->finalizarPartida(fechaSistema);
+            break;
+        }
+        it->next();
+    }
+    delete it;
+    
 }
 
 void Jugador::eliminarPartida(ICollectible *partida)
