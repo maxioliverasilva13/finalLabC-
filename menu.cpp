@@ -72,10 +72,21 @@ void verInformacionVideojuegoMenu();
 
 // *.*.*.*.*.*. Funciones auxiliares a las del menú *.*.*.*
 int menuJugadorOdesarrollador();
+bool menuDeseaContinuarOcancelar();
 // *.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.
 
 int leerInt(){
     int eleccion;
+    while (!(cin >> eleccion)) {
+		cout << "Solo numeros por favor..."<< endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	}
+    return eleccion;
+}
+
+float leerFloat(){
+    float eleccion;
     while (!(cin >> eleccion)) {
 		cout << "Solo numeros por favor..."<< endl;
 		cin.clear();
@@ -190,7 +201,7 @@ void menuDesarrollador(){
     int eleccion = leerInt();
     switch (eleccion){
         case 1: agregarCategoriaMenu(); break;
-        //case 2: publicarVideojuegoMenu();break; // TODO
+        case 2: publicarVideojuegoMenu();break; // TODO
         //case 3: eliminarVideojuegoMenu(); break; // TODO
         //case 4: consultarEstadisticasMenu(); break; // TODO
         //case 5: verInfoVideojuegoMenu(); break; // TODO
@@ -498,7 +509,7 @@ string inputTipoGenero(){
     } while (opcionValida == false);
 }
 
-void recorrerCategoriasMenu(ICollection * colecc) // ELIMINAR, SOLO CON FINES DE TESTING.
+void recorrerCategoriasMenu(ICollection * colecc ) 
 {
     system("cls");
     IIterator *it = colecc->getIterator();
@@ -553,7 +564,7 @@ void agregarCategoriaMenu(){
     system("cls");
 
     DtCategoria * categoriaNueva = new DtCategoria(nombre, descripcion, tipo);
-    s->agregarCategoria(categoriaNueva);   
+    s->agregarCategoria(categoriaNueva);
 }
 
 // TODO: pedir fecha con formato y parsear (LEO) xd
@@ -601,6 +612,114 @@ void modificarFechaSistemaMenu(){
     catch(const std::exception& e)
     {
         system("cls");
+        std::cerr << e.what() << '\n';
+        sleep(2);
+    }
+}
+
+// auxiliar publicarVideojuego
+void recorrerCategoriasID(ICollection * colecc ) 
+{
+    system("cls");
+    IIterator *it = colecc->getIterator();
+    int contador_categorias = 1;
+    while (it->hasCurrent()){
+        DtCategoria *cat = (DtCategoria *)it->getCurrent();
+        cout << "Categoria " << contador_categorias << ": " << endl;
+        //cout << "ID: " << cat->getID() << ": " << endl;
+        cout << "Nombre: "<< cat->getNombre() << endl;
+        cout << "Descripcion: " << cat->getDescripcion() << endl;
+        cout << "-----------------------------------------" << endl;
+        contador_categorias++;
+        it->next();
+    }
+    delete it;
+}
+
+bool menuDeseaContinuarAgregando(){
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "Desea continuar agregando categorias? " << endl;
+        cout << "1 - Si" << endl;
+        cout << "2 - No" << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return true; opcionValida = true; break;
+        case 2: return false; opcionValida = true;break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+    return false;
+}
+
+// SIN TERMINAR, FALTA AGREGAR EL ID A DTCATEGORIA
+void publicarVideojuegoMenu(){
+    try
+    {
+        system("cls");
+        cout << "Ingrese el NOMBRE para el videojuego: "<< endl;
+        string nombre = leerString();
+
+        system("cls");
+        cout << "Ingrese DESCRIPCION para el videojuego: "<< endl;
+        string descripcion = leerString();
+
+        system("cls");
+        cout << "Ingrese COSTO de suscripcion MENUSAL para el videojuego: "<< endl;
+        float mensual = leerFloat();
+
+        system("cls");
+        cout << "Ingrese COSTO de suscripcion TRIMESTRAL para el videojuego: "<< endl;
+        float trimestral = leerFloat();
+
+        system("cls");
+        cout << "Ingrese COSTO de suscripcion ANUAL para el videojuego: "<< endl;
+        float anual = leerFloat();
+        
+        system("cls");
+        cout << "Ingrese COSTO de suscripcion VITALICIA para el videojuego: "<< endl;
+        float vitalicia = leerFloat();
+
+        ICollection * categorias_videojuego = new List();
+        bool termino = false;
+        do{
+            cout << "---- Seleccione una Categoria: ----" << endl;
+            ICollection * cats = s->listarCategorias();
+            recorrerCategoriasID(cats); // muestro todas las categorias registradas
+            int eleccionIDCategoria = leerInt();
+            
+            ICollection * cats = s->listarCategorias(); // me traigo una copia (LISTA DE DTS) de las categorias registradas
+            IIterator *it = cats->getIterator(); 
+
+            //ICollectible * catAgregar = new DtCategoria( /*id del que findee*/, /*nombre del que hicefind*/, /*descripcion del find*/, /*tipo del find*/);
+            //categorias_videojuego->add(catAgregar);
+
+
+            termino = menuDeseaContinuarAgregando();
+        }while (!termino);
+
+        ICollection * costos_suscr = new List();
+
+        ICollectible * costoM = new DtCostoSuscripcion(MENSUAL, mensual);
+        ICollectible * costoT = new DtCostoSuscripcion(TRIMESTRAL, trimestral);
+        ICollectible * costoA = new DtCostoSuscripcion(ANUAL, anual);
+        ICollectible * costoV = new DtCostoSuscripcion(VITALICIA, vitalicia);
+
+        costos_suscr->add(costoM);
+        costos_suscr->add(costoT);
+        costos_suscr->add(costoA);
+        costos_suscr->add(costoV);
+
+
+        s->agregarVideojuego(nombre, descripcion, costos_suscr, categorias_videojuego);
+    }
+    catch(const std::exception& e)
+    {
         std::cerr << e.what() << '\n';
         sleep(2);
     }
