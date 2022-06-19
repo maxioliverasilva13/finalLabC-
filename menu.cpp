@@ -148,7 +148,6 @@ void cerrarSesionMenu(){
     usuarioActual = "";
 }
 
-
 bool cerrarMenuDesarrollador = false;
 bool cerrarMenuJugador = false;
 void menu(){
@@ -220,7 +219,7 @@ void menuJugador(){
         //case 3: iniciarPartidaMenu(); break; // TODO
         //case 4: abandonarPartidaMJMenu(); break; // TODO
         //case 5: finalizarPartidaMenu(); break; // TODO
-        //case 6: verInformacionVideojuegoMenu(); break; // TODO queda pendiente que leo fixee su codigo e implementar entre los 4
+        //case 6: verInformacionVideojuegoMenu(); break; // TODO queda pendiente que leo fixee su codigo y terminar de implementarla
         case 7: modificarFechaSistemaMenu(); break;
         case 8: cerrarSesionMenu(); cerrarMenuJugador = true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
@@ -762,6 +761,46 @@ void consultarEstadisticasMenu(){
 void suscribirseAvideojuegoMenu(){
     cout << "pendiente...";
     return;
+}
+
+// auxiliar verInformacionVideojuego
+void recorrerSuscripcionesVJ(DtVideojuego * vj){
+    cout << "---- Suscripciones del videojuego: ----";
+    //IIterator *it = vj->suscripciones->getIterator(); //revisar
+        /*
+    while (it->hasCurrent()){
+        DtSuscripcion *suscripcion = (DtSuscripcion *)it->getCurrent();
+        cout << "ID: " << suscripcion->getID() << endl;
+        cout << "Fecha de inicio: " << suscripcion->getFechaInicio() << endl;
+        cout << "Fecha de fin: " << suscripcion->getFechaFin() << endl;
+        cout << "-----------------------------------------" << endl;
+        it->next();
+    }
+    delete it;
+        */
+}
+
+
+// pseudocodigo, fixear
+void verInformacionVideojuegoMenu(){
+    cout << "---- Videojuegos ya registrados: ----" << endl;
+    IDictionary * vj = s->listarVJ();
+    recorrerVideojuegosMenu(vj);
+
+    cout << "Ingrese el NOMBRE del VIDEOJUEGO de la lista: "<< endl;
+    string nombrevj = leerString();
+
+    char *charNameVj = const_cast<char *>(nombrevj.c_str()); // paso de string a char (para poder implementar la key)
+    String *vjKey = new String(charNameVj);
+    DtVideojuego * res = (DtVideojuego *)vj->find(vjKey);
+
+    system("cls"); 
+    cout << "---- Informacion del VIDEOJUEGO: ----" << endl;
+    cout << "Nombre: " << res->getNombreVideojuego() << endl;
+    cout << "Nombre: " << res->getDescripcionVideojuego() << endl;
+    cout << "Nombre: " << res->getPromedioPuntuaciones() << endl;
+    //cout << "Nombre: " << recorrerSuscripcionesVJ(res) << endl;
+    //cout << "Nombre: " << recorrerCategoriasVJ(res) << endl;
 }
 
 
