@@ -179,6 +179,23 @@ void menu(){
     } 
 }
 
+// auxiliar asignar puntaje
+void recorrerVideojuegosMenu(IDictionary * coleccVJ ) 
+{
+    system("cls");
+    IIterator *it = coleccVJ->getIterator();
+    int contador_categorias = 1;
+    while (it->hasCurrent()){
+        DtVideojuego *vj = (DtVideojuego *)it->getCurrent();
+        cout << "Nombre: "<< vj->getNombreVideojuego() << endl;
+        cout << "Descripcion: " << vj->getDescripcionVideojuego() << endl;
+        cout << "-----------------------------------------" << endl;
+        contador_categorias++;
+        it->next();
+    }
+    delete it;
+}
+
 // terminado
 bool menuUsuario(){
         mostrarMenu();
@@ -248,34 +265,20 @@ void cargarDatosDePruebaMenu(){
         s->altaUsuario(j3);
         s->altaUsuario(j4);
 
-        DtCategoria * c1 = new DtCategoria("PC", "Esta es la cat1", "PLATAFORMA");
-        DtCategoria * c2 = new DtCategoria("PS4", "Esta es la cat2", "PLATAFORMA");
-        DtCategoria * c3 = new DtCategoria("XBOXONE", "Esta es la cat3", "PLATAFORMA");
-        DtCategoria * c4 = new DtCategoria("DEPORTE", "Esta es la cat4", "GENERO");
-        DtCategoria * c5 = new DtCategoria("SUPERVIVENCIA", "Esta es la cat5", "GENERO");
-        DtCategoria * c6 = new DtCategoria("ESTRATEGIA", "Esta es la cat6", "GENERO");
-        DtCategoria * c7 = new DtCategoria("Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
-        DtCategoria * c8 = new DtCategoria("E", "Su contenido está dirigido para todo público", "OTRO");
-        DtCategoria * c9 = new DtCategoria("ACCION", "Esta es la cat9", "GENERO");
-        DtCategoria * c10 = new DtCategoria("AVENTURA", "Esta es la cat10", "GENERO");
-        DtCategoria * c11 = new DtCategoria("SWITCH", "Esta es la cat11", "PLATAFORMA");
-        DtCategoria * c12 = new DtCategoria("XBOXX", "Esta es la cat12", "PLATAFORMA");
-        DtCategoria * c13 = new DtCategoria("PS5", "Esta es la cat13", "PLATAFORMA");
-        
-        s->agregarCategoria(c1);
-        s->agregarCategoria(c2);
-        s->agregarCategoria(c3);
-        s->agregarCategoria(c4);
-        s->agregarCategoria(c5);
-        s->agregarCategoria(c6);
-        s->agregarCategoria(c7);
-        s->agregarCategoria(c8);
-        s->agregarCategoria(c9);
-        s->agregarCategoria(c10);
-        s->agregarCategoria(c11);
-        s->agregarCategoria(c12);
-        s->agregarCategoria(c13);
-
+        s->agregarCategoria("PC", "Esta es la cat1", "PLATAFORMA");
+        s->agregarCategoria("PS4", "Esta es la cat2", "PLATAFORMA");
+        s->agregarCategoria("XBOXONE", "Esta es la cat3", "PLATAFORMA");
+        s->agregarCategoria("DEPORTE", "Esta es la cat4", "GENERO");
+        s->agregarCategoria("SUPERVIVENCIA", "Esta es la cat5", "GENERO");
+        s->agregarCategoria("ESTRATEGIA", "Esta es la cat6", "GENERO");
+        s->agregarCategoria("Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
+        s->agregarCategoria("E", "Su contenido está dirigido para todo público", "OTRO");
+        s->agregarCategoria("ACCION", "Esta es la cat9", "GENERO");
+        s->agregarCategoria("AVENTURA", "Esta es la cat10", "GENERO");
+        s->agregarCategoria("SWITCH", "Esta es la cat11", "PLATAFORMA");
+        s->agregarCategoria("XBOXX", "Esta es la cat12", "PLATAFORMA");
+        s->agregarCategoria("PS5", "Esta es la cat13", "PLATAFORMA");
+      
         cout << "Datos de prueba cargados." << endl;
         sleep(1);
     }
@@ -801,24 +804,6 @@ void verInformacionVideojuegoMenu(){
     cout << "Nombre: " << res->getPromedioPuntuaciones() << endl;
     //cout << "Nombre: " << recorrerSuscripcionesVJ(res) << endl;
     //cout << "Nombre: " << recorrerCategoriasVJ(res) << endl;
-}
-
-
-// auxiliar asignar puntaje
-void recorrerVideojuegosMenu(IDictionary * coleccVJ ) 
-{
-    system("cls");
-    IIterator *it = coleccVJ->getIterator();
-    int contador_categorias = 1;
-    while (it->hasCurrent()){
-        DtVideojuego *vj = (DtVideojuego *)it->getCurrent();
-        cout << "Nombre: "<< vj->getNombreVideojuego() << endl;
-        cout << "Descripcion: " << vj->getDescripcionVideojuego() << endl;
-        cout << "-----------------------------------------" << endl;
-        contador_categorias++;
-        it->next();
-    }
-    delete it;
 }
 
 void asignarPuntajeVJMenu(){

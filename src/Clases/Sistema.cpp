@@ -599,19 +599,19 @@ ICollection * Sistema::listarCategorias()
     {
       CategoriaPlataforma *catPlataforma = (CategoriaPlataforma *)cat;
       DtCategoria * catAgregar = new DtCategoria(catPlataforma->getId(), catPlataforma->darTipo(), catPlataforma->getDescripcion(), "PLATAFORMA");
-      categorias->add(catAgregar);
+      res->add(catAgregar);
     }
     if (cat->darNombreInstancia() == "CategoriaGenero")
     {
       CategoriaGenero *catGenero = (CategoriaGenero *)cat;
       DtCategoria * catAgregar = new DtCategoria(catGenero->getId(), catGenero->darTipo(), catGenero->getDescripcion(), "GENERO");
-      categorias->add(catAgregar);
+      res->add(catAgregar);
     }
     if (cat->darNombreInstancia() == "CategoriaOtro")
     {
       CategoriaOtro *catOtro = (CategoriaOtro *)cat;
       DtCategoria * catAgregar = new DtCategoria(catOtro->getId(), catOtro->darTipo(), catOtro->getDescripcion(), "OTRO");
-      categorias->add(catAgregar);
+      res->add(catAgregar);
     }
     it->next();
   }
