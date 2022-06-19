@@ -8,14 +8,14 @@ class CategoriaGenero: public Categoria {
     private:
       EGeneroJuego tipo;
     public:
-      CategoriaGenero(EGeneroJuego, string, int);
+      CategoriaGenero(EGeneroJuego, string);
       void setTipo(EGeneroJuego);
       EGeneroJuego getTipo();
       string darTipo();
       string darNombreInstancia();
 };
 
-CategoriaGenero::CategoriaGenero(EGeneroJuego tipo, string descripcion, int id) : Categoria(descripcion, id) {
+CategoriaGenero::CategoriaGenero(EGeneroJuego tipo, string descripcion) : Categoria(descripcion) {
     this->tipo = tipo;
 }
 

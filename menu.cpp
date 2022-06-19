@@ -566,8 +566,8 @@ void agregarCategoriaMenu(){
     descripcion = leerString();
     system("cls");
 
-    DtCategoria * categoriaNueva = new DtCategoria(nombre, descripcion, tipo);
-    s->agregarCategoria(categoriaNueva);
+    s->agregarCategoria(nombre, descripcion, tipo);
+    //s->agregarCategoria(); recibe un icollectible
 }
 
 // TODO: pedir fecha con formato y parsear (LEO) xd

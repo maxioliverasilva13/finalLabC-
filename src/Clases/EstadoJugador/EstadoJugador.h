@@ -21,6 +21,7 @@ public:
     void setPartida(Partida *);
     DtFechaHora *getFechaHoraEntrada();
     DtFechaHora *getFechaHoraSalida();
+    Jugador * getJugador();
     Partida *getPartida();
 };
 
