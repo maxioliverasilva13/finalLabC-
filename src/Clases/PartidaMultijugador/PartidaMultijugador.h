@@ -24,6 +24,8 @@ public:
     float getDuracion();
     void agregarEstadoJugador(EstadoJugador *);
     string darTipo();
+    ICollection * getJugadoresUnidos();  // collecion de string con los nicknames de los jugadores.
+
 };
 
 #endif

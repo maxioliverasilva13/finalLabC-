@@ -39,7 +39,7 @@ void Partida::setFecha(DtFechaHora *fecha)
   this->fecha = fecha;
 }
 
-int Partida::getEstado()
+EEstado Partida::getEstado()
 {
   return this->estado;
 }
@@ -59,4 +59,7 @@ bool Partida::esFinalizada()
   return this->estado == FINALIZADA;
 };
 
+Jugador * Partida::getCreador(){
+     return this->creador;
+}
 #endif

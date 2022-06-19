@@ -205,4 +205,30 @@ void Jugador::eliminarEstadosJugador(ICollectible *estadojugador)
     this->estadosJugador->remove(estadojugador);
 }
 
+ICollection * Jugador::listarPartidasUnido(){
+    IIterator * it = this->estadosJugador->getIterator();
+
+    ICollection * res = new List();   //DtPartidaMultijador;
+
+    EstadoJugador * current;
+    PartidaMultijugador * current_partida;
+    while (it->hasCurrent()){
+        current = (EstadoJugador*)it;
+        current_partida = (PartidaMultijugador*)current->getPartida();
+
+        bool isOwner = false;
+        if(current_partida->getEstado() == ENCURSO){
+            if(current_partida->getCreador()->getNickname() == this->nickname){
+                isOwner = true;
+            }
+            //int id, DtFechaHora * fecha, string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner
+            ICollectible * newItem = new DtPartidaMultijugador(current_partida->getId(),current_partida->getFecha(), current_partida->darNombreJuego(),current_partida->getEnVivo(),current_partida->getJugadoresUnidos(),isOwner);
+            res->add(newItem);
+        }
+        it->next();
+    }
+    delete it;
+    return res;
+    
+}
 #endif

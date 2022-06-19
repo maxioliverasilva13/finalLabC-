@@ -48,6 +48,7 @@ class DtUsuario;
 class DtPartida;
 class DtSuscripcion;
 class DtVideojuego;
+class DtPartidaMultijugador;
 
 // ENUM
 #include "../Enum/index.cpp"
@@ -79,6 +80,7 @@ class DtVideojuego;
 #include "../DataType/DtPartida/DtPartida.cpp"
 #include "../DataType/DtSuscripcion/DtSuscripcion.cpp"
 #include "../DataType/DtVideojuego/DtVideojuego.cpp"
+#include "../DataType/DtPartidaMultijugador/DtPartidaMultijugador.cpp"
 
 // CLASES  --------------------------------------------------
 
@@ -151,7 +153,7 @@ public:
   DtVideojuego *verInfoVideojuego(string, IDictionary*);
   string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
-
+  ICollection * listarPartidasUnido();  //DtPartidaMultijugador
 };
 
 Sistema *Sistema::instance = NULL;
@@ -668,5 +670,16 @@ void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
      Jugador * jugador = (Jugador*)this->loggUser;
      
   }
+
+   ICollection * Sistema::listarPartidasUnido(){ 
+      if(this->loggUser == NULL){ 
+        throw invalid_argument("Debes logearte primero");
+      }
+      Jugador * jugador = (Jugador*)this->loggUser;
+      ICollection * res = jugador->listarPartidasUnido();
+      return res;
+    
+    } 
+
 
 #endif

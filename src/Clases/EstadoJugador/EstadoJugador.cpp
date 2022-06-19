@@ -51,4 +51,8 @@ DtFechaHora *EstadoJugador::getFechaHoraSalida()
     return this->fechaHoraSalida;
 };
 
+Jugador * EstadoJugador::getJugador(){
+    return this->jugador;
+}
+
 #endif

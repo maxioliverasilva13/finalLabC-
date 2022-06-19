@@ -21,10 +21,11 @@ public:
   void setEstado(EEstado);
   void setId(int);
   void setFecha(DtFechaHora *);
-  int getEstado();
+  EEstado getEstado();
   int getId();
   bool esFinalizada();
   DtFechaHora *getFecha();
+  Jugador * getCreador();
   virtual string darTipo() = 0;
   virtual DtPartida *getDtPartida() = 0;
   virtual void finalizarPartida() = 0;

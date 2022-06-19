@@ -38,6 +38,7 @@ public:
     string getTipo();
     ICollection *listarVideoJuegosActivos();
     void iniciarPartidaIndividual(bool, Videojuego *);
+    ICollection * listarPartidasUnido();
 };
 
 #endif
