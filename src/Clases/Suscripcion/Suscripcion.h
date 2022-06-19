@@ -8,14 +8,14 @@ using namespace std;
 class Suscripcion : public ICollectible
 {
 private:
-    int id;
+    static int id;
     float precio;
     EPeriodo periodo;
     Videojuego *videojuego;
     IDictionary *contrataciones;
 
 public:
-    Suscripcion(int, float, EPeriodo, Videojuego *);
+    Suscripcion(float, EPeriodo, Videojuego *);
     ~Suscripcion();
     int getId();
     float getPrecio();
@@ -27,7 +27,7 @@ public:
     bool jugadorTieneContratacion(string);
     DtInfoSuscripcion *getDatosSuscripcion();
     void agregarContratacion(ICollectible *);
-    ICollection * getJugadoresActivos();
+    ICollection * getJugadoresActivos(DtFechaHora *);
 };
 
 #endif

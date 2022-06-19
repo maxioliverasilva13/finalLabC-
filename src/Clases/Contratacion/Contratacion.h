@@ -8,7 +8,7 @@ using namespace std;
 class Contratacion : public ICollectible
 {
 private:
-    int id;
+    static int id;
     ETipoPago tipoPago;
     float monto;
     DtFechaHora *FechaHora;
@@ -18,7 +18,6 @@ private:
     Jugador *duenio;
 
 public:
-    static int countItems;
     Contratacion(ETipoPago, float, DtFechaHora *, DtFechaHora *, bool, Suscripcion *, Jugador *);
     ~Contratacion();
     int getId();

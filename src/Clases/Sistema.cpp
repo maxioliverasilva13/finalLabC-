@@ -92,7 +92,7 @@ class DtVideojuego;
 #include "../Clases/PartidaIndividual/PartidaIndividual.h"
 #include "../Clases/PartidaMultijugador/PartidaMultijugador.h"
 #include "../Clases/EstadoJugador/EstadoJugador.h"
-#include "../Clases/Desarrollador/Desarrollador.h"
+#include "../Clases/Desarrollador/Desarrollador.h" 
 
 
 #include "../Clases/Categoria/Categoria.cpp"
@@ -125,9 +125,8 @@ private:
 public:
   Sistema();
   static Sistema *getInstance();
-  void agregarCategoria(ICollectible *);
-  void iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo);            // jugadores es set<string>
-  ICollection *listarJugadoresConSuscripcionActivaAJuego(string nombreVideojuego); // strings
+  void agregarCategoria(string nombre, string descripcion, string tipo);
+  void iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo, Videojuego *);            // jugadores es set<string>
   void iniciarPartidaIndividual(bool nueva, Videojuego *);
   void continuarPartida(int idpartida);
   ICollection *listarHistorialPartidasFinalizadas(string nombreVJ); // DtPartida
@@ -137,7 +136,6 @@ public:
   DtContratacion *getContratacion(string nombreVideojuego);
   void cancelarSuscripcion(int idContratacion);
   void confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, ETipoPago metodoPago);
-  void altaUsuario(Usuario *user); // TODO : dataType usuario
   void agregarVideojuego(string nombre, string descricpcion, ICollection *costo_suscripcion, ICollection *dtsCategorias);
   ICollection *listarCategorias(); // dtCategoria
   void finalizarPartida(int idPartida);
@@ -151,6 +149,7 @@ public:
   DtVideojuego *verInfoVideojuego(string);
   string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
+  ICollectible * findUserByNickname(string);
 
 };
 
@@ -179,7 +178,7 @@ ICollection *Sistema::listarVideoJuegosActivos()
 {
   // Validar si es un jugador
   Jugador *jugadorLogueado = (Jugador *)this->loggUser;
-  return jugadorLogueado->listarVideoJuegosActivos();
+  return jugadorLogueado->listarVideoJuegosActivos(this->fechaHora);
 }
 
 ICollection *Sistema::listarHistorialPartidasFinalizadas(string nombrevj)
@@ -201,7 +200,7 @@ ICollection * Sistema::listarJugadoresConSuscripcionAJuego(string nombrevj) {
   Videojuego *juego = (Videojuego *)this->videojuegos->find(vjKey);
 
   if (juego) {
-    return juego->getJugadoresActivos();
+    return juego->getJugadoresActivos(this->fechaHora);
   } else {
     throw invalid_argument("Este videojuego no existe");
   }
@@ -270,6 +269,66 @@ void Sistema::listarVJ()
   delete it;
 }
 
+ICollectible * Sistema::findUserByNickname(string nickNameJugador) {
+  ICollectible * jugador = NULL;
+
+  IIterator * it = this->usuarios->getIterator();
+  while (it->hasCurrent())
+  {
+    Usuario * user = (Usuario *)it->getCurrent();
+    if (user->getTipo() == "Jugador") {
+      Jugador * player = (Jugador *)user;
+      if (player->getNickname() == nickNameJugador) {
+        jugador = player;
+        break;
+      }
+    }
+    it->next();
+  }
+  delete it;
+  return jugador;
+}
+
+void Sistema::iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo, Videojuego * juego) {
+  ICollection * jugadoresAPartida = new List();
+
+  IIterator * it = jugadores->getIterator();
+  while (it->hasCurrent())
+  {
+    String * jugadorName = (String *)it->getCurrent();
+    Jugador * jugador = (Jugador *)this->findUserByNickname(jugadorName->getValue());
+    if (jugador != NULL) {
+      bool yaExiste = false;
+      IIterator * itPlayers = jugadoresAPartida->getIterator();
+      while (itPlayers->hasCurrent())
+      {
+        Jugador * jug = (Jugador *)itPlayers->getCurrent();
+        if (jug->getNickname() == jugadorName->getValue()) {
+          yaExiste = true;
+          break;
+        }
+        itPlayers->next();
+      }
+
+      if (yaExiste) {
+        string namePlayer = jugadorName->getValue();
+        throw invalid_argument("El jugador " + namePlayer + " ya es parte de esta partida");
+      }
+      jugadoresAPartida->add(jugador);
+    } else {
+      string namePlayer = jugadorName->getValue();
+      throw invalid_argument("El jugador que intentas agregar no existe");
+      break;
+    }
+    it->next();
+  }
+  jugadoresAPartida->add(this->loggUser);
+  Jugador * jug = (Jugador *)this->loggUser;
+  jug->iniciarPartidaMultijugador(jugadoresAPartida, true, juego, this->fechaHora);
+
+  delete it;
+}
+
 void Sistema::eliminarVideoJuego(string nombreVideojuego)
 {
   bool existeGame = validateExistsGameName(nombreVideojuego, this->videojuegos);
@@ -289,23 +348,22 @@ void Sistema::eliminarVideoJuego(string nombreVideojuego)
   }
 }
 
-void Sistema::agregarCategoria(ICollectible *category)
+void Sistema::agregarCategoria(string nombre, string descripcion, string tipo)
 {
   Categoria *categoria;
-  DtCategoria *cat = (DtCategoria *)category;
-  if (getEGeneroJuego(getEnumGeneroJuego(cat->getTipo())) != "NINGUNO")
+  if (getEGeneroJuego(getEnumGeneroJuego(tipo)) != "NINGUNO")
   {
     // ES UN GENRO DE TIPO CATEGORIAGENERO
-    categoria = new CategoriaGenero(getEnumGeneroJuego(cat->getTipo()), cat->getDescripcion(), 1);
+    categoria = new CategoriaGenero(getEnumGeneroJuego(tipo), descripcion);
   }
-  else if (getETipoPlataforma(getEnumETipoPlataforma(cat->getTipo())) != "NINGUNO")
+  else if (getETipoPlataforma(getEnumETipoPlataforma(tipo)) != "NINGUNO")
   {
     // ES UN GENRO DE TIPO CATEGORIAPLATAFORMA
-    categoria = new CategoriaPlataforma(getEnumETipoPlataforma(cat->getTipo()), cat->getDescripcion(), 1);
+    categoria = new CategoriaPlataforma(getEnumETipoPlataforma(tipo), descripcion);
   }
   else
   {
-    categoria = new CategoriaOtro(cat->getTipo(), cat->getDescripcion(), 1);
+    categoria = new CategoriaOtro(nombre, descripcion);
   }
 
   Integer *idKey = new Integer(categoria->getId());
@@ -324,44 +382,27 @@ void Sistema::agregarVideojuego(string nombre, string descricpcion, ICollection 
 
   IIterator *iterator = costos_suscripcion->getIterator();
 
-  int iteratorId = 0;
   while (iterator->hasCurrent())
   {
-    iteratorId++;
     DtCostoSuscripcion *dtcostoS = (DtCostoSuscripcion *)iterator->getCurrent();
-    Suscripcion *suscripcion = new Suscripcion(iteratorId, dtcostoS->getCosto(), dtcostoS->getTipo(), vj);
+    Suscripcion *suscripcion = new Suscripcion(dtcostoS->getCosto(), dtcostoS->getTipo(), vj);
     vj->agregarSuscripcion(suscripcion);
     iterator->next();
   };
 
-  if (dtsCategorias)
-  {
+  if (dtsCategorias) {
     IIterator *iteratorCategorias = dtsCategorias->getIterator();
-    int iteratorIdC = 0;
 
     while (iteratorCategorias->hasCurrent())
     {
-      iteratorIdC++;
-      Categoria *categoria;
       DtCategoria *dtcat = (DtCategoria *)iteratorCategorias->getCurrent();
 
-      if (getEGeneroJuego(getEnumGeneroJuego(dtcat->getTipo())) != "NINGUNO")
-      {
-        // ES UN GENRO DE TIPO CATEGORIAGENERO
-        categoria = new CategoriaGenero(getEnumGeneroJuego(dtcat->getTipo()), dtcat->getDescripcion(), iteratorIdC);
-      }
-      else if (getETipoPlataforma(getEnumETipoPlataforma(dtcat->getTipo())) != "NINGUNO")
-      {
-        // ES UN GENRO DE TIPO CATEGORIAPLATAFORMA
-        categoria = new CategoriaPlataforma(getEnumETipoPlataforma(dtcat->getTipo()), dtcat->getDescripcion(), iteratorIdC);
-      }
-      else
-      {
-        categoria = new CategoriaOtro(dtcat->getTipo(), dtcat->getDescripcion(), iteratorIdC);
-      }
+      Integer *catKey = new Integer(dtcat->getId());
+      Categoria * categoria = (Categoria *)this->categorias->find(catKey);
 
-      Integer *categoriaKey = new Integer(categoria->getId());
-      vj->agregarCategoria(categoria);
+      if (categoria) {
+        vj->agregarCategoria(categoria);
+      }
       iteratorCategorias->next();
     };
   }
@@ -546,21 +587,21 @@ ICollection * Sistema::listarCategorias()
     if (cat->darNombreInstancia() == "CategoriaPlataforma")
     {
       CategoriaPlataforma *catPlataforma = (CategoriaPlataforma *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catPlataforma->darTipo(), catPlataforma->getDescripcion(), "Plataforma");
+      DtCategoria * catAgregar = new DtCategoria(catPlataforma->getId(), catPlataforma->darTipo(), catPlataforma->getDescripcion(), "Plataforma");
       categorias->add(catAgregar);
       it->next();
     }
     if (cat->darNombreInstancia() == "CategoriaGenero")
     {
       CategoriaGenero *catGenero = (CategoriaGenero *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catGenero->darTipo(), catGenero->getDescripcion(), "Genero");
+      DtCategoria * catAgregar = new DtCategoria(catGenero->getId(), catGenero->darTipo(), catGenero->getDescripcion(), "Genero");
       categorias->add(catAgregar);
       it->next();
     }
     if (cat->darNombreInstancia() == "Otro")
     {
       CategoriaOtro *catOtro = (CategoriaOtro *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catOtro->darTipo(), catOtro->getDescripcion(), "Otro");
+      DtCategoria * catAgregar = new DtCategoria(catOtro->getId(), catOtro->darTipo(), catOtro->getDescripcion(), "Otro");
       categorias->add(catAgregar);
       it->next();
     }
@@ -666,6 +707,7 @@ void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
       throw invalid_argument("Debes logearte primero");
      }
      Jugador * jugador = (Jugador*)this->loggUser;
+     jugador->finalizarPartida(idPartida, this->fechaHora);
      
   }
 

@@ -21,6 +21,10 @@ EstadoJugador::~EstadoJugador()
     delete fechaHoraSalida;
 }
 
+Jugador * EstadoJugador::getJugador(){
+    return this->jugador;
+}
+
 void EstadoJugador::setFechaHoraEntrada(DtFechaHora *fechaHoraEntrada)
 {
     this->fechaHoraEntrada = fechaHoraEntrada;
