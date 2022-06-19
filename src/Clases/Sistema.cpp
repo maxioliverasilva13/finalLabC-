@@ -125,7 +125,7 @@ private:
 public:
   Sistema();
   static Sistema *getInstance();
-  void agregarCategoria(ICollectible *);
+  void agregarCategoria(string nombre, string descripcion, string tipo);
   void iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo, Videojuego *);            // jugadores es set<string>
   void iniciarPartidaIndividual(bool nueva, Videojuego *);
   void continuarPartida(int idpartida);
@@ -348,23 +348,22 @@ void Sistema::eliminarVideoJuego(string nombreVideojuego)
   }
 }
 
-void Sistema::agregarCategoria(ICollectible *category)
+void Sistema::agregarCategoria(string nombre, string descripcion, string tipo)
 {
   Categoria *categoria;
-  DtCategoria *cat = (DtCategoria *)category;
-  if (getEGeneroJuego(getEnumGeneroJuego(cat->getTipo())) != "NINGUNO")
+  if (getEGeneroJuego(getEnumGeneroJuego(tipo)) != "NINGUNO")
   {
     // ES UN GENRO DE TIPO CATEGORIAGENERO
-    categoria = new CategoriaGenero(getEnumGeneroJuego(cat->getTipo()), cat->getDescripcion());
+    categoria = new CategoriaGenero(getEnumGeneroJuego(tipo), descripcion);
   }
-  else if (getETipoPlataforma(getEnumETipoPlataforma(cat->getTipo())) != "NINGUNO")
+  else if (getETipoPlataforma(getEnumETipoPlataforma(tipo)) != "NINGUNO")
   {
     // ES UN GENRO DE TIPO CATEGORIAPLATAFORMA
-    categoria = new CategoriaPlataforma(getEnumETipoPlataforma(cat->getTipo()), cat->getDescripcion());
+    categoria = new CategoriaPlataforma(getEnumETipoPlataforma(tipo), descripcion);
   }
   else
   {
-    categoria = new CategoriaOtro(cat->getTipo(), cat->getDescripcion());
+    categoria = new CategoriaOtro(nombre, descripcion);
   }
 
   Integer *idKey = new Integer(categoria->getId());
@@ -391,32 +390,19 @@ void Sistema::agregarVideojuego(string nombre, string descricpcion, ICollection 
     iterator->next();
   };
 
-  if (dtsCategorias)
-  {
+  if (dtsCategorias) {
     IIterator *iteratorCategorias = dtsCategorias->getIterator();
 
     while (iteratorCategorias->hasCurrent())
     {
-      Categoria *categoria;
       DtCategoria *dtcat = (DtCategoria *)iteratorCategorias->getCurrent();
 
-      if (getEGeneroJuego(getEnumGeneroJuego(dtcat->getTipo())) != "NINGUNO")
-      {
-        // ES UN GENRO DE TIPO CATEGORIAGENERO
-        categoria = new CategoriaGenero(getEnumGeneroJuego(dtcat->getTipo()), dtcat->getDescripcion());
-      }
-      else if (getETipoPlataforma(getEnumETipoPlataforma(dtcat->getTipo())) != "NINGUNO")
-      {
-        // ES UN GENRO DE TIPO CATEGORIAPLATAFORMA
-        categoria = new CategoriaPlataforma(getEnumETipoPlataforma(dtcat->getTipo()), dtcat->getDescripcion());
-      }
-      else
-      {
-        categoria = new CategoriaOtro(dtcat->getTipo(), dtcat->getDescripcion());
-      }
+      Integer *catKey = new Integer(dtcat->getId());
+      Categoria * categoria = (Categoria *)this->categorias->find(catKey);
 
-      Integer *categoriaKey = new Integer(categoria->getId());
-      vj->agregarCategoria(categoria);
+      if (categoria) {
+        vj->agregarCategoria(categoria);
+      }
       iteratorCategorias->next();
     };
   }
@@ -601,21 +587,21 @@ ICollection * Sistema::listarCategorias()
     if (cat->darNombreInstancia() == "CategoriaPlataforma")
     {
       CategoriaPlataforma *catPlataforma = (CategoriaPlataforma *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catPlataforma->darTipo(), catPlataforma->getDescripcion(), "Plataforma");
+      DtCategoria * catAgregar = new DtCategoria(catPlataforma->getId(), catPlataforma->darTipo(), catPlataforma->getDescripcion(), "Plataforma");
       categorias->add(catAgregar);
       it->next();
     }
     if (cat->darNombreInstancia() == "CategoriaGenero")
     {
       CategoriaGenero *catGenero = (CategoriaGenero *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catGenero->darTipo(), catGenero->getDescripcion(), "Genero");
+      DtCategoria * catAgregar = new DtCategoria(catGenero->getId(), catGenero->darTipo(), catGenero->getDescripcion(), "Genero");
       categorias->add(catAgregar);
       it->next();
     }
     if (cat->darNombreInstancia() == "Otro")
     {
       CategoriaOtro *catOtro = (CategoriaOtro *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catOtro->darTipo(), catOtro->getDescripcion(), "Otro");
+      DtCategoria * catAgregar = new DtCategoria(catOtro->getId(), catOtro->darTipo(), catOtro->getDescripcion(), "Otro");
       categorias->add(catAgregar);
       it->next();
     }
