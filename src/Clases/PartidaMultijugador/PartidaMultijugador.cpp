@@ -100,4 +100,29 @@ void PartidaMultijugador::agregarEstadoJugador(EstadoJugador *status)
     this->estadosJugador->add(status);
 }
 
+
+ ICollection * PartidaMultijugador::getJugadoresUnidos(){
+
+    ICollection * res = new List();
+    IIterator * it = this->estadosJugador->getIterator();
+    
+    EstadoJugador * current;
+    string jugadorNicknameCurrent;
+    while (it->hasCurrent()){
+
+        current = (EstadoJugador*)it;
+
+        if(current->getFechaHoraSalida() == NULL){
+            jugadorNicknameCurrent = current->getJugador()->getNickname();
+            char *charNickJugador = const_cast<char *>(jugadorNicknameCurrent.c_str()); // paso de string a char (para poder implementar la key)
+            ICollectible * item = new String(charNickJugador);
+            res->add(item);
+        }
+        it->next();
+    }
+    delete it;
+    return res;
+    
+ };
+
 #endif

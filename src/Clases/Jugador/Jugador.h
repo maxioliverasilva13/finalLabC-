@@ -37,6 +37,9 @@ public:
     string getTipo();
     ICollection *listarVideoJuegosActivos(DtFechaHora *);
     void iniciarPartidaIndividual(bool, Videojuego *);
+    ICollection * listarPartidasUnido();
+    void  abandonarPartida(int idPartida,DtFechaHora * fechaSistema);
+    
 };
 
 #endif

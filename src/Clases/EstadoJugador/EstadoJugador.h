@@ -23,6 +23,7 @@ public:
     DtFechaHora *getFechaHoraSalida();
     Jugador * getJugador();
     Partida *getPartida();
+    Jugador * getJugador();
 };
 
 
