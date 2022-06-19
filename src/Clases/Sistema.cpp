@@ -148,7 +148,7 @@ public:
   void modificarFechaSistema(DtFechaHora *fechahora);
   DtFechaHora *getFechaSistema();
   void recorrerUsuarios();
-  DtVideojuego *verInfoVideojuego(string, IDictionary*);
+  DtVideojuego *verInfoVideojuego(string);
   string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
 
@@ -513,15 +513,15 @@ bool Sistema::iniciarSesion(string email, string password)
   return login;
 }
 
-DtVideojuego* Sistema::verInfoVideojuego(string name, IDictionary *game) {
-  if (validateExistsGameName(name, game) == false) {
+DtVideojuego* Sistema::verInfoVideojuego(string name) {
+  if (validateExistsGameName(name, this->videojuegos) == false) {
     cout << "No existe el videojuego" << endl;
     return NULL;
   }
   else {
     char *charNameVj = const_cast<char *>(name.c_str()); // paso de string a char (para poder implementar la key)
     String *vjKey = new String(charNameVj);
-    Videojuego *juego = (Videojuego *)game->find(vjKey);
+    Videojuego *juego = (Videojuego *)videojuegos->find(vjKey);
 
     DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion(), juego->getPuntuaciones(), juego->getCategorias(), juego->getSuscripciones());
     
