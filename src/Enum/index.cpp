@@ -10,7 +10,7 @@ enum EEstado { FINALIZADA, ENCURSO };
 
 enum ETipoPlataforma { PLATAFORMA, XBOXONE , XBOXX, PS5, PC, SWITCH, PS4 };
 
-enum EGeneroJuego { GENERO , ACCCION, AVENTURA, ESTRATEGIA, DEPORTE };
+enum EGeneroJuego { GENERO , ACCION, AVENTURA, ESTRATEGIA, DEPORTE };
 
 enum EPeriodo { MENSUAL, TRIMESTRAL, ANUAL, VITALICIA };
 
@@ -82,8 +82,8 @@ ETipoPlataforma getEnumETipoPlataforma(string tipo) {
 string getEGeneroJuego(EGeneroJuego e) {
     switch (e)
     {
-    case ACCCION:
-        return "ACCCION";
+    case ACCION:
+        return "ACCION";
     case AVENTURA:
         return "AVENTURA";
     case ESTRATEGIA:
@@ -96,8 +96,8 @@ string getEGeneroJuego(EGeneroJuego e) {
 };
 
 EGeneroJuego getEnumGeneroJuego(string tipo) {
-    if (tipo == "ACCCION") {
-        return ACCCION;
+    if (tipo == "ACCION") {
+        return ACCION;
     }
     if (tipo == "AVENTURA") {
         return AVENTURA;

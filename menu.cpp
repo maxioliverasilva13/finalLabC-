@@ -72,10 +72,21 @@ void verInformacionVideojuegoMenu();
 
 // *.*.*.*.*.*. Funciones auxiliares a las del menú *.*.*.*
 int menuJugadorOdesarrollador();
+bool menuDeseaContinuarOcancelar();
 // *.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.
 
 int leerInt(){
     int eleccion;
+    while (!(cin >> eleccion)) {
+		cout << "Solo numeros por favor..."<< endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(),'\n');
+	}
+    return eleccion;
+}
+
+float leerFloat(){
+    float eleccion;
     while (!(cin >> eleccion)) {
 		cout << "Solo numeros por favor..."<< endl;
 		cin.clear();
@@ -137,7 +148,6 @@ void cerrarSesionMenu(){
     usuarioActual = "";
 }
 
-
 bool cerrarMenuDesarrollador = false;
 bool cerrarMenuJugador = false;
 void menu(){
@@ -169,6 +179,7 @@ void menu(){
     } 
 }
 
+// terminado
 bool menuUsuario(){
         mostrarMenu();
         int eleccion = leerInt();
@@ -176,7 +187,7 @@ bool menuUsuario(){
         switch (eleccion){
             case 1: altaUsuarioMenu(); break;
             case 2: iniciarSesionMenu();break;
-            //case 3: cargarDatosDePruebaMenu(); break; // TODO
+            case 3: cargarDatosDePruebaMenu(); break;
             case 4: system("cls"); return true; break;
             default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
         }
@@ -184,15 +195,15 @@ bool menuUsuario(){
 }
 
 // logica e interfaz grafica del menu de desarrollador
-void menuDesarrollador(){ // PASARLA A VOID
+void menuDesarrollador(){
     mostrarMenuDesarrollador();
     int eleccion = leerInt();
     switch (eleccion){
         case 1: agregarCategoriaMenu(); break;
-        //case 2: publicarVideojuegoMenu();break; // TODO
-        //case 3: eliminarVideojuegoMenu(); break; // TODO
-        //case 4: consultarEstadisticasMenu(); break; // TODO
-        //case 5: verInfoVideojuegoMenu(); break; // TODO
+        case 2: publicarVideojuegoMenu();break; // TODO fixear
+        case 3: eliminarVideojuegoMenu(); break; 
+        case 4: consultarEstadisticasMenu(); break; // TODO implementar entre todos
+        case 5: verInfoVideojuegoMenu(); break; // TODO queda pendiente que leo fixee su codigo e implementar entre los 4
         case 6: modificarFechaSistemaMenu(); break;
         case 7: cerrarSesionMenu(); cerrarMenuDesarrollador = true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
@@ -203,16 +214,76 @@ void menuJugador(){
     mostrarMenuJugador();
     int eleccion = leerInt();
     switch (eleccion){
-        //case 1: suscribirseAvideojuegoMenu(); break; // TODO
-        //case 2: asignarPuntajeVJMenu();break; // TODO
+        case 1: suscribirseAvideojuegoMenu(); break; // TODO
+        case 2: asignarPuntajeVJMenu();break; 
         //case 3: iniciarPartidaMenu(); break; // TODO
         //case 4: abandonarPartidaMJMenu(); break; // TODO
         //case 5: finalizarPartidaMenu(); break; // TODO
-        //case 6: verInformacionVideojuegoMenu(); break; // TODO
+        //case 6: verInformacionVideojuegoMenu(); break; // TODO queda pendiente que leo fixee su codigo y terminar de implementarla
         case 7: modificarFechaSistemaMenu(); break;
         case 8: cerrarSesionMenu(); cerrarMenuJugador = true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
     } 
+}
+
+// falta cargar más datos, a medida que se agreguen funcionalidades
+void cargarDatosDePruebaMenu(){
+    try
+    {
+        system("cls");
+        DtDesarrollador * d1 = new DtDesarrollador("ironhide@mail.com", "123", "Ironhide Game Studio");
+        DtDesarrollador * d2 = new DtDesarrollador("epic@mail.com", "123", "Epic Games");
+        DtDesarrollador * d3 = new DtDesarrollador("mojang@mail.com", "123", "Mojang Studios");
+        DtDesarrollador * d4 = new DtDesarrollador("ea@mail.com", "123", "EA Sports");
+        DtJugador * j1 = new DtJugador("gamer@mail.com", "123", "gamer", "soy gamer");
+        DtJugador * j2 = new DtJugador("ari@mail.com", "123", "ari", "soy ari");
+        DtJugador * j3 = new DtJugador("ibai@mail.com", "123", "ibai", "soy ibai");
+        DtJugador * j4 = new DtJugador("camila@mail.com", "123", "camila", "soy camila");
+        s->altaUsuario(d1);
+        s->altaUsuario(d2);
+        s->altaUsuario(d3);
+        s->altaUsuario(d4);
+        s->altaUsuario(j1);
+        s->altaUsuario(j2);
+        s->altaUsuario(j3);
+        s->altaUsuario(j4);
+
+        DtCategoria * c1 = new DtCategoria("PC", "Esta es la cat1", "PLATAFORMA");
+        DtCategoria * c2 = new DtCategoria("PS4", "Esta es la cat2", "PLATAFORMA");
+        DtCategoria * c3 = new DtCategoria("XBOXONE", "Esta es la cat3", "PLATAFORMA");
+        DtCategoria * c4 = new DtCategoria("DEPORTE", "Esta es la cat4", "GENERO");
+        DtCategoria * c5 = new DtCategoria("SUPERVIVENCIA", "Esta es la cat5", "GENERO");
+        DtCategoria * c6 = new DtCategoria("ESTRATEGIA", "Esta es la cat6", "GENERO");
+        DtCategoria * c7 = new DtCategoria("Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
+        DtCategoria * c8 = new DtCategoria("E", "Su contenido está dirigido para todo público", "OTRO");
+        DtCategoria * c9 = new DtCategoria("ACCION", "Esta es la cat9", "GENERO");
+        DtCategoria * c10 = new DtCategoria("AVENTURA", "Esta es la cat10", "GENERO");
+        DtCategoria * c11 = new DtCategoria("SWITCH", "Esta es la cat11", "PLATAFORMA");
+        DtCategoria * c12 = new DtCategoria("XBOXX", "Esta es la cat12", "PLATAFORMA");
+        DtCategoria * c13 = new DtCategoria("PS5", "Esta es la cat13", "PLATAFORMA");
+        
+        s->agregarCategoria(c1);
+        s->agregarCategoria(c2);
+        s->agregarCategoria(c3);
+        s->agregarCategoria(c4);
+        s->agregarCategoria(c5);
+        s->agregarCategoria(c6);
+        s->agregarCategoria(c7);
+        s->agregarCategoria(c8);
+        s->agregarCategoria(c9);
+        s->agregarCategoria(c10);
+        s->agregarCategoria(c11);
+        s->agregarCategoria(c12);
+        s->agregarCategoria(c13);
+
+        cout << "Datos de prueba cargados." << endl;
+        sleep(1);
+    }
+    catch(const std::exception& e)
+    {
+        cout << "ERROR: Ya se habian cargado los datos de prueba." << endl;
+        sleep(3);
+    }   
 }
 
 bool menuDeseaContinuarOcancelar(){
@@ -365,12 +436,11 @@ void iniciarSesionMenu(){
 }
 
 
-
 // *-*-*-*-*-* HELPERS PARA AGREGARCATEGORIA *-*-*-*-*-* 
 int inputTipoCategoria(){
     bool opcionValida = false;
     do{
-        system("cls");
+        //system("cls");
         cout << "Seleccione el TIPO de CATEGORIA que desea registrar: "<<endl;
         cout << "1 - Plataforma." << endl;
         cout << "2 - Genero." << endl;
@@ -441,53 +511,57 @@ string inputTipoGenero(){
         }
     } while (opcionValida == false);
 }
-// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-
-
-// TODO: no funciona aún
-// Desarrollador
-void agregarCategoriaMenu(){
-    ICollection * cats = s->listarCategorias();
-    cats = s->listarCategorias();
-    IIterator *it = cats->getIterator();
-    // imprimo las categorias
+void recorrerCategoriasMenu(ICollection * colecc ) 
+{
+    system("cls");
+    IIterator *it = colecc->getIterator();
+    int contador_categorias = 1;
     while (it->hasCurrent()){
-        DtCategoria * cat = (DtCategoria*)it->getCurrent();
+        DtCategoria *cat = (DtCategoria *)it->getCurrent();
+        cout << "Categoria " << contador_categorias << ": " << endl;
+        cout << "Nombre: "<< cat->getNombre() << endl;
+        cout << "Descripcion: " << cat->getDescripcion() << endl;
         cout << "Tipo: " << cat->getTipo() << endl;
-        cout << "Nombre: " << cat->getNombre() << endl;
-        cout << "Descripcion: " << cat->getDescripcion() << endl << endl;
+        cout << "-----------------------------------------" << endl;
+        contador_categorias++;
         it->next();
     }
     delete it;
+}
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+
+// funcional, queda pendiente de testear.
+// Desarrollador
+void agregarCategoriaMenu(){
+    cout << "---- Categorias ya registradas: ----" << endl;
+    ICollection * cats = s->listarCategorias();
+    recorrerCategoriasMenu(cats);
 
     string nombre;
     string descripcion;
     string tipo;
 
-    // TODO: validar en un menu aparte las 3 opciones (Plataforma(EnumETipoPlataforma), Genero(EnumGeneroJuego) u Otro)
     int tipoCategoria = inputTipoCategoria();
 
     if (tipoCategoria == 1){
-        //tipo = "Plataforma";
         system("cls");
-        tipo = inputTipoPlataforma();
+        nombre = inputTipoPlataforma();
+        tipo = "PLATAFORMA";   
         // luego le pido el nombre y descripcion
     }else if (tipoCategoria == 2){
-        tipo = "Genero";
         system("cls");
-        tipo = inputTipoGenero();
+        nombre = inputTipoGenero();
+        tipo = "GENERO";
     }else if (tipoCategoria == 3){
-        tipo = "Otro";
+        system("cls");
+        cout << "Ingrese el NOMBRE para la CATEGORIA a agregar: "<< endl;
+        nombre = leerString();
+        tipo = "OTRO";
     }
 
     system("cls");
-    // TODO: dar las opciones en un menu aparte, si eligió Otro, 
-    //       le pasa un string sino en las otras 2 le pasas un Enum
-    cout << "Ingrese el NOMBRE de la CATEGORIA a agregar: "<< endl;
-    nombre = leerString();
-    system("cls");
-
     cout << "Ingrese la DESCRIPCION para la CATEGORIA a agregar: "<< endl;
     descripcion = leerString();
     system("cls");
@@ -541,6 +615,229 @@ void modificarFechaSistemaMenu(){
     catch(const std::exception& e)
     {
         system("cls");
+        std::cerr << e.what() << '\n';
+        sleep(2);
+    }
+}
+
+// auxiliar publicarVideojuego
+void recorrerCategoriasID(ICollection * colecc ) 
+{
+    system("cls");
+    IIterator *it = colecc->getIterator();
+    int contador_categorias = 1;
+    while (it->hasCurrent()){
+        DtCategoria *cat = (DtCategoria *)it->getCurrent();
+        cout << "Categoria " << contador_categorias << ": " << endl;
+        //cout << "ID: " << cat->getID() << ": " << endl;
+        cout << "Nombre: "<< cat->getNombre() << endl;
+        cout << "Descripcion: " << cat->getDescripcion() << endl;
+        cout << "-----------------------------------------" << endl;
+        contador_categorias++;
+        it->next();
+    }
+    delete it;
+}
+
+bool menuDeseaContinuarAgregando(){
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "Desea continuar agregando categorias? " << endl;
+        cout << "1 - Si" << endl;
+        cout << "2 - No" << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return true; opcionValida = true; break;
+        case 2: return false; opcionValida = true;break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+    return false;
+}
+
+// SIN TERMINAR, FALTA AGREGAR EL ID A DTCATEGORIA
+void publicarVideojuegoMenu(){
+    try
+    {
+        system("cls");
+        cout << "Ingrese el NOMBRE para el videojuego: "<< endl;
+        string nombre = leerString();
+
+        system("cls");
+        cout << "Ingrese DESCRIPCION para el videojuego: "<< endl;
+        string descripcion = leerString();
+
+        system("cls");
+        cout << "Ingrese COSTO de suscripcion MENUSAL para el videojuego: "<< endl;
+        float mensual = leerFloat();
+
+        system("cls");
+        cout << "Ingrese COSTO de suscripcion TRIMESTRAL para el videojuego: "<< endl;
+        float trimestral = leerFloat();
+
+        system("cls");
+        cout << "Ingrese COSTO de suscripcion ANUAL para el videojuego: "<< endl;
+        float anual = leerFloat();
+        
+        system("cls");
+        cout << "Ingrese COSTO de suscripcion VITALICIA para el videojuego: "<< endl;
+        float vitalicia = leerFloat();
+
+        ICollection * categorias_videojuego = new List();
+        bool termino = false;
+        do{
+            cout << "---- Seleccione una Categoria: ----" << endl;
+            // PERO TIENE QUE SER UN DICCIONARIO PARA PODER FILTRARLO
+            ICollection * cats = s->listarCategorias(); // me traigo una copia (LISTA DE DTS) de las categorias registradas
+            recorrerCategoriasID(cats); // muestro todas las categorias registradas
+            int eleccionIDCategoria = leerInt();
+            
+            IIterator *it = cats->getIterator(); 
+
+            //ICollectible * catAgregar = new DtCategoria( /*id del que findee*/, /*nombre del que hicefind*/, /*descripcion del find*/, /*tipo del find*/);
+            //categorias_videojuego->add(catAgregar);
+
+
+            termino = menuDeseaContinuarAgregando();
+        }while (!termino);
+
+        ICollection * costos_suscr = new List();
+
+        ICollectible * costoM = new DtCostoSuscripcion(MENSUAL, mensual);
+        ICollectible * costoT = new DtCostoSuscripcion(TRIMESTRAL, trimestral);
+        ICollectible * costoA = new DtCostoSuscripcion(ANUAL, anual);
+        ICollectible * costoV = new DtCostoSuscripcion(VITALICIA, vitalicia);
+
+        costos_suscr->add(costoM);
+        costos_suscr->add(costoT);
+        costos_suscr->add(costoA);
+        costos_suscr->add(costoV);
+
+
+        s->agregarVideojuego(nombre, descripcion, costos_suscr, categorias_videojuego);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        sleep(2);
+    }
+}
+
+void eliminarVideojuegoMenu(){
+    try
+    {
+        system("cls");
+        cout << "Ingrese el ID del videojuego que desea eliminar: "<< endl;
+        string id = leerString();
+        s->eliminarVideoJuego(id);
+        cout << "EXITO: Videojuego eliminado.";
+        sleep(2);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        sleep(2);
+    }
+}
+
+// TODO
+void verInfoVideojuegoMenu(){
+    cout << "pendiente...";
+    return;
+}
+
+
+void consultarEstadisticasMenu(){
+    cout << "pendiente...";
+    return;
+}
+
+// TODO es re larga xd
+void suscribirseAvideojuegoMenu(){
+    cout << "pendiente...";
+    return;
+}
+
+// auxiliar verInformacionVideojuego
+void recorrerSuscripcionesVJ(DtVideojuego * vj){
+    cout << "---- Suscripciones del videojuego: ----";
+    //IIterator *it = vj->suscripciones->getIterator(); //revisar
+        /*
+    while (it->hasCurrent()){
+        DtSuscripcion *suscripcion = (DtSuscripcion *)it->getCurrent();
+        cout << "ID: " << suscripcion->getID() << endl;
+        cout << "Fecha de inicio: " << suscripcion->getFechaInicio() << endl;
+        cout << "Fecha de fin: " << suscripcion->getFechaFin() << endl;
+        cout << "-----------------------------------------" << endl;
+        it->next();
+    }
+    delete it;
+        */
+}
+
+
+// pseudocodigo, fixear
+void verInformacionVideojuegoMenu(){
+    cout << "---- Videojuegos ya registrados: ----" << endl;
+    IDictionary * vj = s->listarVJ();
+    recorrerVideojuegosMenu(vj);
+
+    cout << "Ingrese el NOMBRE del VIDEOJUEGO de la lista: "<< endl;
+    string nombrevj = leerString();
+
+    char *charNameVj = const_cast<char *>(nombrevj.c_str()); // paso de string a char (para poder implementar la key)
+    String *vjKey = new String(charNameVj);
+    DtVideojuego * res = (DtVideojuego *)vj->find(vjKey);
+
+    system("cls"); 
+    cout << "---- Informacion del VIDEOJUEGO: ----" << endl;
+    cout << "Nombre: " << res->getNombreVideojuego() << endl;
+    cout << "Nombre: " << res->getDescripcionVideojuego() << endl;
+    cout << "Nombre: " << res->getPromedioPuntuaciones() << endl;
+    //cout << "Nombre: " << recorrerSuscripcionesVJ(res) << endl;
+    //cout << "Nombre: " << recorrerCategoriasVJ(res) << endl;
+}
+
+
+// auxiliar asignar puntaje
+void recorrerVideojuegosMenu(IDictionary * coleccVJ ) 
+{
+    system("cls");
+    IIterator *it = coleccVJ->getIterator();
+    int contador_categorias = 1;
+    while (it->hasCurrent()){
+        DtVideojuego *vj = (DtVideojuego *)it->getCurrent();
+        cout << "Nombre: "<< vj->getNombreVideojuego() << endl;
+        cout << "Descripcion: " << vj->getDescripcionVideojuego() << endl;
+        cout << "-----------------------------------------" << endl;
+        contador_categorias++;
+        it->next();
+    }
+    delete it;
+}
+
+void asignarPuntajeVJMenu(){
+    try
+    {
+        cout << "---- Videojuegos ya registrados: ----" << endl;
+        IDictionary * vj = s->listarVJ();
+        recorrerVideojuegosMenu(vj);
+
+        cout << "Ingrese el NOMBRE del VIDEOJUEGO de la lista: "<< endl;
+        string nombrevj = leerString();
+
+        cout << "Ingrese el PUNTAJE que desea asignar: "<< endl;
+        int puntaje = leerInt();
+
+        s->asignarPuntajeVideojuego(puntaje, nombrevj);
+    }
+    catch(const std::exception& e)
+    {
         std::cerr << e.what() << '\n';
         sleep(2);
     }

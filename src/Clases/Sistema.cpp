@@ -140,7 +140,7 @@ public:
   ICollection *listarCategorias(); // dtCategoria
   void finalizarPartida(int idPartida);
   void eliminarVideoJuego(string nombreVideojuego);
-  void listarVJ();
+  IDictionary * listarVJ(); // dtVideojuego
   void altaUsuario(DtUsuario *user);
   bool iniciarSesion(string email, string password);
   void modificarFechaSistema(DtFechaHora *fechahora);
@@ -150,7 +150,6 @@ public:
   string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
   ICollectible * findUserByNickname(string);
-
 };
 
 Sistema *Sistema::instance = NULL;
@@ -256,17 +255,25 @@ void Sistema::continuarPartida(int idpartida)
   jugadorLogueado->continuarPartida(idpartida);
 }
 
-void Sistema::listarVJ()
-{
-  IIterator *it = this->videojuegos->getIterator();
-  while (it->hasCurrent())
-  {
-    Videojuego *vj = (Videojuego *)it->getCurrent();
-    cout << "------" << endl;
-    cout << vj->getNombre() << endl;
+
+IDictionary * Sistema::listarVJ(){
+  IDictionary * listaDTVJ = new OrderedDictionary();
+  IIterator * it = this->videojuegos->getIterator();
+
+  while(it->hasCurrent()){
+    Videojuego *vjuego = (Videojuego *)it->getCurrent();
+    it->next();
+
+    ICollectible * vj = new DtVideojuego(vjuego->getNombre(), vjuego->getDescripcion(), vjuego->getPromedio_puntuacion(), vjuego->getPuntuaciones(), vjuego->getCategorias(), vjuego->getSuscripciones());
+    string nombre = vjuego->getNombre();
+    
+    char *charNombreVJ = const_cast<char *>(nombre.c_str()); // paso de string a char (para poder implementar la key)
+    String *vjuegoKey = new String(charNombreVJ);
+    listaDTVJ->add(vjuegoKey, vj);
     it->next();
   }
   delete it;
+  return listaDTVJ;
 }
 
 ICollectible * Sistema::findUserByNickname(string nickNameJugador) {
@@ -578,7 +585,7 @@ string Sistema::getTipoLoggUser()
 
 ICollection * Sistema::listarCategorias()
 {
-  ICollection *categorias = new List();
+  ICollection *res = new List();
   IIterator *it = this->categorias->getIterator();
 
   while(it->hasCurrent())
@@ -587,27 +594,25 @@ ICollection * Sistema::listarCategorias()
     if (cat->darNombreInstancia() == "CategoriaPlataforma")
     {
       CategoriaPlataforma *catPlataforma = (CategoriaPlataforma *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catPlataforma->getId(), catPlataforma->darTipo(), catPlataforma->getDescripcion(), "Plataforma");
+      DtCategoria * catAgregar = new DtCategoria(catPlataforma->getId(), catPlataforma->darTipo(), catPlataforma->getDescripcion(), "PLATAFORMA");
       categorias->add(catAgregar);
-      it->next();
     }
     if (cat->darNombreInstancia() == "CategoriaGenero")
     {
       CategoriaGenero *catGenero = (CategoriaGenero *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catGenero->getId(), catGenero->darTipo(), catGenero->getDescripcion(), "Genero");
+      DtCategoria * catAgregar = new DtCategoria(catGenero->getId(), catGenero->darTipo(), catGenero->getDescripcion(), "GENERO");
       categorias->add(catAgregar);
-      it->next();
     }
-    if (cat->darNombreInstancia() == "Otro")
+    if (cat->darNombreInstancia() == "CategoriaOtro")
     {
       CategoriaOtro *catOtro = (CategoriaOtro *)cat;
-      DtCategoria * catAgregar = new DtCategoria(catOtro->getId(), catOtro->darTipo(), catOtro->getDescripcion(), "Otro");
+      DtCategoria * catAgregar = new DtCategoria(catOtro->getId(), catOtro->darTipo(), catOtro->getDescripcion(), "OTRO");
       categorias->add(catAgregar);
-      it->next();
     }
+    it->next();
   }
   delete it;
-  return categorias;
+  return res;
 }
 
 ICollection * Sistema::listarSuscripcionesPorVideojuego(){

@@ -4,7 +4,8 @@
 #include <iostream>
 using namespace std;
 
-class DtVideojuego {
+class DtVideojuego : public ICollectible
+{
 private:
     string nombre;
     string descripcion;
@@ -19,7 +20,7 @@ public:
     int getPromedioPuntuaciones();
 };
 
-DtVideojuego::DtVideojuego(string nombre, string password, int prom_puntuacion, ICollection * puntuaciones, IDictionary *categorias, IDictionary *suscripciones) {
+DtVideojuego::DtVideojuego(string nombre, string descripcion, int prom_puntuacion, ICollection * puntuaciones, IDictionary *categorias, IDictionary *suscripciones) {
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->promedio_puntuacion = prom_puntuacion;
