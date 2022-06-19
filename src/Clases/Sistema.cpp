@@ -142,7 +142,7 @@ public:
   ICollection *listarCategorias(); // dtCategoria
   void finalizarPartida(int idPartida);
   void eliminarVideoJuego(string nombreVideojuego);
-  void listarVJ();
+  IDictionary * listarVJ(); // dtVideojuego
   void altaUsuario(DtUsuario *user);
   bool iniciarSesion(string email, string password);
   void modificarFechaSistema(DtFechaHora *fechahora);
@@ -151,7 +151,6 @@ public:
   DtVideojuego *verInfoVideojuego(string, IDictionary*);
   string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
-
 };
 
 Sistema *Sistema::instance = NULL;
@@ -257,17 +256,25 @@ void Sistema::continuarPartida(int idpartida)
   jugadorLogueado->continuarPartida(idpartida);
 }
 
-void Sistema::listarVJ()
-{
-  IIterator *it = this->videojuegos->getIterator();
-  while (it->hasCurrent())
-  {
-    Videojuego *vj = (Videojuego *)it->getCurrent();
-    cout << "------" << endl;
-    cout << vj->getNombre() << endl;
+
+IDictionary * Sistema::listarVJ(){
+  IDictionary * listaDTVJ = new OrderedDictionary();
+  IIterator * it = this->videojuegos->getIterator();
+
+  while(it->hasCurrent()){
+    Videojuego *vjuego = (Videojuego *)it->getCurrent();
+    it->next();
+
+    ICollectible * vj = new DtVideojuego(vjuego->getNombre(), vjuego->getDescripcion(), vjuego->getPromedio_puntuacion(), vjuego->getPuntuaciones(), vjuego->getCategorias(), vjuego->getSuscripciones());
+    string nombre = vjuego->getNombre();
+    
+    char *charNombreVJ = const_cast<char *>(nombre.c_str()); // paso de string a char (para poder implementar la key)
+    String *vjuegoKey = new String(charNombreVJ);
+    listaDTVJ->add(vjuegoKey, vj);
     it->next();
   }
   delete it;
+  return listaDTVJ;
 }
 
 void Sistema::eliminarVideoJuego(string nombreVideojuego)
