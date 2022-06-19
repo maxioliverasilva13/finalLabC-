@@ -34,6 +34,19 @@ PartidaMultijugador::~PartidaMultijugador()
     delete itEstados;
 }
 
+int calcularDifEnMinutos(DtFechaHora * fechaInicio, DtFechaHora * fechaFin) {
+    // asumo que la fechaInicio es menor a la de fin
+
+    //todo en minutos
+    float difDias = (fechaFin->getDay() - fechaInicio->getDay()) * 1440; // 1440 son los minutos de un dia
+    float difMeses = (fechaFin->getMonth() - fechaInicio->getMonth()) * 43800; // 43800 son los minutos de un mes
+    float difAnios = (fechaFin->getYear() - fechaInicio->getYear()) * 525600; // 525600 son los minutos de un año
+    float difMinutos = (fechaFin->getMinute() - fechaInicio->getMinute());
+    float difHoras = (fechaFin->getHour() - fechaInicio->getHour()) * 60; // 60 son los minutos de una hora
+
+    return difDias + difMeses + difAnios + difMinutos + difHoras;
+}
+
 void PartidaMultijugador::finalizarPartida(DtFechaHora * fechaSistema)
 {
     IIterator* It = this->estadosJugador->getIterator();
@@ -41,6 +54,14 @@ void PartidaMultijugador::finalizarPartida(DtFechaHora * fechaSistema)
         EstadoJugador* Es = (EstadoJugador*)It->getCurrent();
         
         Es->setFechaHoraSalida(fechaSistema);
+
+        if (Es->getJugador()->getNickname() == this->creador->getNickname()) {
+            DtFechaHora * fechaInicio = Es->getFechaHoraEntrada();
+            DtFechaHora * fechaFin = fechaSistema;
+            float duracion = calcularDifEnMinutos(fechaInicio, fechaFin);
+            this->setDuracion(duracion);
+        }
+
         It->next();
     }
     this->setEstado(FINALIZADA);
