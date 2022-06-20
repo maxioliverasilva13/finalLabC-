@@ -154,12 +154,14 @@ public:
   DtVideojuego *verInfoVideojuego(string);
   string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
+  IDictionary* listarPartidasActivas();
   ICollection * listarPartidasUnido();  //DtPartidaMultijugador
   void abandonarPartida(int idPartida);
   ICollectible * findUserByNickname(string);
   PartidaMultijugador * partidaMasLarga();
   DtJugador * jugadorConMasContrataciones();
   ICollection * juegosMejoresPuntuados(int); // coleccion de DtVideojuego
+
 };
 
 Sistema *Sistema::instance = NULL;
@@ -655,8 +657,32 @@ DtVideojuego* Sistema::verInfoVideojuego(string name) {
     String *vjKey = new String(charNameVj);
     Videojuego *juego = (Videojuego *)videojuegos->find(vjKey);
 
-    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion(), juego->getPuntuaciones(), juego->getCategorias(), juego->getSuscripciones());
+    IDictionary* dataCategorias = new OrderedDictionary();
+    IDictionary* dataSuscripciones = new OrderedDictionary();
+    IIterator* I = juego->getCategorias()->getIterator();
     
+    while (I->hasCurrent()) {
+      Categoria* C =(Categoria*) I->getCurrent();
+      DtCategoria* DtC = new DtCategoria(C->darNombreInstancia(), C->getDescripcion(), C->darTipo());
+      IKey* Ckey =(IKey*)new int(C->getId());
+      dataCategorias->add(Ckey,DtC);
+      I->next();
+      delete C;
+    }
+
+    I = juego->getSuscripciones()->getIterator();
+    while (I->hasCurrent()) {
+      Suscripcion* S =(Suscripcion*) I->getCurrent();
+      DtInfoSuscripcion* DtS = new DtInfoSuscripcion(S->getId(), S->getPeriodo(), S->getPrecio(), NULL);
+      IKey* Skey =(IKey*)new int(S->getId());
+      dataSuscripciones->add(Skey,DtS);
+      I->next();
+      delete S;
+    }
+
+    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion(), juego->getPuntuaciones(), dataCategorias, dataSuscripciones);
+  
+    delete I;
     return Info;  
   }
   
@@ -748,18 +774,17 @@ void Sistema::confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, E
   char *charNameVj = const_cast<char *>(nombreVideojuego.c_str());
   IKey *vjKey = new String(charNameVj);
 
-   ICollectible * vJ = this->videojuegos->find(vjKey);
-   if(vJ == NULL){  
-     throw invalid_argument("El videojuego no existe");
-   }
-   Videojuego * juego  = (Videojuego*)vJ;
-   
-   Suscripcion * sus = juego->getSuscripcion(idSuscripcion);
-   if(sus == NULL){
-    throw invalid_argument("La suscripcion no esta asociada a este videojuego");
-   }
-
-   jugador->suscribirseAVideojuego(sus,metodoPago,this->fechaHora);
+  ICollectible * vJ = this->videojuegos->find(vjKey);
+  if(vJ == NULL){  
+    throw invalid_argument("El videojuego no existe");
+  }
+  Videojuego * juego  = (Videojuego*)vJ;
+  
+  Suscripcion * sus = juego->getSuscripcion(idSuscripcion);
+  if(sus == NULL){
+   throw invalid_argument("La suscripcion no esta asociada a este videojuego");
+  }
+  jugador->suscribirseAVideojuego(sus,metodoPago,this->fechaHora);
 
 }
 
@@ -791,14 +816,33 @@ void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
 }
 
 
-  void Sistema::finalizarPartida(int idPartida){
-     if(this->loggUser == NULL){
-      throw invalid_argument("Debes logearte primero");
-     }
-     Jugador * jugador = (Jugador*)this->loggUser;
-     jugador->finalizarPartida(idPartida, this->fechaHora);
+void Sistema::finalizarPartida(int idPartida){
+    if(this->loggUser == NULL){
+     throw invalid_argument("Debes logearte primero");
+    }
+    Jugador * jugador = (Jugador*)this->loggUser;
+    jugador->finalizarPartida(idPartida, this->fechaHora);
      
+}
+
+
+IDictionary* Sistema::listarPartidasActivas() {
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  
+  IDictionary* dataPartidas = new OrderedDictionary();
+
+  IIterator* P = jugadorLogueado->getPartidas()->getIterator();
+  while (P->hasCurrent()) {
+    Partida * partidas =(Partida*) P->getCurrent();
+    if (partidas->getEstado() == ENCURSO) {
+      DtVideojuego* juego= new DtVideojuego(partidas->darNombreJuego(), NULL, NULL, NULL, NULL, NULL);
+      DtPartida* infoP = new DtPartida(partidas->getId(), partidas->getFecha(), NULL, juego);
+      IKey* Pkey =(IKey*)new int(partidas->getId());
+      dataPartidas->add(Pkey, infoP);
+    }
   }
+  delete P;
+}
 
    ICollection * Sistema::listarPartidasUnido(){ 
       if(this->loggUser == NULL){ 
@@ -842,5 +886,6 @@ void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
 
     return partidaMasLarga;
   }
+
 
 #endif

@@ -37,11 +37,13 @@ public:
     string getTipo();
     ICollection *listarVideoJuegosActivos(DtFechaHora *);
     void iniciarPartidaIndividual(bool, Videojuego *);
+    IDictionary* getPartidas();
     ICollection * listarPartidasUnido();
     void  abandonarPartida(int idPartida,DtFechaHora * fechaSistema);
     PartidaMultijugador * partidaMasLarga();
     int getSizeContrataciones();
     DtJugador * getDtJugador();
+
 };
 
 #endif

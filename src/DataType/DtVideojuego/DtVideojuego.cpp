@@ -18,8 +18,8 @@ public:
     string getNombreVideojuego();
     string getDescripcionVideojuego();
     int getPromedioPuntuaciones();
-    ICollection * getPuntuaciones();
-    IDictionary * getCategorias();
+    ICollection *getPuntuaciones();
+    IDictionary *getCategorias();
     IDictionary * getSuscripciones();
 };
 
@@ -44,14 +44,18 @@ int DtVideojuego::getPromedioPuntuaciones() {
     return this->promedio_puntuacion;
 }
 
-ICollection * DtVideojuego::getPuntuaciones() {
+
+ICollection* DtVideojuego::getPuntuaciones() {
     return this->puntuaciones;
 }
-IDictionary * DtVideojuego::getCategorias() {
+
+IDictionary* DtVideojuego::getCategorias() {
     return this->categorias;
 }
-IDictionary * DtVideojuego::getSuscripciones() {
+
+IDictionary* DtVideojuego::getSuscripciones() {
     return this->suscripciones;
 }
+
 
 #endif

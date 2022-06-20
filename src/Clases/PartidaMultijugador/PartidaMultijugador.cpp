@@ -68,10 +68,14 @@ void PartidaMultijugador::finalizarPartida(DtFechaHora * fechaSistema)
     delete It;
 
 }
+DtVideojuego* PartidaIndividual::getVideojuego() {
+  DtVideojuego* Juego = new DtVideojuego(videojuego->getNombre(), videojuego->getDescripcion(), videojuego->getPromedio_puntuacion(), videojuego->getPuntuaciones(), videojuego->getCategorias(), videojuego->getSuscripciones());
+  return Juego;
+}
 
 DtPartida *PartidaMultijugador::getDtPartida()
 {
-    DtPartida *dtpart = new DtPartida(this->getId(), this->getFecha(), 0);
+    DtPartida *dtpart = new DtPartida(this->getId(), this->getFecha(), 0, getVideojuego());
     return dtpart;
 };
 

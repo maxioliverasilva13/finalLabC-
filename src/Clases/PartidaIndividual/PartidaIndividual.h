@@ -19,6 +19,7 @@ public:
   void finalizarPartida(DtFechaHora *);
   DtPartida *getDtPartida();
   string darTipo();
+  DtVideojuego* getVideojuego();
   float getDuracion();
   void setDuracion(float);
 };
