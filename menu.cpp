@@ -157,11 +157,13 @@ void cerrarSesionMenu(){
 bool cerrarMenuDesarrollador = false;
 bool cerrarMenuJugador = false;
 void menu(){
+    
+    sleep(5);
     try
     {
         if (usuarioActual == ""){
-            menuUsuario();
-            while(!menuUsuario()){
+            bool menuOk = menuUsuario();
+            while(!menuOk){
                 menu();
             }
         } 
@@ -296,7 +298,6 @@ void cargarDatosDePruebaMenu(){
 }
 
 bool menuDeseaContinuarOcancelar(){
-    bool opcionValida = false;
     do{
         system("cls");
         cout << "Desea intentarlo nuevamente, o cancelar? " << endl;
@@ -308,11 +309,11 @@ bool menuDeseaContinuarOcancelar(){
 
         switch (eleccion)
         {
-        case 1: return true; opcionValida = true; break;
-        case 2: return false; opcionValida = true;break;
+        case 1: return true;  break;
+        case 2: return false; break;
         default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
         }
-    } while (opcionValida == false);
+    } while (true);
     return false;
 }
 
@@ -438,6 +439,7 @@ void iniciarSesionMenu(){
             sleep(2);
             bool eleccion = menuDeseaContinuarOcancelar();
             if (eleccion == false){
+                usuarioActual = "";
                 return;
             }
         }
@@ -845,7 +847,8 @@ void asignarPuntajeVJMenu(){
         int puntaje = leerInt();
 
         s->asignarPuntajeVideojuego(puntaje, nombrevj);
-    }
+        cout << "holi";
+    }  
     catch(const std::exception& e)
     {
         std::cerr << e.what() << '\n';
