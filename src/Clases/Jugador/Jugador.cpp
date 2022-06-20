@@ -90,7 +90,7 @@ ICollection *Jugador::listarHistorialPartidasFinalizadas(string nombrevj)
             PartidaIndividual *part = (PartidaIndividual *)it->getCurrent();
             if (part->esFinalizada() && part->darNombreJuego() == nombrevj)
             {
-                DtPartida *part = new DtPartida(part->getId(), part->getFecha(), part->getDuracion());
+                DtPartidaIndividual *part = new DtPartidaIndividual(part->getId(), part->getContinuar(), part->getEstado(), part->getDuracion(), part->getFecha(), part->getNombreV(), part->getNombreJ());
                 partidasFinalizadas->add(part);
             }
         }
