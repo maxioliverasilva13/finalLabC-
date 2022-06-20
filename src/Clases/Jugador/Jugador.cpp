@@ -105,7 +105,7 @@ void Jugador::continuarPartida(int idPart)
     PartidaIndividual *part = (PartidaIndividual *)this->partidas->find(partKey);
     if (part)
     {
- 
+        part->continuarPartida();
     }
 } 
 
