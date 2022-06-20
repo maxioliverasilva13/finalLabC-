@@ -169,6 +169,10 @@ DtContratacion *Jugador::getContratacionByUser(string nomV, DtFechaHora * fecha_
     return res;
 }
 
+int Jugador::getSizeContrataciones() {
+    return this->contrataciones->getSize();
+}
+
 void Jugador::agregarPartida(Partida *part)
 {
     Integer *idKey = new Integer(part->getId());
@@ -310,6 +314,11 @@ PartidaMultijugador * Jugador::partidaMasLarga() {
     }
 
     return partidaMasLarga;
+  }
+
+  DtJugador * Jugador::getDtJugador() {
+    DtJugador * dt = new DtJugador(this->getEmail(), this->getPassword(),this->getNickname(), this->getDescripcion(), this->getSizeContrataciones());
+    return dt;
   }
 
 #endif

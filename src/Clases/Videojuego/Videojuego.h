@@ -36,6 +36,7 @@ public:
     ICollection * getInfoSuscripciones(string);
     Suscripcion * getSuscripcion(int);
     void agregarPuntuacion(int ,Jugador *);
+    DtVideojuego * getDtVideojuego();
 };
 
 #endif

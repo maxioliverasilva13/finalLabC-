@@ -10,18 +10,21 @@ class DtJugador : public DtUsuario
 private:
     string nickname;
     string descripcion;
+    int sizeContrataciones;
 
 public:
-    DtJugador(string email, string password, string nickname, string descripcion);
+    DtJugador(string email, string password, string nickname, string descripcion, int);
     string getNickname();
     string getDescripcion();
     string getTipo();
+    int getSizeContrataciones();
 };
 
-DtJugador::DtJugador(string email, string password, string nickname, string descripcion) : DtUsuario(email, password)
+DtJugador::DtJugador(string email, string password, string nickname, string descripcion,  int sizeContrataciones = 0) : DtUsuario(email, password)
 {
     this->nickname = nickname;
     this->descripcion = descripcion;
+    this->sizeContrataciones = sizeContrataciones;
 };
 
 string DtJugador::getNickname()
@@ -38,6 +41,10 @@ string DtJugador::getDescripcion()
 string DtJugador::getTipo()
 {
     return "DtJugador";
+}
+
+int DtJugador::getSizeContrataciones(){
+    return this->sizeContrataciones;
 }
 
 #endif

@@ -155,6 +155,8 @@ public:
   void abandonarPartida(int idPartida);
   ICollectible * findUserByNickname(string);
   PartidaMultijugador * partidaMasLarga();
+  DtJugador * jugadorConMasContrataciones();
+  ICollection * juegosMejoresPuntuados(int); // coleccion de DtVideojuego
 };
 
 Sistema *Sistema::instance = NULL;
@@ -288,6 +290,63 @@ IDictionary * Sistema::listarVJ(){
   return listaDTVJ;
 }
 
+DtJugador * Sistema::jugadorConMasContrataciones() {
+  IIterator * itJugadores = this->usuarios->getIterator();
+  Jugador * jugadorConMasContrataciones = NULL;
+
+  while (itJugadores->hasCurrent())
+  {
+    Usuario * user = (Usuario *)itJugadores->getCurrent();
+    if (user->getTipo() == "Jugador") {
+      Jugador * player = (Jugador *)user;
+      if (jugadorConMasContrataciones  == NULL) {
+        jugadorConMasContrataciones = player;
+      } else if (player->getSizeContrataciones() > jugadorConMasContrataciones->getSizeContrataciones()) {
+          jugadorConMasContrataciones = player;
+      }
+    }
+    itJugadores->next();
+  }
+  
+  if (jugadorConMasContrataciones == NULL) {
+    throw invalid_argument("No tenemos datos suficientes para recopilar esta informacion");
+  } 
+  return jugadorConMasContrataciones->getDtJugador();
+}
+
+ICollection * Sistema::juegosMejoresPuntuados(int maxRange) {
+
+  if (this->videojuegos->getSize() == 0) {
+    throw invalid_argument("No tenemos suficientes videojuegos para calcular este dato :( !");
+  }
+
+  IDictionary * mejoresPuntuadosOrdered = new OrderedDictionary();
+
+  IIterator * itJuegos = this->videojuegos->getIterator();
+  while (itJuegos->hasCurrent())
+  {
+    Videojuego * vj = (Videojuego *)itJuegos->getCurrent();
+    Integer * promKey = new Integer(vj->getPromedio_puntuacion());
+    mejoresPuntuadosOrdered->add(promKey, vj);
+    itJuegos->next();
+  }
+
+  ICollection * mejoresPuntuadosSort = new List();
+
+  IIterator * itJuegosOrdered = mejoresPuntuadosOrdered->getIterator();
+  while (itJuegosOrdered->hasCurrent())
+  {
+    Videojuego * vj = (Videojuego *)itJuegosOrdered->getCurrent();
+    mejoresPuntuadosSort->add(vj->getDtVideojuego());
+    if (mejoresPuntuadosSort->getSize() == maxRange) {
+      break;
+    }
+    itJuegosOrdered->next();
+  }
+
+  return mejoresPuntuadosSort;
+}
+
 ICollectible * Sistema::findUserByNickname(string nickNameJugador) {
   ICollectible * jugador = NULL;
 
@@ -317,7 +376,7 @@ void Sistema::iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo, st
 
   if (juego == NULL) {
     throw invalid_argument("El videojuego al cual intentas iniciar una partida no existe");
-  }
+  } 
 
   IIterator * it = jugadores->getIterator();
   while (it->hasCurrent())
@@ -407,15 +466,17 @@ void Sistema::agregarVideojuego(string nombre, string descricpcion, ICollection 
   }
   Videojuego *vj = new Videojuego(nombre, descricpcion, 0);
 
-  IIterator *iterator = costos_suscripcion->getIterator();
+  if (costos_suscripcion) {
+    IIterator *iterator = costos_suscripcion->getIterator();
 
-  while (iterator->hasCurrent())
-  {
-    DtCostoSuscripcion *dtcostoS = (DtCostoSuscripcion *)iterator->getCurrent();
-    Suscripcion *suscripcion = new Suscripcion(dtcostoS->getCosto(), dtcostoS->getTipo(), vj);
-    vj->agregarSuscripcion(suscripcion);
-    iterator->next();
-  };
+    while (iterator->hasCurrent())
+    {
+      DtCostoSuscripcion *dtcostoS = (DtCostoSuscripcion *)iterator->getCurrent();
+      Suscripcion *suscripcion = new Suscripcion(dtcostoS->getCosto(), dtcostoS->getTipo(), vj);
+      vj->agregarSuscripcion(suscripcion);
+      iterator->next();
+    };
+  }
 
   if (dtsCategorias) {
     IIterator *iteratorCategorias = dtsCategorias->getIterator();
