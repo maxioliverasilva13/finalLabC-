@@ -245,4 +245,10 @@ void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
        this->promedio_puntuacion = sumPunt/cantPunt;
        delete it;
 }
+
+DtVideojuego * Videojuego::getDtVideojuego() {
+    DtVideojuego * dt = new DtVideojuego(this->nombre,this->descripcion,this->promedio_puntuacion, this->puntuaciones,this->categorias, this->suscripciones);
+    return dt;
+}
+
 #endif

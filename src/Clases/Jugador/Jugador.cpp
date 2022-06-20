@@ -106,7 +106,7 @@ void Jugador::continuarPartida(int idPart)
     PartidaIndividual *part = (PartidaIndividual *)this->partidas->find(partKey);
     if (part)
     {
- 
+        part->continuarPartida();
     }
 } 
 
@@ -168,6 +168,10 @@ DtContratacion *Jugador::getContratacionByUser(string nomV, DtFechaHora * fecha_
     }
     delete it;
     return res;
+}
+
+int Jugador::getSizeContrataciones() {
+    return this->contrataciones->getSize();
 }
 
 void Jugador::agregarPartida(Partida *part)
@@ -288,4 +292,34 @@ void Jugador::abandonarPartida(int idPartida,DtFechaHora * fechaSistema){
    }
    delete it;
 }
+
+
+
+PartidaMultijugador * Jugador::partidaMasLarga() {
+    IIterator * itPartidas = this->partidas->getIterator();
+    PartidaMultijugador * partidaMasLarga = NULL;
+    
+    while (itPartidas->hasCurrent())
+    {
+      Partida * part = (Partida *)itPartidas->getCurrent();
+      if (part->darTipo() == "PartidaMultijugador"){
+        PartidaMultijugador * partM = (PartidaMultijugador *)part;
+        if (partidaMasLarga == NULL) {
+            partidaMasLarga = partM;
+        }
+        if (partM->getDuracion() > partidaMasLarga->getDuracion()){
+            partidaMasLarga = partM;
+        }
+      }
+      itPartidas->next();
+    }
+
+    return partidaMasLarga;
+  }
+
+  DtJugador * Jugador::getDtJugador() {
+    DtJugador * dt = new DtJugador(this->getEmail(), this->getPassword(),this->getNickname(), this->getDescripcion(), this->getSizeContrataciones());
+    return dt;
+  }
+
 #endif
