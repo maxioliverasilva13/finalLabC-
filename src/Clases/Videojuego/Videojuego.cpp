@@ -243,6 +243,7 @@ void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
          cantPunt++;
        }
        this->promedio_puntuacion = sumPunt/cantPunt;
+       delete it;
 }
 
 DtVideojuego * Videojuego::getDtVideojuego() {

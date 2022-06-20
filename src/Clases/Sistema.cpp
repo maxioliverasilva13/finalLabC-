@@ -49,6 +49,7 @@ class DtPartida;
 class DtSuscripcion;
 class DtVideojuego;
 class DtPartidaMultijugador;
+class DtPartidaIndividual;
 
 // ENUM
 #include "../Enum/index.cpp"
@@ -81,6 +82,8 @@ class DtPartidaMultijugador;
 #include "../DataType/DtSuscripcion/DtSuscripcion.cpp"
 #include "../DataType/DtVideojuego/DtVideojuego.cpp"
 #include "../DataType/DtPartidaMultijugador/DtPartidaMultijugador.cpp"
+#include "../DataType/DtPartidaIndividual/DtPartidaIndividual.cpp"
+
 
 // CLASES  --------------------------------------------------
 
@@ -656,7 +659,7 @@ DtVideojuego* Sistema::verInfoVideojuego(string name) {
     
     return Info;  
   }
-  return NULL;
+  
 }
 
 string Sistema::getTipoLoggUser()

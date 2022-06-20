@@ -6,16 +6,17 @@
 
 using namespace std;
 
-int Partida::id = 0;
+int Partida::cant = 0;
 
 Partida::Partida(EEstado estado, Videojuego *vj, DtFechaHora *fecha, Jugador *j)
 {
-  Partida::id++;
-  this->id = id;
+  Partida::cant++;
+  this->id = cant;
   this->estado = estado;
   this->videojuego = vj;
   this->fecha = fecha;
   this->creador = j;
+ 
 };
 
 Partida::~Partida()

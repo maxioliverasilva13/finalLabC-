@@ -34,7 +34,7 @@ PartidaMultijugador::~PartidaMultijugador()
     delete itEstados;
 }
 
-int calcularDifEnMinutos(DtFechaHora * fechaInicio, DtFechaHora * fechaFin) {
+float calcularDifEnMinutos(DtFechaHora * fechaInicio, DtFechaHora * fechaFin) {
     // asumo que la fechaInicio es menor a la de fin
 
     //todo en minutos

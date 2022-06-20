@@ -34,6 +34,7 @@ Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(
     this->descripcion = desc;
     this->partidas = new OrderedDictionary();
     this->contrataciones = new OrderedDictionary();
+    this->estadosJugador = new List();
 }
 
 void Jugador::iniciarPartidaMultijugador(ICollection * jugadores, bool enVIvo, Videojuego * juego, DtFechaHora * fecha){
@@ -90,7 +91,7 @@ ICollection *Jugador::listarHistorialPartidasFinalizadas(string nombrevj)
             PartidaIndividual *part = (PartidaIndividual *)it->getCurrent();
             if (part->esFinalizada() && part->darNombreJuego() == nombrevj)
             {
-                DtPartida *part = new DtPartida(part->getId(), part->getFecha(), part->getDuracion());
+                DtPartidaIndividual *part = new DtPartidaIndividual(part->getId(), part->getContinuar(), part->getEstado(), part->getDuracion(), part->getFecha(), part->getNombreV(), part->getNombreJ());
                 partidasFinalizadas->add(part);
             }
         }
@@ -238,28 +239,28 @@ void Jugador::eliminarEstadosJugador(ICollectible *estadojugador)
 }
 
 ICollection * Jugador::listarPartidasUnido(){
-    IIterator * it = this->estadosJugador->getIterator();
-
+     
+     
+     IIterator * it = this->estadosJugador->getIterator();
+    
     ICollection * res = new List();   //DtPartidaMultijador;
-
+ 
     EstadoJugador * current;
     PartidaMultijugador * current_partida;
     while (it->hasCurrent()){
-        current = (EstadoJugador*)it;
+        current = (EstadoJugador*)it->getCurrent();
         current_partida = (PartidaMultijugador*)current->getPartida();
-
         bool isOwner = false;
         if(current_partida->getEstado() == ENCURSO){
             if(current_partida->getCreador()->getNickname() == this->nickname){
                 isOwner = true;
             }
             //int id, DtFechaHora * fecha, string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner
-            ICollectible * newItem = new DtPartidaMultijugador(current_partida->getId(),current_partida->getFecha(), current_partida->darNombreJuego(),current_partida->getEnVivo(),current_partida->getJugadoresUnidos(),isOwner);
+            ICollectible * newItem = new DtPartidaMultijugador(current_partida->getId(),current_partida->getFecha(), current_partida->darNombreJuego(),current_partida->getEnVivo(),current_partida->getJugadoresUnidos(),isOwner,current_partida->getCreador()->getNickname());
             res->add(newItem);
         }
         it->next();
     }
-    
     delete it;
     return res;
     

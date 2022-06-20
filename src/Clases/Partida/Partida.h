@@ -8,7 +8,8 @@ using namespace std;
 class Partida : public ICollectible
 {
 protected:
-  static int id;
+  static int cant;
+  int id;
   EEstado estado;
   DtFechaHora *fecha;
   Videojuego *videojuego = NULL;

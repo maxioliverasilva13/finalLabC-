@@ -6,11 +6,12 @@
 
 using namespace std;
 
-int Suscripcion::id = 0;
+int Suscripcion::cant = 0;
 
 Suscripcion::Suscripcion(float precio, EPeriodo periodo, Videojuego *videojuego)
 {
-    Suscripcion::id ++;
+    Suscripcion::cant ++;
+    this->id  = cant;
     this->precio = precio;
     this->periodo = periodo;
     this->videojuego = videojuego;
