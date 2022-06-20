@@ -857,6 +857,8 @@ void abandonarPartidaMJMenu(){
     cin.clear();
     IIterator * itPartida = s->listarPartidasUnido()->getIterator();
     DtPartidaMultijugador * current;
+
+
     cout << "------------PARTIDAS UNIDO -----------------" << endl;
     int cont_partidas = 0;
     if(itPartida->hasCurrent()){
@@ -886,6 +888,8 @@ void abandonarPartidaMJMenu(){
         delete itJugadores;
         cout << "---------------------------------------------" << endl;
         cont_partidas++;
+        itPartida->next();
+
     }
     if(cont_partidas == 0){
         cout << "Lo sentimos no estas unido a ninguna partida" << endl;
@@ -893,6 +897,58 @@ void abandonarPartidaMJMenu(){
         sleep(3);
         return;
     }
-   
     delete itPartida;
+    
+
+    bool correct_choice = false;
+    char salir = 'n';
+    int inputId;
+    bool isOwner;
+    do{
+        cout << "Escribe el id de la partida multijugador que deseas abandonar: ";
+        inputId = leerInt();
+        cout << endl;
+        itPartida = s->listarPartidasUnido()->getIterator();
+        while (itPartida->hasCurrent())
+        {
+            current = (DtPartidaMultijugador*)itPartida->getCurrent();
+            if(current->getId() == inputId){
+                correct_choice = true;
+                isOwner = current->isUserOwner();
+                break;
+            }
+            itPartida->next();
+        }
+        if(!correct_choice){
+            cout << "La id ingresada no corresponde a ninguna partida " << endl;
+            cout << "Deseas salir? y/n";
+            salir = leerChar();
+        }
+        
+    }while (!correct_choice && (salir == 'n' || salir == 'N'));
+
+    if(!correct_choice){
+        return;
+    }
+
+    if(!isOwner){
+        cout << "abandonando partida..";
+        sleep(3);
+        try{
+            s->abandonarPartida(inputId);
+        }catch(exception& e){
+            cout << e.what();
+        }
+    }else{
+        cout << "Eres el creador de esta partida por lo tanto al irte la partida se finalizara.." << endl;
+        cout << "Finalizando .." << endl;
+        sleep(3);
+        try{
+            s->finalizarPartida(inputId);
+        }catch(exception& e){
+            cout << e.what();
+        }
+        return;
+    }
+
 }
