@@ -6,13 +6,17 @@
 
 using namespace std;
 
-Partida::Partida(int id, EEstado estado, Videojuego *vj, DtFechaHora *fecha, Jugador *j)
+int Partida::cant = 0;
+
+Partida::Partida(EEstado estado, Videojuego *vj, DtFechaHora *fecha, Jugador *j)
 {
-  this->id = id;
+  Partida::cant++;
+  this->id = cant;
   this->estado = estado;
   this->videojuego = vj;
   this->fecha = fecha;
   this->creador = j;
+ 
 };
 
 Partida::~Partida()
@@ -39,7 +43,7 @@ void Partida::setFecha(DtFechaHora *fecha)
   this->fecha = fecha;
 }
 
-int Partida::getEstado()
+EEstado Partida::getEstado()
 {
   return this->estado;
 }
@@ -59,4 +63,7 @@ bool Partida::esFinalizada()
   return this->estado == FINALIZADA;
 };
 
+Jugador * Partida::getCreador(){
+     return this->creador;
+}
 #endif

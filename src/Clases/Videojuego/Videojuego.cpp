@@ -151,13 +151,13 @@ void Videojuego::agregarPuntuacion(ICollectible *puntuacion)
     this->puntuaciones->add(punt);
 }
 
-ICollection * Videojuego::getJugadoresActivos() {
+ICollection * Videojuego::getJugadoresActivos(DtFechaHora * fecha) {
     ICollection * nombreJugadores = new List(); 
     IIterator * it = this->suscripciones->getIterator();
     while (it->hasCurrent())
     {
         Suscripcion * suscr = (Suscripcion *)it->getCurrent();
-        ICollection * nombresJugadoresEnEstaSuscr = suscr->getJugadoresActivos();
+        ICollection * nombresJugadoresEnEstaSuscr = suscr->getJugadoresActivos(fecha);
         IIterator * iterNombres = nombresJugadoresEnEstaSuscr->getIterator();
         while (iterNombres->hasCurrent())
         {   
@@ -234,6 +234,7 @@ void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
          }
          sumPunt+= current->getPuntuacion();
          cantPunt++;
+         it->next();
        }
        if(!alreadyPunt){
          Puntuacion * newPuntuacion = new Puntuacion(puntuacion,this,jugador);
@@ -242,5 +243,12 @@ void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
          cantPunt++;
        }
        this->promedio_puntuacion = sumPunt/cantPunt;
+       delete it;
 }
+
+DtVideojuego * Videojuego::getDtVideojuego() {
+    DtVideojuego * dt = new DtVideojuego(this->nombre,this->descripcion,this->promedio_puntuacion, this->puntuaciones,this->categorias, this->suscripciones);
+    return dt;
+}
+
 #endif

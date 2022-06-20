@@ -6,7 +6,7 @@ using namespace std;
 
 #include <iostream>
 
-PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, int id, EEstado estado, DtFechaHora *fecha, Videojuego *vj, Jugador *j) : Partida(id, estado, vj, fecha, j)
+PartidaMultijugador::PartidaMultijugador(bool enVivo, float duracion, EEstado estado, DtFechaHora *fecha, Videojuego *vj, Jugador *j) : Partida(estado, vj, fecha, j)
 {
     this->enVivo = enVivo;
     this->duracion = duracion;
@@ -34,27 +34,37 @@ PartidaMultijugador::~PartidaMultijugador()
     delete itEstados;
 }
 
-void PartidaMultijugador::finalizarPartida()
+float calcularDifEnMinutos(DtFechaHora * fechaInicio, DtFechaHora * fechaFin) {
+    // asumo que la fechaInicio es menor a la de fin
+
+    //todo en minutos
+    float difDias = (fechaFin->getDay() - fechaInicio->getDay()) * 1440; // 1440 son los minutos de un dia
+    float difMeses = (fechaFin->getMonth() - fechaInicio->getMonth()) * 43800; // 43800 son los minutos de un mes
+    float difAnios = (fechaFin->getYear() - fechaInicio->getYear()) * 525600; // 525600 son los minutos de un año
+    float difMinutos = (fechaFin->getMinute() - fechaInicio->getMinute());
+    float difHoras = (fechaFin->getHour() - fechaInicio->getHour()) * 60; // 60 son los minutos de una hora
+
+    return difDias + difMeses + difAnios + difMinutos + difHoras;
+}
+
+void PartidaMultijugador::finalizarPartida(DtFechaHora * fechaSistema)
 {
     IIterator* It = this->estadosJugador->getIterator();
     while (It->hasCurrent()) {
         EstadoJugador* Es = (EstadoJugador*)It->getCurrent();
         
-        time_t t = time(0);
-        tm *now = localtime(&t);
-        int dia = now->tm_mday;
-        int mes = 1 + now->tm_mon;
-        int anio = 1900 + now->tm_year;
-        int hora = now->tm_hour;
-        int minuto = now->tm_min;
-        DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
-        
-        Es->setFechaHoraSalida(ahora);
+        Es->setFechaHoraSalida(fechaSistema);
+
+        if (Es->getJugador()->getNickname() == this->creador->getNickname()) {
+            DtFechaHora * fechaInicio = Es->getFechaHoraEntrada();
+            DtFechaHora * fechaFin = fechaSistema;
+            float duracion = calcularDifEnMinutos(fechaInicio, fechaFin);
+            this->setDuracion(duracion);
+        }
+
         It->next();
-        delete Es;
     }
     this->setEstado(FINALIZADA);
-    cout << "Finalizar Partida";
     delete It;
 
 }
@@ -93,5 +103,30 @@ void PartidaMultijugador::agregarEstadoJugador(EstadoJugador *status)
 {
     this->estadosJugador->add(status);
 }
+
+
+ ICollection * PartidaMultijugador::getJugadoresUnidos(){
+
+    ICollection * res = new List();
+    IIterator * it = this->estadosJugador->getIterator();
+    
+    EstadoJugador * current;
+    string jugadorNicknameCurrent;
+    while (it->hasCurrent()){
+
+        current = (EstadoJugador*)it;
+
+        if(current->getFechaHoraSalida() == NULL){
+            jugadorNicknameCurrent = current->getJugador()->getNickname();
+            char *charNickJugador = const_cast<char *>(jugadorNicknameCurrent.c_str()); // paso de string a char (para poder implementar la key)
+            ICollectible * item = new String(charNickJugador);
+            res->add(item);
+        }
+        it->next();
+    }
+    delete it;
+    return res;
+    
+ };
 
 #endif

@@ -34,9 +34,23 @@ Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(
     this->descripcion = desc;
     this->partidas = new OrderedDictionary();
     this->contrataciones = new OrderedDictionary();
+    this->estadosJugador = new List();
 }
 
-ICollection *Jugador::listarVideoJuegosActivos()
+void Jugador::iniciarPartidaMultijugador(ICollection * jugadores, bool enVIvo, Videojuego * juego, DtFechaHora * fecha){
+    PartidaMultijugador * partida = new PartidaMultijugador(enVIvo, 0, ENCURSO, fecha, juego, this);
+    
+    IIterator * it = jugadores->getIterator();
+    while (it->hasCurrent())
+    {
+       Jugador * jugador = (Jugador *)it->getCurrent();
+       EstadoJugador * est = new EstadoJugador(fecha, NULL, partida, jugador);
+       partida->agregarEstadoJugador(est);
+       it->next();
+    }
+}
+
+ICollection *Jugador::listarVideoJuegosActivos(DtFechaHora * ahora)
 {
     ICollection *nameJuegos = new List();
     IIterator *it = this->contrataciones->getIterator();
@@ -58,7 +72,7 @@ ICollection *Jugador::listarVideoJuegosActivos()
 
 void Jugador::iniciarPartidaIndividual(bool esNueva, Videojuego * vj) {
     DtFechaHora * ahora;
-    PartidaIndividual * p = new PartidaIndividual(esNueva, 1, ENCURSO, ahora->getAhora(), vj, this);
+    PartidaIndividual * p = new PartidaIndividual(esNueva, ENCURSO, ahora->getAhora(), vj, this);
     Integer * partidaKey = new Integer(p->getId());
     this->partidas->add(partidaKey, p);
     delete ahora;
@@ -77,8 +91,9 @@ ICollection *Jugador::listarHistorialPartidasFinalizadas(string nombrevj)
             PartidaIndividual *part = (PartidaIndividual *)it->getCurrent();
             if (part->esFinalizada() && part->darNombreJuego() == nombrevj)
             {
-                DtPartida *part = new DtPartida(part->getId(), part->getFecha(), part->getDuracion(), part->getVideojuego());
-                partidasFinalizadas->add(part);
+
+                DtPartidaIndividual *part1 = new DtPartidaIndividual(part->getId(), part->getContinuar(), part->getEstado(), part->getDuracion(), part->getFecha(), part->darNombreJuego() , part->getCreador()->getNickname());
+                partidasFinalizadas->add(part1);
             }
         }
         it->next();
@@ -92,7 +107,7 @@ void Jugador::continuarPartida(int idPart)
     PartidaIndividual *part = (PartidaIndividual *)this->partidas->find(partKey);
     if (part)
     {
- 
+        part->continuarPartida();
     }
 } 
 
@@ -156,6 +171,10 @@ DtContratacion *Jugador::getContratacionByUser(string nomV, DtFechaHora * fecha_
     return res;
 }
 
+int Jugador::getSizeContrataciones() {
+    return this->contrataciones->getSize();
+}
+
 void Jugador::agregarPartida(Partida *part)
 {
     Integer *idKey = new Integer(part->getId());
@@ -192,6 +211,21 @@ string Jugador::getTipo()
     return "Jugador";
 }
 
+void Jugador::finalizarPartida(int idPartida, DtFechaHora * fechaSistema) {
+    IIterator * it = this->partidas->getIterator();
+    while (it->hasCurrent())
+    {
+        Partida * p = (Partida *)it->getCurrent();
+        if (p->getId() == idPartida) {
+            p->finalizarPartida(fechaSistema);
+            break;
+        }
+        it->next();
+    }
+    delete it;
+    
+}
+
 void Jugador::eliminarPartida(ICollectible *partida)
 {
     Partida *p = (Partida *)partida;
@@ -205,8 +239,93 @@ void Jugador::eliminarEstadosJugador(ICollectible *estadojugador)
     this->estadosJugador->remove(estadojugador);
 }
 
+
 IDictionary* Jugador::getPartidas() {
     return this->partidas;
 }
+
+ICollection * Jugador::listarPartidasUnido(){
+     
+     
+     IIterator * it = this->estadosJugador->getIterator();
+    
+    ICollection * res = new List();   //DtPartidaMultijador;
+ 
+    EstadoJugador * current;
+    PartidaMultijugador * current_partida;
+    while (it->hasCurrent()){
+        current = (EstadoJugador*)it->getCurrent();
+        current_partida = (PartidaMultijugador*)current->getPartida();
+        bool isOwner = false;
+        if(current_partida->getEstado() == ENCURSO){
+            if(current_partida->getCreador()->getNickname() == this->nickname){
+                isOwner = true;
+            }
+            //int id, DtFechaHora * fecha, string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner
+            ICollectible * newItem = new DtPartidaMultijugador(current_partida->getId(),current_partida->getFecha(), current_partida->darNombreJuego(),current_partida->getEnVivo(),current_partida->getJugadoresUnidos(),isOwner,current_partida->getCreador()->getNickname());
+            res->add(newItem);
+        }
+        it->next();
+    }
+    delete it;
+    return res;
+    
+}
+
+
+void Jugador::abandonarPartida(int idPartida,DtFechaHora * fechaSistema){
+   IIterator * it = this->estadosJugador->getIterator();
+   EstadoJugador * current ;
+   Partida * current_partida;
+   
+   int current_id_partida = 0;
+   while (it->hasCurrent())
+   {
+    current = (EstadoJugador*)it;
+    current_partida = current->getPartida();
+    current_id_partida = current_partida->getId();
+
+    if(current_partida->getCreador()->getNickname() == this->nickname && 
+    current_id_partida == idPartida){
+        throw invalid_argument("No puedes abandonar una partida donde eres el duenio,en todo caso debes finalizarla");
+    }
+  
+    if(current->getFechaHoraSalida() == NULL && current_id_partida == idPartida){
+        current->setFechaHoraSalida(fechaSistema);
+        break;
+    }
+    it->next();
+   }
+   delete it;
+}
+
+
+
+PartidaMultijugador * Jugador::partidaMasLarga() {
+    IIterator * itPartidas = this->partidas->getIterator();
+    PartidaMultijugador * partidaMasLarga = NULL;
+    
+    while (itPartidas->hasCurrent())
+    {
+      Partida * part = (Partida *)itPartidas->getCurrent();
+      if (part->darTipo() == "PartidaMultijugador"){
+        PartidaMultijugador * partM = (PartidaMultijugador *)part;
+        if (partidaMasLarga == NULL) {
+            partidaMasLarga = partM;
+        }
+        if (partM->getDuracion() > partidaMasLarga->getDuracion()){
+            partidaMasLarga = partM;
+        }
+      }
+      itPartidas->next();
+    }
+
+    return partidaMasLarga;
+  }
+
+  DtJugador * Jugador::getDtJugador() {
+    DtJugador * dt = new DtJugador(this->getEmail(), this->getPassword(),this->getNickname(), this->getDescripcion(), this->getSizeContrataciones());
+    return dt;
+  }
 
 #endif

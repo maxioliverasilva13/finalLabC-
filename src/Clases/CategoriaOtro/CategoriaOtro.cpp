@@ -9,14 +9,14 @@ class CategoriaOtro: public Categoria {
     private:
       string nombre;
     public:
-      CategoriaOtro(string, string, int);
+      CategoriaOtro(string, string);
       void setNombre(string);
       string getNombre();
       string darTipo();
       string darNombreInstancia();
 };
 
-CategoriaOtro::CategoriaOtro(string nombre, string descripcion, int id) : Categoria(descripcion, id) {
+CategoriaOtro::CategoriaOtro(string nombre, string descripcion) : Categoria(descripcion) {
     this->nombre = nombre;
 }
 

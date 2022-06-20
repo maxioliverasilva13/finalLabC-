@@ -29,13 +29,14 @@ public:
     bool hasSuscripcion(EPeriodo);
     void agregarCategoria(ICollectible *);
     void agregarPuntuacion(ICollectible *puntuacion);
-    ICollection * getJugadoresActivos();
+    ICollection * getJugadoresActivos(DtFechaHora *);
     ICollection *getPuntuaciones();
     IDictionary *getCategorias();
     IDictionary *getSuscripciones();
     ICollection * getInfoSuscripciones(string);
     Suscripcion * getSuscripcion(int);
     void agregarPuntuacion(int ,Jugador *);
+    DtVideojuego * getDtVideojuego();
 };
 
 #endif

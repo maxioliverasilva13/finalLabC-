@@ -8,6 +8,7 @@ using namespace std;
 class Partida : public ICollectible
 {
 protected:
+  static int cant;
   int id;
   EEstado estado;
   DtFechaHora *fecha;
@@ -15,20 +16,21 @@ protected:
   Jugador *creador;
 
 public:
-  Partida(int, EEstado, Videojuego *, DtFechaHora *, Jugador *);
+  Partida(EEstado, Videojuego *, DtFechaHora *, Jugador *);
   ~Partida();
   string darNombreJuego();
   void setEstado(EEstado);
   void setId(int);
   void setFecha(DtFechaHora *);
-  int getEstado();
+  EEstado getEstado();
   int getId();
   bool esFinalizada();
   DtFechaHora *getFecha();
   virtual DtVideojuego* getVideojuego() = 0;
+  Jugador * getCreador();
   virtual string darTipo() = 0;
   virtual DtPartida *getDtPartida() = 0;
-  virtual void finalizarPartida() = 0;
+  virtual void finalizarPartida(DtFechaHora *) = 0;
 };
 
 #endif
