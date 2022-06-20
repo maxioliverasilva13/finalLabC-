@@ -546,3 +546,59 @@ void modificarFechaSistemaMenu(){
         sleep(2);
     }
 }
+
+void finalizarPartidaMenu() {
+    IDictionary* P = s->listarPartidasActivas();
+    cout << "Listado de partidas activas: " << endl;
+    IIterator* I = P->getIterator();
+/*
+    while (I->hasCurrent()) {
+        DtPartida* info =(DtPartida*) I->getCurrent();
+        cout << endl;
+        cout << "ID: " << info->getId() << endl;
+        cout << "Fecha de Inicio: " << info->getFecha();
+        cout << "Videojuego: " << info->getVideojuego()->getNombreVideojuego() << endl;
+        if (info->getTipo() == "Individual") {
+            cout << "Continuacion de partida anterior: ";
+            if (info->getNueva() == True) {
+                cout << "Si" << endl;
+            }
+            else {
+                cout << "No" << endl;
+            }
+        }
+        else
+        cout << "Transmitiada en vivo: ";
+        if (info->getTransmitida() == true) {
+            cout << "Si" << endl;
+        }
+        else {
+            cout << "No" << endl;
+            IIterator* J = info->getJugadores();
+            cout << endl;
+            cout << "Listado de jugadores unidos a la partida"
+            while (J->hasCurrent()) {
+                DtJugador* jugadores =(DtJugador*) J->getCurrent(); 
+                cout << "-" << juegadores->getNick();
+            }
+        }
+        cout << endl;
+        do {
+            Int Id;
+            cout << "Ingrese el Id de la partida que desea finalizar" << endl;
+            Id = leerInt();
+            IKey* Pkey =(IKey*) new int(Id);
+            I = P->find(Pkey)
+
+            if (I == NULL) {
+                system("cls"); 
+                cout << "Id de partida incorrecto, por favor intente nuevamente"; 
+                sleep(2); 
+            }
+        }
+        while (I == NULL);
+        DtPartida* f =(DtPartida*) I->getCurrent();
+        s->finalizarPartida(f->getId());
+    }
+    */
+}

@@ -77,7 +77,7 @@ ICollection *Jugador::listarHistorialPartidasFinalizadas(string nombrevj)
             PartidaIndividual *part = (PartidaIndividual *)it->getCurrent();
             if (part->esFinalizada() && part->darNombreJuego() == nombrevj)
             {
-                DtPartida *part = new DtPartida(part->getId(), part->getFecha(), part->getDuracion());
+                DtPartida *part = new DtPartida(part->getId(), part->getFecha(), part->getDuracion(), part->getVideojuego());
                 partidasFinalizadas->add(part);
             }
         }
@@ -203,6 +203,10 @@ void Jugador::eliminarPartida(ICollectible *partida)
 void Jugador::eliminarEstadosJugador(ICollectible *estadojugador)
 {
     this->estadosJugador->remove(estadojugador);
+}
+
+IDictionary* Jugador::getPartidas() {
+    return this->partidas;
 }
 
 #endif

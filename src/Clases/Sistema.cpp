@@ -151,7 +151,7 @@ public:
   DtVideojuego *verInfoVideojuego(string);
   string getTipoLoggUser();
   void asignarPuntajeVideojuego(double puntaje,string nombreV);
-
+  IDictionary* listarPartidasActivas();
 };
 
 Sistema *Sistema::instance = NULL;
@@ -642,18 +642,17 @@ void Sistema::confirmarSuscripcion(string nombreVideojuego, int idSuscripcion, E
   char *charNameVj = const_cast<char *>(nombreVideojuego.c_str());
   IKey *vjKey = new String(charNameVj);
 
-   ICollectible * vJ = this->videojuegos->find(vjKey);
-   if(vJ == NULL){  
-     throw invalid_argument("El videojuego no existe");
-   }
-   Videojuego * juego  = (Videojuego*)vJ;
-   
-   Suscripcion * sus = juego->getSuscripcion(idSuscripcion);
-   if(sus == NULL){
-    throw invalid_argument("La suscripcion no esta asociada a este videojuego");
-   }
-
-   jugador->suscribirseAVideojuego(sus,metodoPago,this->fechaHora);
+  ICollectible * vJ = this->videojuegos->find(vjKey);
+  if(vJ == NULL){  
+    throw invalid_argument("El videojuego no existe");
+  }
+  Videojuego * juego  = (Videojuego*)vJ;
+  
+  Suscripcion * sus = juego->getSuscripcion(idSuscripcion);
+  if(sus == NULL){
+   throw invalid_argument("La suscripcion no esta asociada a este videojuego");
+  }
+  jugador->suscribirseAVideojuego(sus,metodoPago,this->fechaHora);
 
 }
 
@@ -685,12 +684,29 @@ void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
 }
 
 
-  void Sistema::finalizarPartida(int idPartida){
-     if(this->loggUser == NULL){
-      throw invalid_argument("Debes logearte primero");
-     }
-     Jugador * jugador = (Jugador*)this->loggUser;
-     
+void Sistema::finalizarPartida(int idPartida){
+  if(this->loggUser == NULL){
+   throw invalid_argument("Debes logearte primero");
   }
+  Jugador * jugador = (Jugador*)this->loggUser;
+   
+}
 
+IDictionary* Sistema::listarPartidasActivas() {
+  Jugador *jugadorLogueado = (Jugador *)this->loggUser;
+  
+  IDictionary* dataPartidas = new OrderedDictionary();
+
+  IIterator* P = jugadorLogueado->getPartidas()->getIterator();
+  while (P->hasCurrent()) {
+    Partida * partidas =(Partida*) P->getCurrent();
+    if (partidas->getEstado() == ENCURSO) {
+      DtVideojuego* juego= new DtVideojuego(partidas->darNombreJuego(), NULL, NULL, NULL, NULL, NULL);
+      DtPartida* infoP = new DtPartida(partidas->getId(), partidas->getFecha(), NULL, juego);
+      IKey* Pkey =(IKey*)new int(partidas->getId());
+      dataPartidas->add(Pkey, infoP);
+    }
+  }
+  delete P;
+}
 #endif
