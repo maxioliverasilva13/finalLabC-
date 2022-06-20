@@ -523,8 +523,30 @@ DtVideojuego* Sistema::verInfoVideojuego(string name) {
     String *vjKey = new String(charNameVj);
     Videojuego *juego = (Videojuego *)videojuegos->find(vjKey);
 
-    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion(), juego->getPuntuaciones(), juego->getCategorias(), juego->getSuscripciones());
+    IDictionary* dataCategorias = new OrderedDictionary();
+    IDictionary* dataSuscripciones = new OrderedDictionary();
+    IIterator* I = juego->getCategorias()->getIterator();
     
+    while (I->hasCurrent()) {
+      Categoria* C =(Categoria*) I->getCurrent();
+      DtCategoria* DtC = new DtCategoria(C->darNombreInstancia(), C->getDescripcion(), C->darTipo());
+      IKey* Ckey =(IKey*)new int(C->getId());
+      dataCategorias->add(Ckey,DtC);
+      delete C;
+    }
+
+    I = juego->getSuscripciones()->getIterator();
+    while (I->hasCurrent()) {
+      Suscripcion* S =(Suscripcion*) I->getCurrent();
+      DtSuscripcion* DtS = new DtSuscripcion(S->darNombreJuego(), NULL);
+      IKey* Skey =(IKey*)new int(S->getId());
+      dataCategorias->add(Skey,DtS);
+      delete S;
+    }
+
+    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion(), juego->getPuntuaciones(), dataCategorias, dataSuscripciones);
+  
+    delete I;
     return Info;  
   }
   return NULL;

@@ -17,6 +17,9 @@ public:
     string getNombreVideojuego();
     string getDescripcionVideojuego();
     int getPromedioPuntuaciones();
+    ICollection *getPuntuaciones();
+    IDictionary *getCategorias();
+    IDictionary * getSuscripciones();
 };
 
 DtVideojuego::DtVideojuego(string nombre, string password, int prom_puntuacion, ICollection * puntuaciones, IDictionary *categorias, IDictionary *suscripciones) {
@@ -39,5 +42,19 @@ string DtVideojuego::getDescripcionVideojuego() {
 int DtVideojuego::getPromedioPuntuaciones() {
     return this->promedio_puntuacion;
 }
+
+ICollection* DtVideojuego::getPuntuaciones() {
+    return this->puntuaciones;
+}
+
+IDictionary* DtVideojuego::getCategorias() {
+    return this->categorias;
+}
+
+IDictionary* DtVideojuego::getSuscripciones() {
+    return this->suscripciones;
+}
+
+
 
 #endif
