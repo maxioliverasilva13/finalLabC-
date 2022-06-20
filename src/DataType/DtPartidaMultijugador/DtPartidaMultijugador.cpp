@@ -5,11 +5,9 @@
 #include <iostream>
 
 using namespace std;
-class DtPartidaMultijugador: public ICollectible
+class DtPartidaMultijugador: public DtPartida
 {
 private:
-    int id;
-    DtFechaHora * fecha;
     string nombreVideojuego;
     bool transmitidaEnVivo;
     ICollection * jugadores_unidos;   //string
@@ -17,19 +15,17 @@ private:
     string nicknameCreador;
 
 public:
-    DtPartidaMultijugador(int id, DtFechaHora * fecha, string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner,string nicknameCreador);
-    int  getId();
-    DtFechaHora * getFecha();
+    DtPartidaMultijugador(int id, DtFechaHora * fecha, string nombreVideojuego,float duracion, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner,string nicknameCreador, DtVideojuego * juego);
     string getNombreV();
     bool getTransmitidaEnVivo();
     ICollection * getJugadoresUnidos();
     bool isUserOwner();
     string getNicknameCreador();
+    string getTipo();
 };
 
 
-DtPartidaMultijugador::DtPartidaMultijugador(int id,DtFechaHora * fecha,string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner,string nicknameCreador){
-    this->id = id;
+DtPartidaMultijugador::DtPartidaMultijugador(int id,DtFechaHora * fecha,string nombreVideojuego,float duracion, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner,string nicknameCreador, DtVideojuego * juego) : DtPartida(id, fecha, duracion, juego) {
     this->nombreVideojuego = nombreVideojuego;
     this->transmitidaEnVivo =  transmitidaEnVivo;
     this->jugadores_unidos = jugadores_unidos;
@@ -37,13 +33,8 @@ DtPartidaMultijugador::DtPartidaMultijugador(int id,DtFechaHora * fecha,string n
     this->nicknameCreador = nicknameCreador;
 }
 
-int DtPartidaMultijugador::getId(){
-    return this->id;
-}
-
-
-DtFechaHora * DtPartidaMultijugador::getFecha(){
-    return this->fecha;
+string DtPartidaMultijugador::getTipo(){
+    return "DtPartidaMultijugador";
 }
 
 string DtPartidaMultijugador::getNombreV(){

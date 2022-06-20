@@ -20,7 +20,7 @@ PartidaIndividual::~PartidaIndividual()
   this->creador->eliminarPartida(this);
 }
 
-float calcularDifEnMinutos(DtFechaHora * fechaInicio, DtFechaHora * fechaFin) {
+float calcularDifEnMinutosS(DtFechaHora * fechaInicio, DtFechaHora * fechaFin) {
     // asumo que la fechaInicio es menor a la de fin
 
     //todo en minutos
@@ -38,7 +38,7 @@ void PartidaIndividual::finalizarPartida(DtFechaHora * fechaSistema)
   this->setEstado(FINALIZADA);
   DtFechaHora * fechaInicio = this->getFecha();
   DtFechaHora * fechaFin = fechaSistema;
-  float duracionPart = calcularDifEnMinutos(fechaInicio, fechaFin);
+  float duracionPart = calcularDifEnMinutosS(fechaInicio, fechaFin);
   this->duracion = duracionPart;
 }
 
@@ -53,7 +53,7 @@ DtVideojuego* PartidaIndividual::getVideojuego() {
 
 DtPartida *PartidaIndividual::getDtPartida()
 {
-  DtPartida *dtpart = new DtPartida(this->getId(), this->getFecha(), 0, getVideojuego());
+  DtPartida *dtpart = new DtPartidaIndividual(this->getId(), !this->getNueva(), this->getEstado(), this->getDuracion(), this->getFecha(), this->videojuego->getNombre(), this->creador->getNickname(), this->videojuego->getDtVideojuego() );
   return dtpart;
 };
 

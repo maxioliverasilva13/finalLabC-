@@ -18,7 +18,8 @@ public:
     int getId();
     DtFechaHora *getFecha();
     int getDuracion();
-    DtVideojuego* getVideojuego();
+    DtVideojuego* getJuego();
+    virtual string getTipo() = 0;
 };
 
 DtPartida::DtPartida(int id, DtFechaHora *fecha, int duracion, DtVideojuego* juego)
@@ -44,9 +45,8 @@ int DtPartida::getDuracion()
     return this->duracion;
 }
 
-DtVideojuego* DtPartida::getVideojuego() {
-    DtVideojuego* juego = new DtVideojuego(this->juego->getNombreVideojuego(), this->juego->getDescripcionVideojuego(), this->juego->getPromedioPuntuaciones(), this->juego->getPuntuaciones(), this->juego->getCategorias(), this->juego->getSuscripciones());
-    return juego;
+DtVideojuego* DtPartida::getJuego() {
+    return this->juego;
 }
 
 #endif

@@ -70,6 +70,9 @@ class DtPartidaIndividual;
 #include "../ICollection/String.cpp"
 
 // DataTypes -----------------------------------------------
+#include "../DataType/DtPartida/DtPartida.cpp"
+#include "../DataType/DtPartidaMultijugador/DtPartidaMultijugador.cpp"
+#include "../DataType/DtPartidaIndividual/DtPartidaIndividual.cpp"
 #include "../DataType/DtUsuario/DtUsuario.cpp"
 #include "../DataType/DtCategoria/DtCategoria.cpp"
 #include "../DataType/DtContratacion/DtContratacion.cpp"
@@ -78,11 +81,9 @@ class DtPartidaIndividual;
 #include "../DataType/DtFechaHora/DtFechaHora.cpp"
 #include "../DataType/DtInfoSuscripcion/DtInfoSuscripcion.cpp"
 #include "../DataType/DtJugador/DtJugador.cpp"
-#include "../DataType/DtPartida/DtPartida.cpp"
 #include "../DataType/DtSuscripcion/DtSuscripcion.cpp"
 #include "../DataType/DtVideojuego/DtVideojuego.cpp"
-#include "../DataType/DtPartidaMultijugador/DtPartidaMultijugador.cpp"
-#include "../DataType/DtPartidaIndividual/DtPartidaIndividual.cpp"
+
 
 
 // CLASES  --------------------------------------------------
@@ -281,9 +282,8 @@ IDictionary * Sistema::listarVJ(){
 
   while(it->hasCurrent()){
     Videojuego *vjuego = (Videojuego *)it->getCurrent();
-    it->next();
 
-    ICollectible * vj = new DtVideojuego(vjuego->getNombre(), vjuego->getDescripcion(), vjuego->getPromedio_puntuacion(), vjuego->getPuntuaciones(), vjuego->getCategorias(), vjuego->getSuscripciones());
+    ICollectible * vj = vjuego->getDtVideojuego();
     string nombre = vjuego->getNombre();
     
     char *charNombreVJ = const_cast<char *>(nombre.c_str()); // paso de string a char (para poder implementar la key)
@@ -656,34 +656,10 @@ DtVideojuego* Sistema::verInfoVideojuego(string name) {
     char *charNameVj = const_cast<char *>(name.c_str()); // paso de string a char (para poder implementar la key)
     String *vjKey = new String(charNameVj);
     Videojuego *juego = (Videojuego *)videojuegos->find(vjKey);
-
-    IDictionary* dataCategorias = new OrderedDictionary();
-    IDictionary* dataSuscripciones = new OrderedDictionary();
-    IIterator* I = juego->getCategorias()->getIterator();
-    
-    while (I->hasCurrent()) {
-      Categoria* C =(Categoria*) I->getCurrent();
-      DtCategoria* DtC = new DtCategoria(C->darNombreInstancia(), C->getDescripcion(), C->darTipo());
-      IKey* Ckey =(IKey*)new int(C->getId());
-      dataCategorias->add(Ckey,DtC);
-      I->next();
-      delete C;
+    if (juego == NULL) {
+      throw invalid_argument("El videojuego que ingreso no existe");
     }
-
-    I = juego->getSuscripciones()->getIterator();
-    while (I->hasCurrent()) {
-      Suscripcion* S =(Suscripcion*) I->getCurrent();
-      DtInfoSuscripcion* DtS = new DtInfoSuscripcion(S->getId(), S->getPeriodo(), S->getPrecio(), NULL);
-      IKey* Skey =(IKey*)new int(S->getId());
-      dataSuscripciones->add(Skey,DtS);
-      I->next();
-      delete S;
-    }
-
-    DtVideojuego* Info = new DtVideojuego(juego->getNombre(), juego->getDescripcion(), juego->getPromedio_puntuacion(), juego->getPuntuaciones(), dataCategorias, dataSuscripciones);
-  
-    delete I;
-    return Info;  
+    return juego->getDtVideojuego();
   }
   
 }
@@ -835,13 +811,15 @@ IDictionary* Sistema::listarPartidasActivas() {
   while (P->hasCurrent()) {
     Partida * partidas =(Partida*) P->getCurrent();
     if (partidas->getEstado() == ENCURSO) {
-      DtVideojuego* juego= new DtVideojuego(partidas->darNombreJuego(), NULL, NULL, NULL, NULL, NULL);
-      DtPartida* infoP = new DtPartida(partidas->getId(), partidas->getFecha(), NULL, juego);
+      DtPartida* infoP = partidas->getDtPartida();
       IKey* Pkey =(IKey*)new int(partidas->getId());
       dataPartidas->add(Pkey, infoP);
     }
+    P->next();
   }
   delete P;
+
+  return dataPartidas;
 }
 
    ICollection * Sistema::listarPartidasUnido(){ 
