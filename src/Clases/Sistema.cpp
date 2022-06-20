@@ -532,15 +532,17 @@ DtVideojuego* Sistema::verInfoVideojuego(string name) {
       DtCategoria* DtC = new DtCategoria(C->darNombreInstancia(), C->getDescripcion(), C->darTipo());
       IKey* Ckey =(IKey*)new int(C->getId());
       dataCategorias->add(Ckey,DtC);
+      I->next();
       delete C;
     }
 
     I = juego->getSuscripciones()->getIterator();
     while (I->hasCurrent()) {
       Suscripcion* S =(Suscripcion*) I->getCurrent();
-      DtSuscripcion* DtS = new DtSuscripcion(S->darNombreJuego(), NULL);
+      DtInfoSuscripcion* DtS = new DtInfoSuscripcion(S->getId(), S->getPeriodo(), S->getPrecio(), NULL);
       IKey* Skey =(IKey*)new int(S->getId());
-      dataCategorias->add(Skey,DtS);
+      dataSuscripciones->add(Skey,DtS);
+      I->next();
       delete S;
     }
 
