@@ -9,7 +9,6 @@ using namespace std;
 class Sistema;
 
 int main() {
-    
 
     menu();
     return 0; 

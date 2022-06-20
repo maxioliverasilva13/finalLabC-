@@ -640,7 +640,7 @@ void recorrerCategoriasID(ICollection * colecc )
     while (it->hasCurrent()){
         DtCategoria *cat = (DtCategoria *)it->getCurrent();
         cout << "Categoria " << contador_categorias << ": " << endl;
-        //cout << "ID: " << cat->getID() << ": " << endl;
+        cout << "ID: " << cat->getId() << ": " << endl;
         cout << "Nombre: "<< cat->getNombre() << endl;
         cout << "Descripcion: " << cat->getDescripcion() << endl;
         cout << "-----------------------------------------" << endl;
@@ -706,14 +706,33 @@ void publicarVideojuegoMenu(){
             // PERO TIENE QUE SER UN DICCIONARIO PARA PODER FILTRARLO
             ICollection * cats = s->listarCategorias(); // me traigo una copia (LISTA DE DTS) de las categorias registradas
             recorrerCategoriasID(cats); // muestro todas las categorias registradas
-            int eleccionIDCategoria = leerInt();
+           
+            int eleccionIDCategoria;
+            int correct_choice = false;
+            ICollectible * catAgregar;
+            do{
+                correct_choice = false;
+                eleccionIDCategoria = leerInt();
+                 IIterator * it = cats->getIterator();
+                 DtCategoria * current;
+                 while (it->hasCurrent()){
+                    current = (DtCategoria*)it->getCurrent();
+                    if(current->getId() == eleccionIDCategoria){
+                        catAgregar = new DtCategoria( eleccionIDCategoria, current->getNombre(), current->getDescripcion(), current->getTipo());
+                        correct_choice = true;
+                        break;
+                    }
+                    it->next();
+                }
+                delete it;
+                if(!correct_choice){
+                    cout << endl << "Opcion invalida .El id ingresado no corresponde a ninguna categoria." << endl;
+                    cout << "Ingreselo nuevamente: ";
+                }
+            }while (!correct_choice);
+      
             
-            IIterator *it = cats->getIterator(); 
-
-            //ICollectible * catAgregar = new DtCategoria( /*id del que findee*/, /*nombre del que hicefind*/, /*descripcion del find*/, /*tipo del find*/);
-            //categorias_videojuego->add(catAgregar);
-
-
+            categorias_videojuego->add(catAgregar);
             termino = menuDeseaContinuarAgregando();
         }while (!termino);
 
