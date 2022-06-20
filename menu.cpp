@@ -95,6 +95,12 @@ float leerFloat(){
     return eleccion;
 }
 
+char leerChar(){
+    char eleccion;
+    cin >> eleccion;
+    return eleccion;
+}
+
 string leerString(){
     string eleccion;
     getline(cin >> ws, eleccion); //ws hace que se puedan almacenar espacios.
@@ -205,7 +211,7 @@ bool menuUsuario(){
             case 1: altaUsuarioMenu(); break;
             case 2: iniciarSesionMenu();break;
             case 3: cargarDatosDePruebaMenu(); break;
-            case 4: system("cls"); return true; break;
+            case 4: abandonarPartidaMJMenu();  break;
             default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
         }
     return false;
@@ -234,9 +240,9 @@ void menuJugador(){
         case 1: suscribirseAvideojuegoMenu(); break; // TODO
         case 2: asignarPuntajeVJMenu();break; 
         //case 3: iniciarPartidaMenu(); break; // TODO
-        //case 4: abandonarPartidaMJMenu(); break; // TODO
+        case 4: abandonarPartidaMJMenu(); break; // TODO
         //case 5: finalizarPartidaMenu(); break; // TODO
-        //case 6: verInformacionVideojuegoMenu(); break; // TODO queda pendiente que leo fixee su codigo y terminar de implementarla
+        case 6: verInformacionVideojuegoMenu(); break; 
         case 7: modificarFechaSistemaMenu(); break;
         case 8: cerrarSesionMenu(); cerrarMenuJugador = true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
@@ -750,8 +756,27 @@ void eliminarVideojuegoMenu(){
 
 // TODO
 void verInfoVideojuegoMenu(){
-    cout << "pendiente...";
-    return;
+    cin.clear();
+    cout << "Ingresa el nombre de un videojuego: \n";
+    string nameVj = leerString();
+    char salir = 'n';
+    DtVideojuego * res = NULL;
+    do{
+        res = s->verInfoVideojuego(nameVj);
+        if(res == NULL){
+            cout << "El juego: " << nameVj << " no existe" << endl;
+            cout << "Deseas salir? y/n";
+            salir = leerChar();
+        }
+    }while (res == NULL && (salir == 'n' || salir == 'N'));
+    if(salir == 'y'){
+        return;
+    }
+
+    cout << "-------------------------------------------";
+    cout << "Nombre: " << res->getNombreVideojuego();
+    cout << "Descripcion: " <<  res->getDescripcionVideojuego();
+    cout << "De";
 }
 
 
@@ -826,4 +851,48 @@ void asignarPuntajeVJMenu(){
         std::cerr << e.what() << '\n';
         sleep(2);
     }
+}
+
+void abandonarPartidaMJMenu(){
+    cin.clear();
+    IIterator * itPartida = s->listarPartidasUnido()->getIterator();
+    DtPartidaMultijugador * current;
+    cout << "------------PARTIDAS UNIDO -----------------" << endl;
+    int cont_partidas = 0;
+    if(itPartida->hasCurrent()){
+        current = (DtPartidaMultijugador*)itPartida;
+        cout << "ID: " << current->getId() << endl;
+        cout << "Nombre Videojuego: " << current->getNombreV() << endl;
+        DtFechaHora * fecha = current->getFecha();
+        cout << "Fecha comienzo: " << fecha->getDay() << "/" << fecha->getMonth() <<"/" <<fecha->getYear() << "  " << fecha->getHour()<<":"<< fecha->getMinute() << endl;
+        cout << "Transmitida en vivo: ";
+        if(current->getTransmitidaEnVivo()){
+            cout << " Si";
+        }else{
+            cout << "No";
+        }
+        cout << endl;
+        cout << "Creador: " << current->getNicknameCreador() << endl;
+
+        IIterator * itJugadores = current->getJugadoresUnidos()->getIterator();
+        cout << "Jugadores unidos: ";
+        String * current_jugador;
+        while (itJugadores->hasCurrent())
+        {
+            current_jugador = (String*)itJugadores;
+            cout << current_jugador->getValue() << ",";
+            itJugadores->next();
+        }
+        delete itJugadores;
+        cout << "---------------------------------------------" << endl;
+        cont_partidas++;
+    }
+    if(cont_partidas == 0){
+        cout << "Lo sentimos no estas unido a ninguna partida" << endl;
+        cout << "redirigiendo al menu..";
+        sleep(3);
+        return;
+    }
+   
+    delete itPartida;
 }
