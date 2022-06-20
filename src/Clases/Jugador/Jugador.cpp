@@ -287,4 +287,29 @@ void Jugador::abandonarPartida(int idPartida,DtFechaHora * fechaSistema){
    }
    delete it;
 }
+
+
+
+PartidaMultijugador * Jugador::partidaMasLarga() {
+    IIterator * itPartidas = this->partidas->getIterator();
+    PartidaMultijugador * partidaMasLarga = NULL;
+    
+    while (itPartidas->hasCurrent())
+    {
+      Partida * part = (Partida *)itPartidas->getCurrent();
+      if (part->darTipo() == "PartidaMultijugador"){
+        PartidaMultijugador * partM = (PartidaMultijugador *)part;
+        if (partidaMasLarga == NULL) {
+            partidaMasLarga = partM;
+        }
+        if (partM->getDuracion() > partidaMasLarga->getDuracion()){
+            partidaMasLarga = partM;
+        }
+      }
+      itPartidas->next();
+    }
+
+    return partidaMasLarga;
+  }
+
 #endif

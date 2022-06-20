@@ -67,6 +67,7 @@ void abandonarPartidaMJMenu();
 void finalizarPartidaMenu();
 void verInformacionVideojuegoMenu();
 
+//estadisticas
 
 // *.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.
 
@@ -754,9 +755,45 @@ void verInfoVideojuegoMenu(){
     return;
 }
 
+int inputMenuTipoEstadistica(){
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "**** Seleccione el tipo de estadistica que desea consultar: ****"<<endl;
+        cout << "1 - Partida mas Larga" << endl;
+        cout << "****************************************************************" << endl;
+        cout << " Ingrese una opcion: (entre 1-1)" << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return 1; opcionValida = true; break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+}
 
 void consultarEstadisticasMenu(){
-    cout << "pendiente...";
+    int eleccion = inputMenuTipoEstadistica();
+
+    if (eleccion == 1) {
+        system("cls");
+        PartidaMultijugador * partidaMasLarga = s->partidaMasLarga();
+
+        if (partidaMasLarga == NULL) {
+            cout << "Uups ! al parecer no tenemos partidas para procesar la informacion " << endl;
+            cout << "                   " << "😅😅😅😅😅" << "                            " << endl;
+            sleep(2);
+        } else {
+            cout << "La id de la partida es " << partidaMasLarga->getId() << endl;
+            cout << "La duracion es " << partidaMasLarga->getDuracion() << " Minutos" << endl;
+            cout << "La partida fue iniciada el " <<  partidaMasLarga->getFecha()->getDay() << "/" << partidaMasLarga->getFecha()->getMonth() << "/" << partidaMasLarga->getFecha()->getYear() << endl;
+            cout << "El jugador " << partidaMasLarga->getCreador()->getNickname() << " inicio esta partida" << endl;
+            sleep(4);
+        }
+    }
     return;
 }
 

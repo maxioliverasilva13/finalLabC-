@@ -128,8 +128,8 @@ public:
   Sistema();
   static Sistema *getInstance();
   void agregarCategoria(string nombre, string descripcion, string tipo);
-  void iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo, Videojuego *);            // jugadores es set<string>
-  void iniciarPartidaIndividual(bool nueva, Videojuego *);
+  void iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo, string);            // jugadores es set<string>
+  void iniciarPartidaIndividual(bool nueva, string);
   void continuarPartida(int idpartida);
   ICollection *listarHistorialPartidasFinalizadas(string nombreVJ); // DtPartida
   ICollection *listarVideoJuegosActivos();                          // a el usuario logueado retorna strings
@@ -154,6 +154,7 @@ public:
   ICollection * listarPartidasUnido();  //DtPartidaMultijugador
   void abandonarPartida(int idPartida);
   ICollectible * findUserByNickname(string);
+  PartidaMultijugador * partidaMasLarga();
 };
 
 Sistema *Sistema::instance = NULL;
@@ -191,10 +192,17 @@ ICollection *Sistema::listarHistorialPartidasFinalizadas(string nombrevj)
   return jugadorLogueado->listarHistorialPartidasFinalizadas(nombrevj);
 }
 
-void Sistema::iniciarPartidaIndividual(bool nueva, Videojuego * vj) {
+void Sistema::iniciarPartidaIndividual(bool nueva, string nameJuego) {
   // Validar si es un jugador
   Jugador *jugadorLogueado = (Jugador *)this->loggUser;
-  jugadorLogueado->iniciarPartidaIndividual(nueva, vj);
+
+  char *charNameVj = const_cast<char *>(nameJuego.c_str()); // paso de string a char (para poder implementar la key)
+  String *vjKey = new String(charNameVj);
+  Videojuego * game = (Videojuego *)this->videojuegos->find(vjKey);
+  if (game==NULL) {
+    throw invalid_argument("El videojuego el cual intentas iniciar una partida no existe");
+  }
+  jugadorLogueado->iniciarPartidaIndividual(nueva, game);
 }
 
 ICollection * Sistema::listarJugadoresConSuscripcionAJuego(string nombrevj) {
@@ -300,8 +308,16 @@ ICollectible * Sistema::findUserByNickname(string nickNameJugador) {
   return jugador;
 }
 
-void Sistema::iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo, Videojuego * juego) {
+void Sistema::iniciarPartidaMultijugador(ICollection *jugadores, bool enVIvo, string nameJuego) {
   ICollection * jugadoresAPartida = new List();
+
+  char *charNameVj = const_cast<char *>(nameJuego.c_str()); // paso de string a char (para poder implementar la key)
+  String *vjKey = new String(charNameVj);
+  Videojuego * juego = (Videojuego *)this->videojuegos->find(vjKey);
+
+  if (juego == NULL) {
+    throw invalid_argument("El videojuego al cual intentas iniciar una partida no existe");
+  }
 
   IIterator * it = jugadores->getIterator();
   while (it->hasCurrent())
@@ -739,5 +755,28 @@ void Sistema::asignarPuntajeVideojuego(double puntaje,string nombreV){
 
   }
 
+  PartidaMultijugador * Sistema::partidaMasLarga() {
+    IIterator * itJugadores = this->usuarios->getIterator();
+    PartidaMultijugador * partidaMasLarga = NULL;
+    
+    while (itJugadores->hasCurrent())
+    {
+      Usuario * user = (Usuario *)itJugadores->getCurrent();
+      if (user->getTipo() == "Jugador"){
+        Jugador * player = (Jugador *)user;
+        PartidaMultijugador * partidaMasLargaDeUser = player->partidaMasLarga();
+        if (partidaMasLarga == NULL && partidaMasLargaDeUser != NULL) {
+          partidaMasLarga = partidaMasLargaDeUser;
+        } 
+        if (partidaMasLargaDeUser != NULL && partidaMasLargaDeUser->getDuracion() > partidaMasLarga->getDuracion()) {
+          partidaMasLarga = partidaMasLargaDeUser;
+        }
+      }
+
+      itJugadores->next();
+    }
+
+    return partidaMasLarga;
+  }
 
 #endif

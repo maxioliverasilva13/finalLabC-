@@ -39,6 +39,7 @@ public:
     void iniciarPartidaIndividual(bool, Videojuego *);
     ICollection * listarPartidasUnido();
     void  abandonarPartida(int idPartida,DtFechaHora * fechaSistema);
+    PartidaMultijugador * partidaMasLarga();
     
 };
 
