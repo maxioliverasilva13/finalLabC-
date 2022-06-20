@@ -9,7 +9,7 @@ class PartidaIndividual : public Partida
 {
 private:
   bool nueva;
-
+  float duracion;
 public:
   PartidaIndividual(bool, EEstado, DtFechaHora *, Videojuego *, Jugador *j);
   ~PartidaIndividual();
@@ -19,5 +19,7 @@ public:
   void finalizarPartida(DtFechaHora *);
   DtPartida *getDtPartida();
   string darTipo();
+  float getDuracion();
+  void setDuracion(float);
 };
 #endif
