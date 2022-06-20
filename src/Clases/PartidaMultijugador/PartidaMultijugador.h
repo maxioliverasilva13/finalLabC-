@@ -24,6 +24,7 @@ public:
     float getDuracion();
     void agregarEstadoJugador(EstadoJugador *);
     string darTipo();
+    DtVideojuego* getVideojuego();
 };
 
 #endif
