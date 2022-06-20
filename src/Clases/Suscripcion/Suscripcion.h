@@ -8,7 +8,8 @@ using namespace std;
 class Suscripcion : public ICollectible
 {
 private:
-    static int id;
+    static int cant;
+    int id;
     float precio;
     EPeriodo periodo;
     Videojuego *videojuego;

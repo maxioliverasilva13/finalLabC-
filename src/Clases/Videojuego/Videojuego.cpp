@@ -234,6 +234,7 @@ void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
          }
          sumPunt+= current->getPuntuacion();
          cantPunt++;
+         it->next();
        }
        if(!alreadyPunt){
          Puntuacion * newPuntuacion = new Puntuacion(puntuacion,this,jugador);
@@ -242,5 +243,6 @@ void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
          cantPunt++;
        }
        this->promedio_puntuacion = sumPunt/cantPunt;
+       delete it;
 }
 #endif

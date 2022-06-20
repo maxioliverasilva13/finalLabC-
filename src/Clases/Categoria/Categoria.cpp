@@ -7,7 +7,8 @@ using namespace std;
 class Categoria : public ICollectible
 {
 protected:
-    static int id;
+    static int cant;
+    int id;
     string descripcion;
 
 public:
@@ -20,11 +21,13 @@ public:
     virtual string darNombreInstancia() = 0;
 };
 
-int Categoria::id;
+int Categoria::cant = 0;
 
 Categoria::Categoria(string descripcion)
 {
-    Categoria::id++;
+    
+    Categoria::cant++;
+    this->id = cant;
     this->descripcion = descripcion;
 }
 

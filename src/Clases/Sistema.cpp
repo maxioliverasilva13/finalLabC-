@@ -582,7 +582,7 @@ DtVideojuego* Sistema::verInfoVideojuego(string name) {
     
     return Info;  
   }
-  return NULL;
+  
 }
 
 string Sistema::getTipoLoggUser()

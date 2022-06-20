@@ -14,24 +14,27 @@ private:
     bool transmitidaEnVivo;
     ICollection * jugadores_unidos;   //string
     bool isOwner;
+    string nicknameCreador;
 
 public:
-    DtPartidaMultijugador(int id, DtFechaHora * fecha, string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner);
+    DtPartidaMultijugador(int id, DtFechaHora * fecha, string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner,string nicknameCreador);
     int  getId();
     DtFechaHora * getFecha();
     string getNombreV();
     bool getTransmitidaEnVivo();
     ICollection * getJugadoresUnidos();
     bool isUserOwner();
+    string getNicknameCreador();
 };
 
 
-DtPartidaMultijugador::DtPartidaMultijugador(int id,DtFechaHora * fecha,string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner){
+DtPartidaMultijugador::DtPartidaMultijugador(int id,DtFechaHora * fecha,string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner,string nicknameCreador){
     this->id = id;
     this->nombreVideojuego = nombreVideojuego;
     this->transmitidaEnVivo =  transmitidaEnVivo;
     this->jugadores_unidos = jugadores_unidos;
     this->isOwner = isOwner;
+    this->nicknameCreador = nicknameCreador;
 }
 
 int DtPartidaMultijugador::getId(){
@@ -59,6 +62,10 @@ ICollection * DtPartidaMultijugador::getJugadoresUnidos(){
 
 bool DtPartidaMultijugador::isUserOwner(){
     return this->isOwner;
+}
+
+string DtPartidaMultijugador::getNicknameCreador(){
+    return this->nicknameCreador;
 }
 
 #endif

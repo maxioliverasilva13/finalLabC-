@@ -95,6 +95,12 @@ float leerFloat(){
     return eleccion;
 }
 
+char leerChar(){
+    char eleccion;
+    cin >> eleccion;
+    return eleccion;
+}
+
 string leerString(){
     string eleccion;
     getline(cin >> ws, eleccion); //ws hace que se puedan almacenar espacios.
@@ -151,11 +157,13 @@ void cerrarSesionMenu(){
 bool cerrarMenuDesarrollador = false;
 bool cerrarMenuJugador = false;
 void menu(){
+    
+    sleep(5);
     try
     {
         if (usuarioActual == ""){
-            menuUsuario();
-            while(!menuUsuario()){
+            bool menuOk = menuUsuario();
+            while(!menuOk){
                 menu();
             }
         } 
@@ -205,7 +213,7 @@ bool menuUsuario(){
             case 1: altaUsuarioMenu(); break;
             case 2: iniciarSesionMenu();break;
             case 3: cargarDatosDePruebaMenu(); break;
-            case 4: system("cls"); return true; break;
+            case 4: abandonarPartidaMJMenu();  break;
             default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
         }
     return false;
@@ -234,9 +242,9 @@ void menuJugador(){
         case 1: suscribirseAvideojuegoMenu(); break; // TODO
         case 2: asignarPuntajeVJMenu();break; 
         case 3: iniciarPartidaMenu(); break;
-        //case 4: abandonarPartidaMJMenu(); break; // TODO
+        case 4: abandonarPartidaMJMenu(); break; // TODO
         //case 5: finalizarPartidaMenu(); break; // TODO
-        //case 6: verInformacionVideojuegoMenu(); break; // TODO queda pendiente que leo fixee su codigo y terminar de implementarla
+        case 6: verInformacionVideojuegoMenu(); break; 
         case 7: modificarFechaSistemaMenu(); break;
         case 8: cerrarSesionMenu(); cerrarMenuJugador = true; system("cls");break;
         default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
@@ -290,7 +298,6 @@ void cargarDatosDePruebaMenu(){
 }
 
 bool menuDeseaContinuarOcancelar(){
-    bool opcionValida = false;
     do{
         system("cls");
         cout << "Desea intentarlo nuevamente, o cancelar? " << endl;
@@ -302,11 +309,11 @@ bool menuDeseaContinuarOcancelar(){
 
         switch (eleccion)
         {
-        case 1: return true; opcionValida = true; break;
-        case 2: return false; opcionValida = true;break;
+        case 1: return true;  break;
+        case 2: return false; break;
         default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
         }
-    } while (opcionValida == false);
+    } while (true);
     return false;
 }
 
@@ -432,6 +439,7 @@ void iniciarSesionMenu(){
             sleep(2);
             bool eleccion = menuDeseaContinuarOcancelar();
             if (eleccion == false){
+                usuarioActual = "";
                 return;
             }
         }
@@ -632,7 +640,7 @@ void recorrerCategoriasID(ICollection * colecc )
     while (it->hasCurrent()){
         DtCategoria *cat = (DtCategoria *)it->getCurrent();
         cout << "Categoria " << contador_categorias << ": " << endl;
-        //cout << "ID: " << cat->getID() << ": " << endl;
+        cout << "ID: " << cat->getId() << ": " << endl;
         cout << "Nombre: "<< cat->getNombre() << endl;
         cout << "Descripcion: " << cat->getDescripcion() << endl;
         cout << "-----------------------------------------" << endl;
@@ -698,14 +706,33 @@ void publicarVideojuegoMenu(){
             // PERO TIENE QUE SER UN DICCIONARIO PARA PODER FILTRARLO
             ICollection * cats = s->listarCategorias(); // me traigo una copia (LISTA DE DTS) de las categorias registradas
             recorrerCategoriasID(cats); // muestro todas las categorias registradas
-            int eleccionIDCategoria = leerInt();
+           
+            int eleccionIDCategoria;
+            int correct_choice = false;
+            ICollectible * catAgregar;
+            do{
+                correct_choice = false;
+                eleccionIDCategoria = leerInt();
+                 IIterator * it = cats->getIterator();
+                 DtCategoria * current;
+                 while (it->hasCurrent()){
+                    current = (DtCategoria*)it->getCurrent();
+                    if(current->getId() == eleccionIDCategoria){
+                        catAgregar = new DtCategoria( eleccionIDCategoria, current->getNombre(), current->getDescripcion(), current->getTipo());
+                        correct_choice = true;
+                        break;
+                    }
+                    it->next();
+                }
+                delete it;
+                if(!correct_choice){
+                    cout << endl << "Opcion invalida .El id ingresado no corresponde a ninguna categoria." << endl;
+                    cout << "Ingreselo nuevamente: ";
+                }
+            }while (!correct_choice);
+      
             
-            IIterator *it = cats->getIterator(); 
-
-            //ICollectible * catAgregar = new DtCategoria( /*id del que findee*/, /*nombre del que hicefind*/, /*descripcion del find*/, /*tipo del find*/);
-            //categorias_videojuego->add(catAgregar);
-
-
+            categorias_videojuego->add(catAgregar);
             termino = menuDeseaContinuarAgregando();
         }while (!termino);
 
@@ -750,8 +777,27 @@ void eliminarVideojuegoMenu(){
 
 // TODO
 void verInfoVideojuegoMenu(){
-    cout << "pendiente...";
-    return;
+    cin.clear();
+    cout << "Ingresa el nombre de un videojuego: \n";
+    string nameVj = leerString();
+    char salir = 'n';
+    DtVideojuego * res = NULL;
+    do{
+        res = s->verInfoVideojuego(nameVj);
+        if(res == NULL){
+            cout << "El juego: " << nameVj << " no existe" << endl;
+            cout << "Deseas salir? y/n";
+            salir = leerChar();
+        }
+    }while (res == NULL && (salir == 'n' || salir == 'N'));
+    if(salir == 'y'){
+        return;
+    }
+
+    cout << "-------------------------------------------";
+    cout << "Nombre: " << res->getNombreVideojuego();
+    cout << "Descripcion: " <<  res->getDescripcionVideojuego();
+    cout << "De";
 }
 
 
@@ -820,14 +866,14 @@ void asignarPuntajeVJMenu(){
         int puntaje = leerInt();
 
         s->asignarPuntajeVideojuego(puntaje, nombrevj);
-    }
+        cout << "holi";
+    }  
     catch(const std::exception& e)
     {
         std::cerr << e.what() << '\n';
         sleep(2);
     }
 }
-
 
 void recorrerVideojuegosActivosMenu(ICollection * colecc ) 
 {
@@ -1192,4 +1238,104 @@ void iniciarPartidaMenu(){
             sleep(2);
         }
     }
+}
+
+void abandonarPartidaMJMenu(){
+    cin.clear();
+    IIterator * itPartida = s->listarPartidasUnido()->getIterator();
+    DtPartidaMultijugador * current;
+
+
+    cout << "------------PARTIDAS UNIDO -----------------" << endl;
+    int cont_partidas = 0;
+    if(itPartida->hasCurrent()){
+        current = (DtPartidaMultijugador*)itPartida;
+        cout << "ID: " << current->getId() << endl;
+        cout << "Nombre Videojuego: " << current->getNombreV() << endl;
+        DtFechaHora * fecha = current->getFecha();
+        cout << "Fecha comienzo: " << fecha->getDay() << "/" << fecha->getMonth() <<"/" <<fecha->getYear() << "  " << fecha->getHour()<<":"<< fecha->getMinute() << endl;
+        cout << "Transmitida en vivo: ";
+        if(current->getTransmitidaEnVivo()){
+            cout << " Si";
+        }else{
+            cout << "No";
+        }
+        cout << endl;
+        cout << "Creador: " << current->getNicknameCreador() << endl;
+
+        IIterator * itJugadores = current->getJugadoresUnidos()->getIterator();
+        cout << "Jugadores unidos: ";
+        String * current_jugador;
+        while (itJugadores->hasCurrent())
+        {
+            current_jugador = (String*)itJugadores;
+            cout << current_jugador->getValue() << ",";
+            itJugadores->next();
+        }
+        delete itJugadores;
+        cout << "---------------------------------------------" << endl;
+        cont_partidas++;
+        itPartida->next();
+
+    }
+    if(cont_partidas == 0){
+        cout << "Lo sentimos no estas unido a ninguna partida" << endl;
+        cout << "redirigiendo al menu..";
+        sleep(3);
+        return;
+    }
+    delete itPartida;
+    
+
+    bool correct_choice = false;
+    char salir = 'n';
+    int inputId;
+    bool isOwner;
+    do{
+        cout << "Escribe el id de la partida multijugador que deseas abandonar: ";
+        inputId = leerInt();
+        cout << endl;
+        itPartida = s->listarPartidasUnido()->getIterator();
+        while (itPartida->hasCurrent())
+        {
+            current = (DtPartidaMultijugador*)itPartida->getCurrent();
+            if(current->getId() == inputId){
+                correct_choice = true;
+                isOwner = current->isUserOwner();
+                break;
+            }
+            itPartida->next();
+        }
+        if(!correct_choice){
+            cout << "La id ingresada no corresponde a ninguna partida " << endl;
+            cout << "Deseas salir? y/n";
+            salir = leerChar();
+        }
+        
+    }while (!correct_choice && (salir == 'n' || salir == 'N'));
+
+    if(!correct_choice){
+        return;
+    }
+
+    if(!isOwner){
+        cout << "abandonando partida..";
+        sleep(3);
+        try{
+            s->abandonarPartida(inputId);
+        }catch(exception& e){
+            cout << e.what();
+        }
+    }else{
+        cout << "Eres el creador de esta partida por lo tanto al irte la partida se finalizara.." << endl;
+        cout << "Finalizando .." << endl;
+        sleep(3);
+        try{
+            s->finalizarPartida(inputId);
+        }catch(exception& e){
+            cout << e.what();
+        }
+        return;
+    }
+
 }
