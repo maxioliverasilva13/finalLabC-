@@ -25,6 +25,7 @@ public:
   int getId();
   bool esFinalizada();
   DtFechaHora *getFecha();
+  virtual DtVideojuego* getVideojuego() = 0;
   virtual string darTipo() = 0;
   virtual DtPartida *getDtPartida() = 0;
   virtual void finalizarPartida() = 0;

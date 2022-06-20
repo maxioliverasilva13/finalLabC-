@@ -19,5 +19,6 @@ public:
   void finalizarPartida();
   DtPartida *getDtPartida();
   string darTipo();
+  DtVideojuego* getVideojuego();
 };
 #endif
