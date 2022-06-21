@@ -29,7 +29,11 @@ ETipoPlataforma CategoriaPlataforma::getTipo() {
 }
 
 string CategoriaPlataforma::darTipo() {
-    return getETipoPlataforma(this->tipo);
+     if (tipo == OTRAPLATAFORMA) {
+        return this->getCustomName();
+    } else {
+        return getETipoPlataforma(this->tipo);
+    }
 }
 
 string CategoriaPlataforma::darNombreInstancia() {
