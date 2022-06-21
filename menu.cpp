@@ -1962,7 +1962,6 @@ void iniciarPartidaMenu(){
             } while (opcionValida == false);
             if(respuestaConfirmar){
                 s->iniciarPartidaMultijugador(jugadoresEnPartida, enVivo, nombrevj);
-                cout << "Hola";
                 sleep(3);
             }
             else{
@@ -1979,10 +1978,10 @@ void abandonarPartidaMJMenu(){
     DtPartidaMultijugador * current;
 
 
-    cout <<ANSI_COLOR_BLUE "------------PARTIDAS UNIDO -----------------" ANSI_COLOR_BLUE<< endl;
+    cout <<ANSI_COLOR_BLUE "------------PARTIDAS UNIDO -----------------" ANSI_COLOR_RESET<< endl;
     int cont_partidas = 0;
     if(itPartida->hasCurrent()){
-        current = (DtPartidaMultijugador*)itPartida;
+        current = (DtPartidaMultijugador*)itPartida->getCurrent();
         cout << "ID: " << current->getId() << endl;
         cout << "Nombre Videojuego: " << current->getNombreV() << endl;
         DtFechaHora * fecha = current->getFecha();
@@ -2001,12 +2000,12 @@ void abandonarPartidaMJMenu(){
         String * current_jugador;
         while (itJugadores->hasCurrent())
         {
-            current_jugador = (String*)itJugadores;
+            current_jugador = (String*)itJugadores->getCurrent();
             cout << current_jugador->getValue() << ",";
             itJugadores->next();
         }
         delete itJugadores;
-        cout << "---------------------------------------------" << endl;
+        cout << endl << "---------------------------------------------" << endl;
         cont_partidas++;
         itPartida->next();
 
@@ -2079,6 +2078,7 @@ void finalizarPartidaMenu() {
     try
     {
     IDictionary* P = s->listarPartidasActivas();
+    system("cls");
     cout << ANSI_COLOR_BLUE"Listado de partidas activas: " ANSI_COLOR_RESET<< endl;
     IIterator* I = P->getIterator();
     

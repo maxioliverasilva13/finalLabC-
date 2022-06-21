@@ -115,11 +115,7 @@ void PartidaMultijugador::agregarEstadoJugador(EstadoJugador *status)
 
     ICollection * res = new List();
 
-    cout << "casi LLego al iterador" << endl;
-
     IIterator * it = this->estadosJugador->getIterator();
-
-    cout << "LLego al iterador" << endl;
     
     EstadoJugador * current;
     string jugadorNicknameCurrent;
