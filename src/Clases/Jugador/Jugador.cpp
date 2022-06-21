@@ -50,6 +50,8 @@ void Jugador::iniciarPartidaMultijugador(ICollection * jugadores, bool enVIvo, V
        partida->agregarEstadoJugador(est);
        it->next();
     }
+
+    juego->agregarPartida(partida);
 }
 
 ICollection *Jugador::listarVideoJuegosActivos(DtFechaHora * ahora)
@@ -72,11 +74,12 @@ ICollection *Jugador::listarVideoJuegosActivos(DtFechaHora * ahora)
     return nameJuegos;
 }
 
-void Jugador::iniciarPartidaIndividual(bool esNueva, Videojuego * vj) {
+void Jugador::iniciarPartidaIndividual(bool esNueva, Videojuego * vj, DtFechaHora * fechaSistema) {
     DtFechaHora * ahora;
-    PartidaIndividual * p = new PartidaIndividual(esNueva, ENCURSO, ahora->getAhora(), vj, this);
+    PartidaIndividual * p = new PartidaIndividual(esNueva, ENCURSO, fechaSistema, vj, this);
     Integer * partidaKey = new Integer(p->getId());
     this->partidas->add(partidaKey, p);
+    vj->agregarPartida(p);
     delete ahora;
 }
 

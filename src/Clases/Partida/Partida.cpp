@@ -14,7 +14,8 @@ Partida::Partida(EEstado estado, Videojuego *vj, DtFechaHora *fecha, Jugador *j)
   this->id = cant;
   this->estado = estado;
   this->videojuego = vj;
-  this->fecha = fecha;
+  DtFechaHora * copyFecha = new DtFechaHora(fecha->getDay(), fecha->getMonth(), fecha->getYear(), fecha->getHour(), fecha->getMinute());
+  this->fecha = copyFecha;
   this->creador = j;
  
 };

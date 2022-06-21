@@ -210,7 +210,7 @@ void Sistema::iniciarPartidaIndividual(bool nueva, string nameJuego) {
   if (game==NULL) {
     throw invalid_argument("El videojuego el cual intentas iniciar una partida no existe");
   }
-  jugadorLogueado->iniciarPartidaIndividual(nueva, game);
+  jugadorLogueado->iniciarPartidaIndividual(nueva, game, this->fechaHora);
 }
 
 ICollection * Sistema::listarJugadoresConSuscripcionAJuego(string nombrevj) {
@@ -243,7 +243,6 @@ bool validateExistsGameName(string nameGame, IDictionary *games)
   Videojuego *juego = (Videojuego *)games->find(vjKey);
   if (juego)
   {
-    cout << "juego: " << juego->getNombre() << endl;
     return true;
   }
   else
@@ -278,23 +277,20 @@ void Sistema::continuarPartida(int idpartida)
 
 IDictionary * Sistema::listarVJ(){
   IDictionary * listaDTVJ = new OrderedDictionary();
+
   IIterator * it = this->videojuegos->getIterator();
 
-  cout << "llego" << endl;
-  cout << this->videojuegos->getSize() << endl;
-  
   while(it->hasCurrent()){
     Videojuego *vjuego = (Videojuego *)it->getCurrent();
 
     ICollectible * vj = vjuego->getDtVideojuego();
     string nombre = vjuego->getNombre();
-    
+
     char *charNombreVJ = const_cast<char *>(nombre.c_str()); // paso de string a char (para poder implementar la key)
     String *vjuegoKey = new String(charNombreVJ);
     listaDTVJ->add(vjuegoKey, vj);
     it->next();
   }
-  cout << "voy a salir" << endl;
   delete it;
   return listaDTVJ;
 }
@@ -486,7 +482,6 @@ void Sistema::agregarVideojuego(string nombre, string descricpcion, ICollection 
     throw invalid_argument("El videojuego " + nombre + " videojuego ya existe");
   }
   Videojuego *vj = new Videojuego(nombre, descricpcion, 0);
-  //cout << loggDesarrollador->getEmail() << endl;
   vj->setDesarrollador(loggDesarrollador);
 
   if (costos_suscripcion) {
@@ -523,9 +518,13 @@ void Sistema::agregarVideojuego(string nombre, string descricpcion, ICollection 
   this->videojuegos->add(vjKey, vj);
 }
 
-void Sistema::modificarFechaSistema(DtFechaHora *fechahora)
+void Sistema::modificarFechaSistema(DtFechaHora *F)
 {
-  this->fechaHora = fechahora;
+  this->fechaHora->setDay(F->getDay());
+  this->fechaHora->setHour(F->getHour());
+  this->fechaHora->setMinute(F->getMinute());
+  this->fechaHora->setYear(F->getYear());
+  this->fechaHora->setMonth(F->getMonth());
 }
 
 DtFechaHora *Sistema::getFechaSistema()
@@ -830,8 +829,6 @@ IDictionary* Sistema::listarPartidasActivas() {
     Partida * partidas =(Partida*) P->getCurrent();
     if (partidas->getEstado() == ENCURSO) {
       DtPartida* infoP = partidas->getDtPartida();
-      cout << "obtengo bien el dt" << endl;
-      system("PAUSE");
       Integer * Pkey = new Integer(partidas->getId());
       dataPartidas->add(Pkey, infoP);
     }
@@ -868,7 +865,7 @@ IDictionary* Sistema::listarPartidasActivas() {
     while (itJugadores->hasCurrent())
     {
       Usuario * user = (Usuario *)itJugadores->getCurrent();
-      if (user->getTipo() == "Jugador"){
+      if (user->getTipo() == "Jugador") {
         Jugador * player = (Jugador *)user;
         PartidaMultijugador * partidaMasLargaDeUser = player->partidaMasLarga();
         if (partidaMasLarga == NULL && partidaMasLargaDeUser != NULL) {

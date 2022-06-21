@@ -36,7 +36,7 @@ public:
     void eliminarEstadosJugador(ICollectible *);
     string getTipo();
     ICollection *listarVideoJuegosActivos(DtFechaHora *);
-    void iniciarPartidaIndividual(bool, Videojuego *);
+    void iniciarPartidaIndividual(bool, Videojuego *, DtFechaHora *);
     IDictionary* getPartidas();
     ICollection * listarPartidasUnido();
     void  abandonarPartida(int idPartida,DtFechaHora * fechaSistema);

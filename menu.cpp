@@ -1511,6 +1511,7 @@ void verInformacionVideojuegoMenu(){
     try
     {
     cout << "---- Videojuegos ya registrados: ----" << endl;
+    cout << "llego 1" << endl;
     IDictionary * vj = s->listarVJ();
     recorrerVideojuegosMenu(vj);
 
@@ -1520,6 +1521,14 @@ void verInformacionVideojuegoMenu(){
     char *charNameVj = const_cast<char *>(nombrevj.c_str()); // paso de string a char (para poder implementar la key)
     String *vjKey = new String(charNameVj);
     DtVideojuego * res = (DtVideojuego *)vj->find(vjKey);
+
+    if (res == NULL) {
+        cout << "El videojuego que ingreso no existe";
+        sleep(2);
+        return;
+    } else {
+        cout << "existe";
+    }
 
     system("cls"); 
     cout << "---- Informacion del VIDEOJUEGO: ----" << endl;
@@ -2054,6 +2063,8 @@ void abandonarPartidaMJMenu(){
 
 
 void finalizarPartidaMenu() {
+    try
+    {
     IDictionary* P = s->listarPartidasActivas();
     cout << "Listado de partidas activas: " << endl;
     IIterator* I = P->getIterator();
@@ -2096,21 +2107,36 @@ void finalizarPartidaMenu() {
         }
         
         cout << endl;
-        DtPartida * existe = NULL;
+        DtPartida * existe;
+        bool opcionCorrecta = false;
+        int Id;
         do {
-            int Id;
             cout << "Ingrese el Id de la partida que desea finalizar" << endl;
             Id = leerInt();
-            IKey* Pkey =(IKey*) new Integer(Id);
+            Integer * Pkey = new Integer(Id);
+            cout << "busco : " << Pkey->getValue() << endl;
             DtPartida * existe = (DtPartida *)P->find(Pkey);
             if (existe == NULL) {
+                bool deseaContinuar = menuDeseaContinuarOcancelar();
+                if (!deseaContinuar) {
+                    return ;
+                }
                 system("cls"); 
-                cout << "Id de partida incorrecto, por favor intente nuevamente"; 
+                cout << "Id de partida incorrecto, por favor intente nuevamente" << endl; 
                 sleep(2); 
+            } else {
+                opcionCorrecta = true;
             }
-        } while (existe == NULL);
-        s->finalizarPartida(existe->getId());
+        } while (!opcionCorrecta);
+        s->finalizarPartida(Id);
         system("cls"); 
         cout << "Partida finalizada correctamente !";
         sleep(3);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        sleep(3);
+    }
+    
 }
