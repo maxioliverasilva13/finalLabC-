@@ -7,6 +7,12 @@
 #include <string>
 #include <cstdlib>
 
+#define ANSI_COLOR_GREEN   "\u001b[42;1m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+#define ANSI_COLOR_YELLOW  "\u001b[43;1m"
+#define ANSI_COLOR_BLUE    "\u001b[46;1m"
+#define ANSI_COLOR_RED     "\u001b[41;1m"
+
 #ifdef _WIN32
 
   #include <windows.h>
@@ -153,18 +159,18 @@ void recorrerSuscripcionesVJ(IDictionary * suscripciones, bool isDevelop){
 
 void mostrarMenu(){
     system("cls");
-    cout <<"******** Menu de Interaccion ********" << endl;
+    cout <<ANSI_COLOR_BLUE"******** Menu de Interaccion ********" ANSI_COLOR_RESET<< endl;
     cout << " 1 - Alta de Usuario." << endl;
     cout << " 2 - Iniciar Sesion." << endl;
     cout << " 3 - Cargar datos de prueba." << endl;
     cout << " 4 - Salir." << endl;
     cout << "*************************************" << endl;
-    cout << " Ingrese una opcion: (entre 1-4)" << endl;
+    cout <<ANSI_COLOR_YELLOW " Ingrese una opcion: (entre 1-4)" ANSI_COLOR_RESET<< endl;
 }
 
 void mostrarMenuDesarrollador(){
     system("cls");
-    cout <<"******** Menu de Desarrollador ********" << endl;
+    cout <<ANSI_COLOR_BLUE "******** Menu de Desarrollador ********" ANSI_COLOR_RESET << endl;
     cout << " 1 - Agregar Categoria." << endl;
     cout << " 2 - Publicar Videojuego." << endl;
     cout << " 3 - Eliminar Videojuego." << endl;
@@ -173,12 +179,12 @@ void mostrarMenuDesarrollador(){
     cout << " 6 - Modificar fecha del sistema." << endl;
     cout << " 7 - Salir." << endl;
     cout << "*************************************" << endl;
-    cout << " Ingrese una opcion: (entre 1-7)" << endl;
+    cout <<ANSI_COLOR_YELLOW " Ingrese una opcion: (entre 1-7)" ANSI_COLOR_RESET << endl;
 }
 
 void mostrarMenuJugador(){
     system("cls");
-    cout <<"*********** Menu de Jugador ***********" << endl;
+    cout <<ANSI_COLOR_BLUE"*********** Menu de Jugador ***********" ANSI_COLOR_RESET<< endl;
     cout << " 1 - Suscribirse a videojuego." << endl;
     cout << " 2 - Asignar puntaje a videojuego." << endl;
     cout << " 3 - Iniciar partida." << endl;
@@ -188,12 +194,12 @@ void mostrarMenuJugador(){
     cout << " 7 - Modificar fecha del sistema." << endl;
     cout << " 8 - Salir." << endl;
     cout << "**************************************" << endl;
-    cout << " Ingrese una opcion: (entre 1-8)" << endl;
+    cout <<ANSI_COLOR_YELLOW " Ingrese una opcion: (entre 1-8)" ANSI_COLOR_RESET<< endl;
 };
 
 void cerrarSesionMenu(){
     system("cls");
-    cout << "Cerrando sesion..." << endl;
+    cout <<ANSI_COLOR_YELLOW "Cerrando sesion..." ANSI_COLOR_RESET<< endl;
     sleep(1);
     usuarioActual = "";
 }
@@ -256,8 +262,8 @@ bool menuUsuario(){
             case 1: altaUsuarioMenu(); break;
             case 2: iniciarSesionMenu();break;
             case 3: cargarDatosDePruebaMenu(); break;
-            case 4: cout << "Saliendo..."; sleep(2); exit(3); break; 
-            default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo." << endl; sleep(2); break; 
+            case 4: cout <<ANSI_COLOR_YELLOW "Saliendo..." ANSI_COLOR_RESET; sleep(2); exit(3); break; 
+            default: system("cls"); cout<<ANSI_COLOR_RED "Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET << endl; sleep(2); break; 
         }
     return false;
 }
@@ -274,7 +280,7 @@ void menuDesarrollador(){
         case 5: verInfoVideojuegoMenu(); break; // TODO queda pendiente que leo fixee su codigo e implementar entre los 4
         case 6: modificarFechaSistemaMenu(); break;
         case 7: cerrarSesionMenu(); cerrarMenuDesarrollador = true; system("cls");break;
-        default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
+        default: system("cls"); cout<<ANSI_COLOR_RED "Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break; 
     }  
 }
 
@@ -302,7 +308,7 @@ void menuJugador(){
         case 6: verInformacionVideojuegoMenu(); break; 
         case 7: modificarFechaSistemaMenu(); break;
         case 8: cerrarSesionMenu(); cerrarMenuJugador = true; system("cls");break;
-        default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
+        default: system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break; 
     } 
 }
 
@@ -769,7 +775,7 @@ void cargarDatosDePruebaMenu(){
         s->modificarFechaSistema(ahora);
     // -----------------------------------------------------------
 */
-        cout << "Datos de prueba cargados." << endl;
+        cout <<ANSI_COLOR_GREEN "Datos de prueba cargados." ANSI_COLOR_RESET<< endl;
         sleep(1);
     }
     catch(const std::exception& e)
@@ -784,7 +790,7 @@ void cargarDatosDePruebaMenu(){
 bool menuDeseaContinuarOcancelar(){
     do{
         system("cls");
-        cout << "Desea intentarlo nuevamente, o cancelar? " << endl;
+        cout <<ANSI_COLOR_YELLOW "Desea intentarlo nuevamente, o cancelar? " ANSI_COLOR_RESET<< endl;
         cout << "1 - Intentar de nuevo" << endl;
         cout << "2 - Cancelar" << endl;
 
@@ -795,7 +801,7 @@ bool menuDeseaContinuarOcancelar(){
         {
         case 1: return true;  break;
         case 2: return false; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
         }
     } while (true);
     return false;
@@ -833,7 +839,7 @@ void altaUsuarioMenu(){
                     DtJugador * jugador = new DtJugador(email, pass, nickname, descripcion);
                     s->altaUsuario(jugador);
                     system("cls");
-                    cout << "EXITO: Jugador ingresado al sistema!"<< endl;
+                    cout <<ANSI_COLOR_GREEN "EXITO: Jugador ingresado al sistema!" ANSI_COLOR_RESET<< endl;
                     sleep(2);
                     ok = true; // si no salta excepcion, es que no existe el nickname, llega y se corta el while    
                                 
@@ -857,7 +863,7 @@ void altaUsuarioMenu(){
                     nomEmp = leerString();
                     s->altaUsuario(desarrollador);
                     system("cls");
-                    cout << "EXITO: Desarrollador ingresado al sistema!"<< endl;
+                    cout <<ANSI_COLOR_GREEN "EXITO: Desarrollador ingresado al sistema!" ANSI_COLOR_RESET<< endl;
                     sleep(2);
                     ok = true;
                 }
@@ -892,7 +898,7 @@ int menuJugadorOdesarrollador(){
         {
         case 1: return 1; opcionValida = true; break;
         case 2: return 2; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo." << endl; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET<< endl; sleep(2); break;
         }
     } while (opcionValida == false);
     return -1111;
@@ -915,7 +921,8 @@ void iniciarSesionMenu(){
             system("cls");
             s->iniciarSesion(email, password);
             usuarioActual = s->getTipoLoggUser();
-            ok = true;
+            ok = true; 
+            cout << ANSI_COLOR_GREEN "Sesion iniciada" ANSI_COLOR_RESET;
             sleep(2);
         }catch(const std::exception& e){
             system("cls");
@@ -949,7 +956,7 @@ int inputTipoCategoria(){
         case 1: return 1; opcionValida = true; break;
         case 2: return 2; opcionValida = true; break;
         case 3: return 3; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo." << endl; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET<< endl; sleep(2); break;
         }
     } while (opcionValida == false);
     return -1111;
@@ -978,7 +985,7 @@ string inputTipoPlataforma(){
         case 4: return "PC"; opcionValida = true; break;
         case 5: return "SWITCH"; opcionValida = true; break;
         case 6: return "PS4"; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
         }
     } while (opcionValida == false);
 }
@@ -1002,7 +1009,7 @@ string inputTipoGenero(){
         case 2: return "AVENTURA"; opcionValida = true; break;
         case 3: return "ESTRATEGIA"; opcionValida = true; break;
         case 4: return "DEPORTE"; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
         }
     } while (opcionValida == false);
 }
@@ -1030,7 +1037,7 @@ void recorrerCategoriasMenu(ICollection * colecc )
 // funcional, queda pendiente de testear.
 // Desarrollador
 void agregarCategoriaMenu(){
-    cout << "---- Categorias ya registradas: ----" << endl;
+    cout <<ANSI_COLOR_BLUE "---- Categorias ya registradas: ----" ANSI_COLOR_RESET<< endl;
     ICollection * cats = s->listarCategorias();
     recorrerCategoriasMenu(cats);
 
@@ -1099,7 +1106,7 @@ void modificarFechaSistemaMenu(){
 
             DtFechaHora * fechamodificada = new DtFechaHora(dia, mes, anio, hora, minuto);
             s->modificarFechaSistema(fechamodificada);
-            cout << "EXITO: Fecha modificada.";
+            cout << ANSI_COLOR_GREEN "EXITO: Fecha modificada." ANSI_COLOR_RESET;
             ok = true;
             sleep(2);
         }
@@ -1133,7 +1140,7 @@ bool menuDeseaContinuarAgregando(){
     bool opcionValida = false;
     do{
         system("cls");
-        cout << "Desea continuar agregando categorias? " << endl;
+        cout <<ANSI_COLOR_YELLOW "Desea continuar agregando categorias? " ANSI_COLOR_RESET<< endl;
         cout << "1 - Si" << endl;
         cout << "2 - No" << endl;
 
@@ -1144,7 +1151,7 @@ bool menuDeseaContinuarAgregando(){
         {
         case 1: return true; opcionValida = true; break;
         case 2: return false; opcionValida = true;break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
         }
     } while (opcionValida == false);
     return false;
@@ -1185,7 +1192,7 @@ void publicarVideojuegoMenu(){
             // PERO TIENE QUE SER UN DICCIONARIO PARA PODER FILTRARLO
             ICollection * cats = s->listarCategorias(); // me traigo una copia (LISTA DE DTS) de las categorias registradas
             recorrerCategoriasID(cats); // muestro todas las categorias registradas
-            cout << "---- Seleccione una Categoria: ----" << endl;
+            cout <<ANSI_COLOR_BLUE "---- Seleccione una Categoria: ----" ANSI_COLOR_RESET<< endl;
 
             int eleccionIDCategoria;
             int correct_choice = false;
@@ -1206,7 +1213,7 @@ void publicarVideojuegoMenu(){
                 }
                 delete it;
                 if(!correct_choice){
-                    cout << endl << "Opcion invalida .El id ingresado no corresponde a ninguna categoria." << endl;
+                    cout << endl <<ANSI_COLOR_RED "Opcion invalida .El id ingresado no corresponde a ninguna categoria." ANSI_COLOR_RESET << endl;
                     cout << "Ingreselo nuevamente: ";
                 }
             }while (!correct_choice);
@@ -1238,7 +1245,7 @@ void publicarVideojuegoMenu(){
 
                 if (! hasCategoriaGenero || !hasCategoriaPlataforma) {
                     system("cls");
-                    cout << "El videojuego tiene que tener al menos una categoria de GENERO y una de PLATAFORMA" << endl;
+                    cout << ANSI_COLOR_YELLOW"El videojuego tiene que tener al menos una categoria de GENERO y una de PLATAFORMA" ANSI_COLOR_RESET<< endl;
                     sleep(2);
                 }else {
                     termino = true;
@@ -1277,7 +1284,7 @@ void eliminarVideojuegoMenu(){
         cout << "Ingrese el ID del videojuego que desea eliminar: "<< endl;
         string id = leerString();
         s->eliminarVideoJuego(id);
-        cout << "EXITO: Videojuego eliminado.";
+        cout << ANSI_COLOR_GREEN "EXITO: Videojuego eliminado." ANSI_COLOR_RESET;
         sleep(2);
     }
     catch(const std::exception& e)
@@ -1290,7 +1297,7 @@ void eliminarVideojuegoMenu(){
 // TODO
 void verInfoVideojuegoMenu(){
     system("cls");
-    cout << "---- Videojuegos ya registrados: ----" << endl;
+    cout <<ANSI_COLOR_BLUE "---- Videojuegos ya registrados: ----" ANSI_COLOR_RESET<< endl;
     IDictionary * vj = s->listarVJ();
     recorrerVideojuegosMenu(vj);
 
@@ -1308,7 +1315,7 @@ void verInfoVideojuegoMenu(){
     }
 
     system("cls");
-    cout << "------------------- INFORMACION DE VIDEOJUEGO  ------------------------" << endl;
+    cout << ANSI_COLOR_BLUE "------------------- INFORMACION DE VIDEOJUEGO  ------------------------" ANSI_COLOR_RESET << endl;
     cout << "Nombre: " << res->getNombreVideojuego() << endl;
     cout << "Descripcion: " <<  res->getDescripcionVideojuego() << endl;
     cout << "Empresa del desarrollador : " <<  res->getEmpresaDesarrollador() << endl;
@@ -1328,7 +1335,8 @@ void suscribirseAvideojuegoMenu(){
    DtSuscripcion * current;
    IIterator * it_susByVj;
    DtInfoSuscripcion * current_sus; 
-
+   system("cls");
+   cout << "----------------------------------------------";
    while (it->hasCurrent())
    {   
 
@@ -1363,7 +1371,7 @@ void suscribirseAvideojuegoMenu(){
           it->next();
      }
      if(!correctChoice){
-        cout  << endl << "El videojuego con el nombre  " << choiceName << " no se encuentra en la lista.Intentalo de nuevo: "; 
+        cout  << endl << ANSI_COLOR_RED "El videojuego con el nombre  " << choiceName << " no se encuentra en la lista.Intentalo de nuevo: " ANSI_COLOR_RESET; 
      }
      
    }while(!correctChoice); 
@@ -1403,7 +1411,7 @@ void suscribirseAvideojuegoMenu(){
         it_susByVj->next();
      }
      if(!correct_choice){
-        cout << "ID incorrecto vuelve a intentarlo:";
+        cout <<ANSI_COLOR_RED "ID incorrecto vuelve a intentarlo:" ANSI_COLOR_RESET;
      }
      
    } 
@@ -1416,8 +1424,8 @@ void suscribirseAvideojuegoMenu(){
     }
    }
    if(esVitalicio){
-     cout << "YA TIENES UNA SUSCRIPCION VITALICIA PARA ESTE VIDEOJUEGO.." << endl;
-     cout << "rediriendo al menu..";
+     cout <<ANSI_COLOR_YELLOW "YA TIENES UNA SUSCRIPCION VITALICIA PARA ESTE VIDEOJUEGO.." ANSI_COLOR_RESET<< endl;
+     cout << "redirigiendo al menu..";
      sleep(3);
      return;
    }
@@ -1435,22 +1443,22 @@ void suscribirseAvideojuegoMenu(){
     }
 
     if(tieneTemporal){
-        cout << "Ya tienes una suscripcion temporal de este videojuego de tipo : " << getEPeriodo(periodo) << endl;;
+        cout << ANSI_COLOR_YELLOW"Ya tienes una suscripcion temporal de este videojuego de tipo : " ANSI_COLOR_RESET << getEPeriodo(periodo)  << endl;
         DtContratacion * contratacion = s->getContratacion(choiceName);
-         cout << "--------CONTRATACION--------" << endl;
+        cout << "--------CONTRATACION--------" << endl;
         cout << "TIPO PAGO: " << contratacion->getTipoPago() << endl;
          DtFechaHora * fecha = contratacion->getFechaHora();
         DtFechaHora * fechaV = contratacion->getFechaVencimiento() ;
         cout << "FECHA CREACION: " << fecha->getDay() << "/" << fecha->getMonth() << "/" << fecha->getYear() << endl;
         cout << "FECHA VENCIMIENTO: " << fechaV->getDay() << "/" << fechaV->getMonth() << "/" << fechaV->getYear() << endl;
         cout << "MONTO PAGADO : " << contratacion->getMonto() << "$" << endl;
-        cout << "Deseas cancelarla? " << endl;
+        cout << ANSI_COLOR_YELLOW"Deseas cancelarla? " ANSI_COLOR_RESET<< endl;
         char res = menuYesOrNo();
         if(res == 'n' || res == 'N'){
             return;
         }
         s->cancelarSuscripcion(contratacion->getId());
-        cout << "Contratacion previa cancelada!!";
+        cout << ANSI_COLOR_GREEN"Contratacion previa cancelada!!" ANSI_COLOR_RESET;
     }
    
    cin.clear();  
@@ -1473,14 +1481,14 @@ void suscribirseAvideojuegoMenu(){
                     metodoPago = PAYPAL;
                     break;
                 default:
-                    cout << endl  << "Opcion incorrecta vuelve a intentarlo" << endl; 
+                    cout << endl  <<ANSI_COLOR_RED "Opcion incorrecta vuelve a intentarlo" ANSI_COLOR_RESET << endl; 
                     break;
             }
    }
    try{
     s->confirmarSuscripcion(choiceName,opcion,metodoPago);
     cin.clear();
-    cout << "te has suscrito .. ";
+    cout <<ANSI_COLOR_GREEN "te has suscrito .. " ANSI_COLOR_RESET;
     sleep(2);
     }catch(const std::exception& e){
         std::cerr << e.what() << '\n';
@@ -1511,7 +1519,7 @@ void verInformacionVideojuegoMenu(){
 
     try
     {
-    cout << "---- Videojuegos ya registrados: ----" << endl;
+    cout <<ANSI_COLOR_BLUE "---- Videojuegos ya registrados: ----" ANSI_COLOR_RESET << endl;
     cout << "llego 1" << endl;
     IDictionary * vj = s->listarVJ();
     recorrerVideojuegosMenu(vj);
@@ -1524,13 +1532,13 @@ void verInformacionVideojuegoMenu(){
     DtVideojuego * res = (DtVideojuego *)vj->find(vjKey);
 
     if (res == NULL) {
-        cout << "El videojuego que ingreso no existe";
+        cout << ANSI_COLOR_RED"El videojuego que ingreso no existe" ANSI_COLOR_RESET;
         sleep(2);
         return;
     } 
 
     system("cls"); 
-    cout << "---- Informacion del VIDEOJUEGO: ----" << endl;
+    cout <<ANSI_COLOR_BLUE "---- Informacion del VIDEOJUEGO: ----" ANSI_COLOR_RESET<< endl;
     cout << "Nombre: " << res->getNombreVideojuego() << endl;
     cout << "Descripcion: " << res->getDescripcionVideojuego() << endl;
     cout << "Promedio Puntuacion: " << res->getPromedioPuntuaciones() << endl;
@@ -1556,7 +1564,7 @@ void asignarPuntajeVJMenu(){
         int puntaje;
         string nombrevj;
         do {
-            cout << "---- Videojuegos ya registrados: ----" << endl;
+            cout <<ANSI_COLOR_BLUE "---- Videojuegos ya registrados: ----" ANSI_COLOR_RESET<< endl;
             IDictionary * vj = s->listarVJ();
             recorrerVideojuegosMenu(vj);
 
@@ -1568,13 +1576,13 @@ void asignarPuntajeVJMenu(){
             
             if (puntaje > 5 || puntaje < 1) {
                 system("cls");
-                cout << "Por favor, ingrese un valor entre 1 y 5";
+                cout <<ANSI_COLOR_YELLOW "Por favor, ingrese un valor entre 1 y 5" ANSI_COLOR_RESET;
                 sleep(3);
             }
         } while (puntaje > 5 || puntaje < 1); 
         s->asignarPuntajeVideojuego(puntaje, nombrevj);
         system("cls");
-        cout << "Puntaje asignado.";
+        cout << ANSI_COLOR_GREEN "Puntaje asignado." ANSI_COLOR_RESET;
         sleep(3);
     }  
     catch(const std::exception& e)
@@ -1619,7 +1627,7 @@ bool menuIndividualOmultijugador()
         {
         case 1: return true; opcionValida = true; break;
         case 2: return false; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
         }
     } while (opcionValida == false);
     return false;
@@ -1631,7 +1639,7 @@ bool menuMultijugadorTransmitidaOno()
     bool opcionValida = false;
     do{
         system("cls");
-        cout << "Desea transmitir su partida en vivo?"<<endl;
+        cout <<ANSI_COLOR_YELLOW "Desea transmitir su partida en vivo?" ANSI_COLOR_RESET<<endl;
         cout << "1 - Si." << endl;
         cout << "2 - No." << endl;
 
@@ -1642,7 +1650,7 @@ bool menuMultijugadorTransmitidaOno()
         {
         case 1: return true; opcionValida = true; break;
         case 2: return false; opcionValida = true;break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
         }
     } while (opcionValida == false);
     return false;
@@ -1669,7 +1677,7 @@ bool menuMostrarSeguirAgregandoJugador()
     bool opcionValida = false;
     do{
         system("cls");
-        cout << "Desea seguir agregando jugadores a esta partida ?"<<endl;
+        cout << ANSI_COLOR_YELLOW"¿Desea seguir agregando jugadores a esta partida?" ANSI_COLOR_RESET<<endl;
         cout << "1 - Si." << endl;
         cout << "2 - No." << endl;
 
@@ -1680,7 +1688,7 @@ bool menuMostrarSeguirAgregandoJugador()
         {
         case 1: return true; opcionValida = true; break;
         case 2: return false; opcionValida = true;break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
         }
     } while (opcionValida == false);
     return false;
@@ -1715,7 +1723,7 @@ bool recorrerJugadoresEnPartidaMenu(ICollection * colecc, string  nick )
 ICollection * obtenerJugadoresIniciarPartida(string nomVJ)
 {
     system("cls");
-    cout << "---- Jugadores registrados, con suscripcion en ese juego: ----" << endl;
+    cout <<ANSI_COLOR_BLUE "---- Jugadores registrados, con suscripcion en ese juego: ----" ANSI_COLOR_RESET<< endl;
     ICollection * jugadoresSuscritos = s->listarJugadoresConSuscripcionAJuego(nomVJ);
     recorrerJugadoresMenu(jugadoresSuscritos);
 
@@ -1724,7 +1732,9 @@ ICollection * obtenerJugadoresIniciarPartida(string nomVJ)
     bool opcion = true;
     while (opcion != false)
     {
-        cout << "Ingrese el nickname del jugador que desea agregar a esta partida: " << endl;
+        system("cls");
+        cout <<ANSI_COLOR_YELLOW "Ingrese el nickname del jugador que desea agregar a esta partida: " ANSI_COLOR_RESET<< endl;
+
         string nick = leerString();
         
         bool jug = recorrerJugadoresEnPartidaMenu(jugadoresSuscritos, nick);
@@ -1733,23 +1743,22 @@ ICollection * obtenerJugadoresIniciarPartida(string nomVJ)
                 String * nickString = new String(charNick);
                 bool jugadorYaExiste = recorrerJugadoresEnPartidaMenu(jugadores, nick);
                 if(jugadorYaExiste){
-                    cout << "Este jugador ya es parte de esta partida." << endl;
+                    cout <<ANSI_COLOR_RED "Este jugador ya es parte de esta partida." ANSI_COLOR_RESET<< endl;
                     sleep(2);
                 }
                 else{
                     char *charNickk = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
                     jugadores->add(nickString);
                     system("cls");
-                    cout << "EXITO: El jugador fue agregado a la partida." << endl;
+                     cout <<ANSI_COLOR_GREEN "EXITO: El jugador fue agregado a la partida." ANSI_COLOR_RESET << endl;
                     sleep(2);
                 }
         }
         else
         {
-            cout << "El jugador no existe." << endl;
+            cout <<ANSI_COLOR_RED "El jugador no existe." ANSI_COLOR_RESET <<  endl;
             sleep(2);
         }
-
         opcion = menuMostrarSeguirAgregandoJugador();
     }
     return jugadores;
@@ -1777,7 +1786,7 @@ bool menuIndividualNuevaoContinuar()
     bool opcionValida = false;
     do{
         system("cls");
-        cout << "Seleccione el tipo de partida deseado: "<<endl;
+        cout << ANSI_COLOR_YELLOW"Seleccione el tipo de partida deseado: " ANSI_COLOR_RESET <<endl;
         cout << "1 - Partida Nueva." << endl;
         cout << "2 - Continuar Partida." << endl;
 
@@ -1788,20 +1797,20 @@ bool menuIndividualNuevaoContinuar()
         {
         case 1: return false; opcionValida = true; break;
         case 2: return true; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<ANSI_COLOR_RED"Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
         }
     } while (opcionValida == false);
 }
 
 void iniciarPartidaMenu(){
+    system("cls");
     IIterator* sus = s->listarVideoJuegosActivos()->getIterator();
     if(sus->hasCurrent() == false) {
-       cout << "No tiene suscripciones a ningun videojuego, suscribase a uno para inciar una partida" << endl;
+       cout <<ANSI_COLOR_RED "No tiene suscripciones a ningun videojuego, suscribase a uno para inciar una partida" ANSI_COLOR_RESET<< endl;
        sleep(4);
     }
     else {
-        
-        cout << "---- Videojuegos a los que estas suscrito: ----" << endl;
+        cout << ANSI_COLOR_BLUE"---- Videojuegos a los que estas suscrito: ----" ANSI_COLOR_RESET<< endl;
         ICollection * vja = s->listarVideoJuegosActivos();
         //recorrerVideojuegosActivosMenu(vja);
 
@@ -1814,7 +1823,7 @@ void iniciarPartidaMenu(){
         }
         delete it;
 
-        cout << "Ingrese un NOMBRE del VIDEOJUEGO de la lista: "<< endl;
+        cout <<ANSI_COLOR_YELLOW "Ingrese un NOMBRE del VIDEOJUEGO de la lista: " ANSI_COLOR_RESET<< endl;
         string nombrevj = leerString();
         char *charNameVj = const_cast<char *>(nombrevj.c_str()); // paso de string a char (para poder implementar la key)
         String *vjKey = new String(charNameVj);
@@ -1835,7 +1844,7 @@ void iniciarPartidaMenu(){
                 bool opcionValida = false;
                 do{
                     system("cls");
-                    cout << "Confirmar la creacion de la partida individual?" << endl;
+                    cout << ANSI_COLOR_YELLOW "¿Desea confirmar la creacion de la partida individual?" ANSI_COLOR_RESET << endl;
                     cout << "1 - Si" << endl;
                     cout << "2 - No" << endl;
 
@@ -1846,17 +1855,17 @@ void iniciarPartidaMenu(){
                     {
                     case 1: respuestaConfirmar = true;opcionValida = true; break;
                     case 2: respuestaConfirmar = false; opcionValida = true;break;
-                    default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                    default:system("cls"); cout<<ANSI_COLOR_RED "Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
                     }
                 } while (opcionValida == false);
 
                 if(respuestaConfirmar){
                     s->iniciarPartidaIndividual(true, nombrevj);
-                    cout << "EXITO: Creando partida..." << endl;
+                    cout <<ANSI_COLOR_GREEN "EXITO: Creando partida..." ANSI_COLOR_RESET<< endl;
                     sleep(2);
                 }
                 else{
-                    cout << "La partida no se creo." << endl;
+                    cout << ANSI_COLOR_RED "La partida no se creo." ANSI_COLOR_RESET<< endl;
                     sleep(2);
                 }
 
@@ -1867,7 +1876,7 @@ void iniciarPartidaMenu(){
                 DtPartidaIndividual * res = NULL;
                 do{
                     system("cls");
-                    cout << "---- Partidas Finalizadas ---- "<< endl;
+                    cout <<ANSI_COLOR_BLUE "---- Partidas Finalizadas ---- " ANSI_COLOR_RESET <<  endl;
                     ICollection * parFinalizadas = s->listarHistorialPartidasFinalizadas(nombrevj);
                     recorrerPartidasFinalizadas(parFinalizadas);
 
@@ -1885,7 +1894,7 @@ void iniciarPartidaMenu(){
                         it->next();
                     }
                     if(!correct_choice){
-                        cout << "ERROR: No existe una partida con ese ID. " << endl;
+                        cout << ANSI_COLOR_RED "ERROR: No existe una partida con ese ID. " ANSI_COLOR_RESET << endl;
                         sleep(2);
                         bool deseaContinuar = menuDeseaContinuarOcancelar(); // llega acá si ingresó un ID incorrecto
                         if(!deseaContinuar){
@@ -1898,7 +1907,7 @@ void iniciarPartidaMenu(){
                 bool opcionValida = false;
                 do{
                     system("cls");
-                    cout << "Confirmar la continuacion de la partida?" << endl;
+                    cout << ANSI_COLOR_YELLOW "¿Desea confirmar la continuacion de la partida?" ANSI_COLOR_RESET<< endl;
                     cout << "1 - Si" << endl;
                     cout << "2 - No" << endl;
 
@@ -1909,16 +1918,16 @@ void iniciarPartidaMenu(){
                     {
                     case 1: respuestaConfirmar = true;opcionValida = true; break;
                     case 2: respuestaConfirmar = false; opcionValida = true;break;
-                    default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                    default:system("cls"); cout<<ANSI_COLOR_RED "Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
                     }
                 } while (opcionValida == false);
                 if(respuestaConfirmar){
                     s->continuarPartida(id);
-                    cout << "EXITO: Continuando partida..." << endl;
+                    cout <<ANSI_COLOR_GREEN "EXITO: Continuando partida..." ANSI_COLOR_RESET<< endl;
                     sleep(2);
                 }
                 else{
-                    cout << "La partida no se inicio." << endl;
+                    cout <<ANSI_COLOR_RED "La partida no se inicio." ANSI_COLOR_RESET<< endl;
                     sleep(2);
                 }
             }
@@ -1937,7 +1946,7 @@ void iniciarPartidaMenu(){
             bool opcionValida = false;
             do{
                 system("cls");
-                cout << "Confirmar el inicio de partida?" << endl;
+                cout << ANSI_COLOR_YELLOW"¿Desea confirmar el inicio de partida?" ANSI_COLOR_RESET << endl;
                 cout << "1 - Si" << endl;
                 cout << "2 - No" << endl;
 
@@ -1948,7 +1957,7 @@ void iniciarPartidaMenu(){
                 {
                 case 1: respuestaConfirmar = true;opcionValida = true; break;
                 case 2: respuestaConfirmar = false; opcionValida = true;break;
-                default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                default:system("cls"); cout<<ANSI_COLOR_RED "Valor invalido, vuelva a intentarlo." ANSI_COLOR_RESET; sleep(2); break;
                 }
             } while (opcionValida == false);
             if(respuestaConfirmar){
@@ -1957,7 +1966,7 @@ void iniciarPartidaMenu(){
                 sleep(3);
             }
             else{
-                cout << "La partida no se inició." << endl;
+                cout <<ANSI_COLOR_RED "La partida no se inició." ANSI_COLOR_RESET<< endl;
                 sleep(2);
             }
         }
@@ -1970,7 +1979,7 @@ void abandonarPartidaMJMenu(){
     DtPartidaMultijugador * current;
 
 
-    cout << "------------PARTIDAS UNIDO -----------------" << endl;
+    cout <<ANSI_COLOR_BLUE "------------PARTIDAS UNIDO -----------------" ANSI_COLOR_BLUE<< endl;
     int cont_partidas = 0;
     if(itPartida->hasCurrent()){
         current = (DtPartidaMultijugador*)itPartida;
@@ -2003,7 +2012,7 @@ void abandonarPartidaMJMenu(){
 
     }
     if(cont_partidas == 0){
-        cout << "Lo sentimos no estas unido a ninguna partida" << endl;
+        cout << ANSI_COLOR_RED"Lo sentimos no estas unido a ninguna partida" ANSI_COLOR_RESET<< endl;
         cout << "redirigiendo al menu..";
         sleep(3);
         return;
@@ -2031,8 +2040,9 @@ void abandonarPartidaMJMenu(){
             itPartida->next();
         }
         if(!correct_choice){
-            cout << "La id ingresada no corresponde a ninguna partida " << endl;
-            cout << "Deseas salir? y/n";
+            cout << ANSI_COLOR_RED"La id ingresada no corresponde a ninguna partida " ANSI_COLOR_RESET<< endl;
+            cout << endl;
+            cout <<ANSI_COLOR_YELLOW "Deseas salir? y/n" ANSI_COLOR_RESET;
             salir = leerChar();
         }
         
@@ -2051,7 +2061,7 @@ void abandonarPartidaMJMenu(){
             cout << e.what();
         }
     }else{
-        cout << "Eres el creador de esta partida por lo tanto al irte la partida se finalizara.." << endl;
+        cout <<ANSI_COLOR_YELLOW "Eres el creador de esta partida por lo tanto al irte la partida se finalizara.." ANSI_COLOR_RESET << endl;
         cout << "Finalizando .." << endl;
         sleep(3);
         try{
@@ -2069,6 +2079,7 @@ void finalizarPartidaMenu() {
     try
     {
     IDictionary* P = s->listarPartidasActivas();
+    cout << ANSI_COLOR_BLUE"Listado de partidas activas: " ANSI_COLOR_RESET<< endl;
     IIterator* I = P->getIterator();
     
     int cont = 0;
@@ -2133,7 +2144,7 @@ void finalizarPartidaMenu() {
                     return ;
                 }
                 system("cls"); 
-                cout << "Id de partida incorrecto, por favor intente nuevamente" << endl; 
+                cout <<ANSI_COLOR_RED "Id de partida incorrecto, por favor intente nuevamente" ANSI_COLOR_RESET<< endl; 
                 sleep(2); 
             } else {
                 opcionCorrecta = true;
@@ -2141,7 +2152,7 @@ void finalizarPartidaMenu() {
         } while (!opcionCorrecta);
         s->finalizarPartida(Id);
         system("cls"); 
-        cout << "Partida finalizada correctamente !";
+        cout << ANSI_COLOR_GREEN "Partida finalizada correctamente !" ANSI_COLOR_RESET;
         sleep(3);
     }
     catch(const std::exception& e)
