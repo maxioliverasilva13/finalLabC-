@@ -615,19 +615,14 @@ void agregarCategoriaMenu(){
 
     int tipoCategoria = inputTipoCategoria();
 
+    system("cls");
+    cout << "Ingrese el NOMBRE para la CATEGORIA a agregar: "<< endl;
+    nombre = leerString();
     if (tipoCategoria == 1){
-        system("cls");
-        nombre = inputTipoPlataforma();
         tipo = "PLATAFORMA";   
-        // luego le pido el nombre y descripcion
     }else if (tipoCategoria == 2){
-        system("cls");
-        nombre = inputTipoGenero();
         tipo = "GENERO";
     }else if (tipoCategoria == 3){
-        system("cls");
-        cout << "Ingrese el NOMBRE para la CATEGORIA a agregar: "<< endl;
-        nombre = leerString();
         tipo = "OTRO";
     }
 
@@ -637,6 +632,8 @@ void agregarCategoriaMenu(){
     system("cls");
 
     s->agregarCategoria(nombre, descripcion, tipo);
+    cout << "Categoria registrada correctamente !";
+    sleep(2);
     //s->agregarCategoria(); recibe un icollectible
 }
 
@@ -755,15 +752,13 @@ void recorrerCategoriasID(ICollection * colecc )
 {
     system("cls");
     IIterator *it = colecc->getIterator();
-    int contador_categorias = 1;
     while (it->hasCurrent()){
         DtCategoria *cat = (DtCategoria *)it->getCurrent();
-        cout << "Categoria " << contador_categorias << ": " << endl;
         cout << "ID: " << cat->getId() << ": " << endl;
         cout << "Nombre: "<< cat->getNombre() << endl;
         cout << "Descripcion: " << cat->getDescripcion() << endl;
+        cout << "Tipo: " << cat->getTipo() << endl;
         cout << "-----------------------------------------" << endl;
-        contador_categorias++;
         it->next();
     }
     delete it;
@@ -851,7 +846,37 @@ void publicarVideojuegoMenu(){
             }while (!correct_choice);
  
             categorias_videojuego->add(catAgregar);
-            termino = !menuDeseaContinuarAgregando();
+            bool isFinish = !menuDeseaContinuarAgregando();
+            if (isFinish == true) {
+                IIterator * itCategoriasAgregadas = categorias_videojuego->getIterator();
+                bool hasCategoriaGenero = false;
+                bool hasCategoriaPlataforma = false;
+
+                while (itCategoriasAgregadas->hasCurrent())
+                {
+                    DtCategoria * categ = (DtCategoria *)itCategoriasAgregadas->getCurrent();
+                    if (categ->getTipo() == "GENERO") {
+                        hasCategoriaGenero = true;
+                    }
+                    if (categ->getTipo() == "PLATAFORMA") {
+                        hasCategoriaPlataforma = true;
+                    }
+                    if (hasCategoriaPlataforma && hasCategoriaGenero) {
+                        break;
+                    }
+                    itCategoriasAgregadas->next();
+                }
+                delete itCategoriasAgregadas;
+
+                if (! hasCategoriaGenero || !hasCategoriaPlataforma) {
+                    system("cls");
+                    cout << "El videojuego tiene que tener al menos una categoria de GENERO y una de PLATAFORMA" << endl;
+                    sleep(2);
+                }else {
+                    termino = true;
+                }
+
+            }
 
         }while (!termino);
 
@@ -897,10 +922,14 @@ void eliminarVideojuegoMenu(){
 // TODO
 void verInfoVideojuegoMenu(){
     system("cls");
+    IDictionary * vj = s->listarVJ();
+    cout << "el size es " << vj->getSize();
+    recorrerVideojuegosMenu(vj);
     cout << "Ingresa el nombre de un videojuego: \n";
     string nameVj = leerString();
     char salir = 'n';
     DtVideojuego * res = NULL;
+
     do{
         res = s->verInfoVideojuego(nameVj);
         if(res == NULL){
@@ -916,6 +945,8 @@ void verInfoVideojuegoMenu(){
     cout << "------------------- INFORMACION DE VIDEOJUEGO  ------------------------" << endl;
     cout << "Nombre: " << res->getNombreVideojuego() << endl;
     cout << "Descripcion: " <<  res->getDescripcionVideojuego() << endl;
+    cout << "Empresa del desarrollador : " <<  res->getEmpresaDesarrollador() << endl;
+    cout << "Suma total de horas jugadas en este juego: " << s->calcularSumaTotalHorasAJuego(res->getNombreVideojuego()) << endl;
 
     recorerCategorias(res->getCategorias());
     
@@ -1030,7 +1061,6 @@ void verInformacionVideojuegoMenu(){
 
     try
     {
-    
     cout << "---- Videojuegos ya registrados: ----" << endl;
     IDictionary * vj = s->listarVJ();
     recorrerVideojuegosMenu(vj);
@@ -1052,6 +1082,7 @@ void verInformacionVideojuegoMenu(){
     cout << "Descripcion: " << res->getDescripcionVideojuego() << endl;
     cout << "Promedio Puntuacion: " << res->getPromedioPuntuaciones() << endl;
     cout << "Cantidad Puntuaciones: " << res->getPuntuaciones()->getSize() << endl;
+    cout << "Empresa del desarrollador : " <<  res->getEmpresaDesarrollador() << endl;
 
     recorerCategorias(res->getCategorias());
     recorrerSuscripcionesVJ(res->getSuscripciones(), false);

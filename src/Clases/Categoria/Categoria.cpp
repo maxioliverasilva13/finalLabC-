@@ -9,6 +9,7 @@ class Categoria : public ICollectible
 protected:
     static int cant;
     int id;
+    string customName;
     string descripcion;
 
 public:
@@ -19,6 +20,8 @@ public:
     int getId();
     virtual string darTipo() = 0;
     virtual string darNombreInstancia() = 0;
+    void setCustomName(string);
+    string getCustomName();
 };
 
 int Categoria::cant = 0;
@@ -30,6 +33,14 @@ Categoria::Categoria(string descripcion)
     this->id = cant;
     this->descripcion = descripcion;
 }
+
+void Categoria::setCustomName(string customName) {
+    this->customName = customName;
+};
+
+string Categoria::getCustomName(){
+    return this->customName;
+};
 
 void Categoria::setDescripcion(string descripcion)
 {

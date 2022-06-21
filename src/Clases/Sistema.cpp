@@ -162,6 +162,7 @@ public:
   PartidaMultijugador * partidaMasLarga();
   DtJugador * jugadorConMasContrataciones();
   ICollection * juegosMejoresPuntuados(int); // coleccion de DtVideojuego
+  float calcularSumaTotalHorasAJuego(string);
 
 };
 
@@ -280,6 +281,9 @@ IDictionary * Sistema::listarVJ(){
   IDictionary * listaDTVJ = new OrderedDictionary();
   IIterator * it = this->videojuegos->getIterator();
 
+  cout << "llego" << endl;
+  cout << this->videojuegos->getSize() << endl;
+  
   while(it->hasCurrent()){
     Videojuego *vjuego = (Videojuego *)it->getCurrent();
 
@@ -291,8 +295,19 @@ IDictionary * Sistema::listarVJ(){
     listaDTVJ->add(vjuegoKey, vj);
     it->next();
   }
+  cout << "voy a salir" << endl;
   delete it;
   return listaDTVJ;
+}
+
+float Sistema::calcularSumaTotalHorasAJuego(string nombreJuego) {
+  char *charNameVj = const_cast<char *>(nombreJuego.c_str()); // paso de string a char (para poder implementar la key)
+  String *vjKey = new String(charNameVj);
+  Videojuego * vj = (Videojuego *)this->videojuegos->find(vjKey);
+  if (vj == NULL) {
+    throw invalid_argument("El videojuego no existe");
+  }
+  return vj->getTotalHorasJugadas();
 }
 
 DtJugador * Sistema::jugadorConMasContrataciones() {
@@ -442,20 +457,21 @@ void Sistema::eliminarVideoJuego(string nombreVideojuego)
 void Sistema::agregarCategoria(string nombre, string descripcion, string tipo)
 {
   Categoria *categoria;
-  if (getEGeneroJuego(getEnumGeneroJuego(tipo)) != "NINGUNO")
+  if (tipo == "GENERO")
   {
     // ES UN GENRO DE TIPO CATEGORIAGENERO
-    categoria = new CategoriaGenero(getEnumGeneroJuego(tipo), descripcion);
+    categoria = new CategoriaGenero(OTROGENERO , descripcion);
   }
-  else if (getETipoPlataforma(getEnumETipoPlataforma(tipo)) != "NINGUNO")
+  else if (tipo == "PLATAFORMA")
   {
     // ES UN GENRO DE TIPO CATEGORIAPLATAFORMA
-    categoria = new CategoriaPlataforma(getEnumETipoPlataforma(tipo), descripcion);
+    categoria = new CategoriaPlataforma(OTRAPLATAFORMA, descripcion);
   }
   else
   {
     categoria = new CategoriaOtro(nombre, descripcion);
   }
+  categoria->setCustomName(nombre);
 
   Integer *idKey = new Integer(categoria->getId());
   this->categorias->add(idKey, categoria);

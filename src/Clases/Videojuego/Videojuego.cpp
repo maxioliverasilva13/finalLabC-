@@ -255,8 +255,32 @@ void Videojuego::agregarPuntuacion(int puntuacion,Jugador * jugador){
 }
 
 DtVideojuego * Videojuego::getDtVideojuego() {
-    DtVideojuego * dt = new DtVideojuego(this->nombre,this->descripcion,this->promedio_puntuacion, this->puntuaciones,this->categorias, this->suscripciones);
+    DtVideojuego * dt = new DtVideojuego(this->nombre,this->descripcion,this->promedio_puntuacion, this->puntuaciones,this->categorias, this->suscripciones, this->creador->getNomEmpresa(), this->getTotalHorasJugadas());
     return dt;
+}
+
+float Videojuego::getTotalHorasJugadas() {
+    float totalHorasJugadas = 0;
+
+    if (this->partidas->getSize() == 0) {
+        return 0;
+    }
+    cout << "hola" << endl;
+    IIterator * it = this->partidas->getIterator();
+    while (it->getCurrent())
+    {
+        Partida * part = (Partida *)it->getCurrent();
+        if (part->darTipo() == "PartidaIndividual") {
+            PartidaIndividual * partI = (PartidaIndividual *)part;
+            totalHorasJugadas += partI->getDuracion();
+        } else {
+            PartidaMultijugador * partM = (PartidaMultijugador *)part;
+            totalHorasJugadas += partM->getDuracion();
+        }
+        it->next();
+    }
+    cout << "hola2" << endl;
+    return totalHorasJugadas;
 }
 
 #endif
