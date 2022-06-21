@@ -159,13 +159,13 @@ void Videojuego::agregarPuntuacion(ICollectible *puntuacion)
     this->puntuaciones->add(punt);
 }
 
-ICollection * Videojuego::getJugadoresActivos(DtFechaHora * fecha) {
+ICollection * Videojuego::getJugadoresActivos(DtFechaHora * fecha,string nicknameUserLogg) {
     ICollection * nombreJugadores = new List(); 
     IIterator * it = this->suscripciones->getIterator();
     while (it->hasCurrent())
     {
         Suscripcion * suscr = (Suscripcion *)it->getCurrent();
-        ICollection * nombresJugadoresEnEstaSuscr = suscr->getJugadoresActivos(fecha);
+        ICollection * nombresJugadoresEnEstaSuscr = suscr->getJugadoresActivos(fecha,nicknameUserLogg);
         IIterator * iterNombres = nombresJugadoresEnEstaSuscr->getIterator();
         while (iterNombres->hasCurrent())
         {   

@@ -30,7 +30,7 @@ public:
     bool hasSuscripcion(EPeriodo);
     void agregarCategoria(ICollectible *);
     void agregarPuntuacion(ICollectible *puntuacion);
-    ICollection * getJugadoresActivos(DtFechaHora *);
+    ICollection * getJugadoresActivos(DtFechaHora *,string nickameUserLogg);
     ICollection *getPuntuaciones();
     IDictionary *getCategorias();
     IDictionary *getSuscripciones();

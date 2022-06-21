@@ -50,6 +50,9 @@ void Jugador::iniciarPartidaMultijugador(ICollection * jugadores, bool enVIvo, V
        partida->agregarEstadoJugador(est);
        it->next();
     }
+    delete it;
+    IKey * keyP = new Integer(partida->getId());
+    this->partidas->add(keyP, partida);
 }
 
 ICollection *Jugador::listarVideoJuegosActivos(DtFechaHora * ahora)
