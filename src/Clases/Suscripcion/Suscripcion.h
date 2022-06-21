@@ -25,7 +25,7 @@ public:
     void setPeriodo(EPeriodo);
     void setPrecio(float);
     string darNombreJuego();
-    bool jugadorTieneContratacion(string);
+    bool jugadorTieneContratacion(string,DtFechaHora*);
     DtInfoSuscripcion *getDatosSuscripcion();
     void agregarContratacion(ICollectible *);
     ICollection * getJugadoresActivos(DtFechaHora *);
