@@ -41,6 +41,7 @@ public:
     void setDesarrollador(Desarrollador *);
     Desarrollador * getDesarrollador();
     float getTotalHorasJugadas(); 
+    void agregarPartida(ICollectible *);
 };
 
 #endif

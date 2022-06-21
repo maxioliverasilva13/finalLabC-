@@ -53,6 +53,8 @@ void Jugador::iniciarPartidaMultijugador(ICollection * jugadores, bool enVIvo, V
     delete it;
     IKey * keyP = new Integer(partida->getId());
     this->partidas->add(keyP, partida);
+    juego->agregarPartida(partida);
+
 }
 
 ICollection *Jugador::listarVideoJuegosActivos(DtFechaHora * ahora)
@@ -75,11 +77,12 @@ ICollection *Jugador::listarVideoJuegosActivos(DtFechaHora * ahora)
     return nameJuegos;
 }
 
-void Jugador::iniciarPartidaIndividual(bool esNueva, Videojuego * vj) {
+void Jugador::iniciarPartidaIndividual(bool esNueva, Videojuego * vj, DtFechaHora * fechaSistema) {
     DtFechaHora * ahora;
-    PartidaIndividual * p = new PartidaIndividual(esNueva, ENCURSO, ahora->getAhora(), vj, this);
+    PartidaIndividual * p = new PartidaIndividual(esNueva, ENCURSO, fechaSistema, vj, this);
     Integer * partidaKey = new Integer(p->getId());
     this->partidas->add(partidaKey, p);
+    vj->agregarPartida(p);
     delete ahora;
 }
 
@@ -304,9 +307,9 @@ void Jugador::abandonarPartida(int idPartida,DtFechaHora * fechaSistema){
 
 
 
-PartidaMultijugador * Jugador::partidaMasLarga() {
+Partida * Jugador::partidaMasLarga() {
     IIterator * itPartidas = this->partidas->getIterator();
-    PartidaMultijugador * partidaMasLarga = NULL;
+    Partida * partidaMasLarga = NULL;
     
     while (itPartidas->hasCurrent())
     {
@@ -319,10 +322,17 @@ PartidaMultijugador * Jugador::partidaMasLarga() {
         if (partM->getDuracion() > partidaMasLarga->getDuracion()){
             partidaMasLarga = partM;
         }
+      } else {
+         PartidaIndividual * partI = (PartidaIndividual *)part;
+        if (partidaMasLarga == NULL) {
+            partidaMasLarga = partI;
+        }
+        if (partI->getDuracion() > partidaMasLarga->getDuracion()){
+            partidaMasLarga = partI;
+        }
       }
       itPartidas->next();
     }
-
     return partidaMasLarga;
   }
 
