@@ -1,5 +1,4 @@
 #include<iostream>
-#include "src/Clases/Sistema.cpp"
 #include "menu.cpp"
 
 #include <typeinfo>
