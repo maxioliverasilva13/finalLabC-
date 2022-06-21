@@ -56,8 +56,14 @@ void PartidaMultijugador::finalizarPartida(DtFechaHora * fechaSistema)
         Es->setFechaHoraSalida(fechaSistema);
 
         if (Es->getJugador()->getNickname() == this->creador->getNickname()) {
-            DtFechaHora * fechaInicio = Es->getFechaHoraEntrada();
+            PartidaMultijugador * partM = (PartidaMultijugador *)Es->getPartida();
+
+            DtFechaHora * fechaInicio = partM->getFecha();
             DtFechaHora * fechaFin = fechaSistema;
+
+            cout << fechaInicio->getHour() << " : " << fechaInicio->getMinute();
+            cout << fechaFin->getHour() << " : " << fechaFin->getMinute();
+            system("PAUSE");
             float duracion = calcularDifEnMinutos(fechaInicio, fechaFin);
             this->setDuracion(duracion);
         }

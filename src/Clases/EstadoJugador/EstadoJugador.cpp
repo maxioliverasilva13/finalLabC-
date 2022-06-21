@@ -10,12 +10,8 @@ EstadoJugador::EstadoJugador(DtFechaHora *fechaHoraEntrada, DtFechaHora *fechaHo
 {
     this->fechaHoraEntrada = fechaHoraEntrada;
 
-    if (fechaHoraSalida == NULL) {
-        DtFechaHora * fechaTest = new DtFechaHora(44, 12, 2030, 12, 12);
-        this->fechaHoraSalida = fechaTest;
-    }else {
-      this->fechaHoraSalida = fechaHoraSalida;
-    }
+    this->fechaHoraSalida = fechaHoraSalida;
+    this->fechaHoraSalida = fechaHoraSalida;
 
     this->partida = partida;
     this->jugador = jugador;

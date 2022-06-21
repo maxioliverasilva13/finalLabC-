@@ -261,8 +261,7 @@ IDictionary* Jugador::getPartidas() {
 
 ICollection * Jugador::listarPartidasUnido(){
      
-     
-     IIterator * it = this->estadosJugador->getIterator();
+    IIterator * it = this->estadosJugador->getIterator();
     
     ICollection * res = new List();   //DtPartidaMultijador;
  
@@ -272,7 +271,7 @@ ICollection * Jugador::listarPartidasUnido(){
         current = (EstadoJugador*)it->getCurrent();
         current_partida = (PartidaMultijugador*)current->getPartida();
         bool isOwner = false;
-        if(current_partida->getEstado() == ENCURSO){
+        if(current_partida->getEstado() == ENCURSO && current->getFechaHoraSalida() == NULL){
             if(current_partida->getCreador()->getNickname() == this->nickname){
                 isOwner = true;
             }
