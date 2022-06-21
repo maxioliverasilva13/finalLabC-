@@ -40,9 +40,10 @@ public:
     IDictionary* getPartidas();
     ICollection * listarPartidasUnido();
     void  abandonarPartida(int idPartida,DtFechaHora * fechaSistema);
-    PartidaMultijugador * partidaMasLarga();
+    Partida * partidaMasLarga();
     int getSizeContrataciones();
     DtJugador * getDtJugador();
+    void agregarEstadojugador(ICollectible *);
 
 };
 

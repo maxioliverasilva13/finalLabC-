@@ -162,7 +162,7 @@ public:
   ICollection * listarPartidasUnido();  //DtPartidaMultijugador
   void abandonarPartida(int idPartida);
   ICollectible * findUserByNickname(string);
-  PartidaMultijugador * partidaMasLarga();
+  Partida * partidaMasLarga();
   DtJugador * jugadorConMasContrataciones();
   ICollection * juegosMejoresPuntuados(int); // coleccion de DtVideojuego
   void cerrarSesion();
@@ -221,8 +221,9 @@ ICollection * Sistema::listarJugadoresConSuscripcionAJuego(string nombrevj) {
   String *vjKey = new String(charNameVj);
   Videojuego *juego = (Videojuego *)this->videojuegos->find(vjKey);
 
+  Jugador * jugador = (Jugador*)this->loggUser;
   if (juego) {
-    return juego->getJugadoresActivos(this->fechaHora);
+    return juego->getJugadoresActivos(this->fechaHora,  jugador->getNickname());
   } else {
     throw invalid_argument("Este videojuego no existe");
   }
@@ -246,7 +247,7 @@ bool validateExistsGameName(string nameGame, IDictionary *games)
   Videojuego *juego = (Videojuego *)games->find(vjKey);
   if (juego)
   {
-    return true;
+      return true;
   }
   else
   {
@@ -825,12 +826,12 @@ void Sistema::finalizarPartida(int idPartida){
 IDictionary* Sistema::listarPartidasActivas() {
   Jugador *jugadorLogueado = (Jugador *)this->loggUser;
   
-  IDictionary* dataPartidas = new OrderedDictionary();
+  IDictionary * dataPartidas = new OrderedDictionary();
 
   IIterator* P = jugadorLogueado->getPartidas()->getIterator();
   while (P->hasCurrent()) {
     Partida * partidas =(Partida*) P->getCurrent();
-    if (partidas->getEstado() == ENCURSO) {
+    if (partidas->getEstado() == ENCURSO && partidas->getCreador()->getNickname() == jugadorLogueado->getNickname()) {
       DtPartida* infoP = partidas->getDtPartida();
       Integer * Pkey = new Integer(partidas->getId());
       dataPartidas->add(Pkey, infoP);
@@ -861,16 +862,16 @@ IDictionary* Sistema::listarPartidasActivas() {
 
   }
 
-  PartidaMultijugador * Sistema::partidaMasLarga() {
+  Partida * Sistema::partidaMasLarga() {
     IIterator * itJugadores = this->usuarios->getIterator();
-    PartidaMultijugador * partidaMasLarga = NULL;
+    Partida * partidaMasLarga = NULL;
     
     while (itJugadores->hasCurrent())
     {
       Usuario * user = (Usuario *)itJugadores->getCurrent();
       if (user->getTipo() == "Jugador") {
         Jugador * player = (Jugador *)user;
-        PartidaMultijugador * partidaMasLargaDeUser = player->partidaMasLarga();
+        Partida * partidaMasLargaDeUser = player->partidaMasLarga();
         if (partidaMasLarga == NULL && partidaMasLargaDeUser != NULL) {
           partidaMasLarga = partidaMasLargaDeUser;
         } 

@@ -1308,6 +1308,12 @@ void verInfoVideojuegoMenu(){
     String *vjKey = new String(charNameVj);
     DtVideojuego * res = (DtVideojuego *)vj->find(vjKey);
 
+    if (res == NULL) {
+        cout << "El videojuego que ingreso no existe";
+        sleep(2);
+        return;
+    }
+
     system("cls");
     cout << ANSI_COLOR_BLUE "------------------- INFORMACION DE VIDEOJUEGO  ------------------------" ANSI_COLOR_RESET << endl;
     cout << "Nombre: " << res->getNombreVideojuego() << endl;
@@ -1321,11 +1327,6 @@ void verInfoVideojuegoMenu(){
     system("PAUSE");
 }
 
-
-void consultarEstadisticasMenu(){
-    cout << "pendiente...";
-    return;
-}
 
 // TODO es re larga xd
 void suscribirseAvideojuegoMenu(){
@@ -1534,9 +1535,7 @@ void verInformacionVideojuegoMenu(){
         cout << ANSI_COLOR_RED"El videojuego que ingreso no existe" ANSI_COLOR_RESET;
         sleep(2);
         return;
-    } else {
-        cout << ANSI_COLOR_GREEN "existe" ANSI_COLOR_RESET;
-    }
+    } 
 
     system("cls"); 
     cout <<ANSI_COLOR_BLUE "---- Informacion del VIDEOJUEGO: ----" ANSI_COLOR_RESET<< endl;
@@ -1696,17 +1695,24 @@ bool menuMostrarSeguirAgregandoJugador()
 }
 
 // auxiliar obtenerJugadoresIniciarPartida
-bool recorrerJugadoresEnPartidaMenu(ICollection * colecc, String * nick ) 
+bool recorrerJugadoresEnPartidaMenu(ICollection * colecc, string  nick ) 
 {
     system("cls");
     IIterator *it = colecc->getIterator();
+    bool res = false;
     while (it->hasCurrent())
     {
-        String *nick = (String *)it->getCurrent();
-        if(nick->getValue());
+    
+        String *nickJ = (String *)it->getCurrent();
+        if(nickJ->getValue() == nick){
+            res = true;
+            break;
+        }
         it->next();
     }
     delete it;
+    return res;
+
 }
 
 
@@ -1728,32 +1734,29 @@ ICollection * obtenerJugadoresIniciarPartida(string nomVJ)
     {
         system("cls");
         cout <<ANSI_COLOR_YELLOW "Ingrese el nickname del jugador que desea agregar a esta partida: " ANSI_COLOR_RESET<< endl;
+
         string nick = leerString();
-        ICollectible * jug = NULL;
-        jug = s->findUserByNickname(nick); // revisar
-        if(jug != NULL){
-            char *charNickk = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
-            String * nickString = new String(charNickk);
-            jugadores->add(nickString);
+        
+        bool jug = recorrerJugadoresEnPartidaMenu(jugadoresSuscritos, nick);
+        if(jug == true){
+                char *charNick = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
+                String * nickString = new String(charNick);
+                bool jugadorYaExiste = recorrerJugadoresEnPartidaMenu(jugadores, nick);
+                if(jugadorYaExiste){
+                    cout <<ANSI_COLOR_RED "Este jugador ya es parte de esta partida." ANSI_COLOR_RESET<< endl;
+                    sleep(2);
+                }
+                else{
+                    char *charNickk = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
+                    jugadores->add(nickString);
+                    system("cls");
+                     cout <<ANSI_COLOR_GREEN "EXITO: El jugador fue agregado a la partida." ANSI_COLOR_RESET << endl;
+                    sleep(2);
+                }
         }
         else
         {
             cout <<ANSI_COLOR_RED "El jugador no existe." ANSI_COLOR_RESET <<  endl;
-            sleep(2);
-        }
-        //Valido si jugador ya existe en la lista que estoy creando
-        //parseo el nick a char
-        char *charNick = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
-        String * nickString = new String(charNick);
-        bool jugadorYaExiste = recorrerJugadoresEnPartidaMenu(jugadores, nickString);
-        if(jugadorYaExiste){
-            cout <<ANSI_COLOR_RED "Este jugador ya es parte de esta partida." ANSI_COLOR_RESET<< endl;
-            sleep(2);
-        }
-        else
-        {
-            system("cls");
-            cout <<ANSI_COLOR_GREEN "EXITO: El jugador fue agregado a la partida." ANSI_COLOR_RESET << endl;
             sleep(2);
         }
         opcion = menuMostrarSeguirAgregandoJugador();
@@ -1802,7 +1805,6 @@ bool menuIndividualNuevaoContinuar()
 void iniciarPartidaMenu(){
     system("cls");
     IIterator* sus = s->listarVideoJuegosActivos()->getIterator();
-    system("PAUSE");
     if(sus->hasCurrent() == false) {
        cout <<ANSI_COLOR_RED "No tiene suscripciones a ningun videojuego, suscribase a uno para inciar una partida" ANSI_COLOR_RESET<< endl;
        sleep(4);
@@ -1960,6 +1962,8 @@ void iniciarPartidaMenu(){
             } while (opcionValida == false);
             if(respuestaConfirmar){
                 s->iniciarPartidaMultijugador(jugadoresEnPartida, enVivo, nombrevj);
+                cout << "Hola";
+                sleep(3);
             }
             else{
                 cout <<ANSI_COLOR_RED "La partida no se inició." ANSI_COLOR_RESET<< endl;
@@ -2077,12 +2081,14 @@ void finalizarPartidaMenu() {
     IDictionary* P = s->listarPartidasActivas();
     cout << ANSI_COLOR_BLUE"Listado de partidas activas: " ANSI_COLOR_RESET<< endl;
     IIterator* I = P->getIterator();
-
+    
+    int cont = 0;
+    cout << "Listado de partidas activas: " << endl;
     while (I->hasCurrent()) {
         DtPartida* info =(DtPartida*) I->getCurrent();
         cout << endl;
         cout << "ID: " << info->getId() << endl;
-        cout << "Fecha de Inicio: " << info->getFecha();
+        cout << "Fecha de Inicio: " <<  info->getFecha()->getDay() << "/" << info->getFecha()->getMonth() << "/" << info->getFecha()->getYear() << endl;
         cout << "Videojuego: " << info->getJuego()->getNombreVideojuego() << endl;
         if (info->getTipo() == "DtPartidaIndividual") {
             DtPartidaIndividual * infoIndividual = (DtPartidaIndividual *)info;
@@ -2107,14 +2113,21 @@ void finalizarPartidaMenu() {
             cout << endl;
             cout << "Listado de jugadores unidos a la partida: ";
             while (J->hasCurrent()) {
-                DtJugador* jugador =(DtJugador*) J->getCurrent(); 
-                cout << "-" << jugador->getNickname();
+                String* jugadorName =(String*) J->getCurrent(); 
+                cout << "-" << jugadorName->getValue();
                 J->next();
             }
         }
         I->next();
+        cont ++;
         }
         
+        if(cont == 0){
+            cout << endl << "No tienes partida inicada" << endl;
+            cout << "Redirigiendo al menu..";
+            sleep(3);
+            return;
+        }
         cout << endl;
         DtPartida * existe;
         bool opcionCorrecta = false;
@@ -2149,3 +2162,98 @@ void finalizarPartidaMenu() {
     }
     
 }
+
+int inputMenuTipoEstadistica(){
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "**** Seleccione el tipo de estadistica que desea consultar: ****"<<endl;
+        cout << "1 - Partida mas Larga " << endl;
+        cout << "2 - Jugador con mas contrataciones" << endl;
+        cout << "3 - Juegos mejores puntuados" << endl;
+        cout << "****************************************************************" << endl;
+        cout << " Ingrese una opcion: (entre 1-3)" << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return 1; opcionValida = true; break;
+        case 2: return 2; opcionValida = true; break;
+        case 3: return 3; opcionValida = true; break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+}
+
+
+void consultarEstadisticasMenu(){
+    try
+    {
+    int eleccion = inputMenuTipoEstadistica();
+
+    if (eleccion == 1) {
+        system("cls");
+        Partida * partidaMasLarga = s->partidaMasLarga();
+
+        if (partidaMasLarga == NULL) {
+            cout << "Uups ! al parecer no tenemos partidas para procesar la informacion !" << endl;
+            sleep(2);
+        } else {
+            cout << "La id de la partida es " << partidaMasLarga->getId() << endl;
+            cout << "La duracion es " << partidaMasLarga->getDuracion() << " Minutos" << endl;
+            cout << "La partida fue iniciada el " <<  partidaMasLarga->getFecha()->getDay() << "/" << partidaMasLarga->getFecha()->getMonth() << "/" << partidaMasLarga->getFecha()->getYear() << endl;
+            cout << "El jugador " << partidaMasLarga->getCreador()->getNickname() << " inicio esta partida" << endl;
+            sleep(4);
+        }
+    }
+    if (eleccion == 2) {
+        system("cls");
+          DtJugador * jugadorConMasContrataciones = s->jugadorConMasContrataciones();
+
+          if (jugadorConMasContrataciones == NULL) {
+            cout << "Uups ! al parecer no tenemos partidas para procesar la informacion !" << endl;
+          } else {
+            cout << "***** Jugador con mas Contrataciones: ******" << endl;
+            cout << "Nickname: " << jugadorConMasContrataciones->getNickname() << endl;
+            cout << "Descripcion: " << jugadorConMasContrataciones->getDescripcion() << endl;
+            cout << "Email: " << jugadorConMasContrataciones->getEmail() << endl;
+            cout << "Contrataciones: " << jugadorConMasContrataciones->getSizeContrataciones() << endl;
+            sleep(4);
+          }
+          
+      }
+    if (eleccion == 3) {
+       system("cls");
+
+       cout << "Ingrese un Top (1-5)" << endl;
+       int range = leerInt();
+
+       system("cls");
+       cout << "***** Los juegos mas puntuados son: *****" << endl;
+       ICollection * masPuntuados = s->juegosMejoresPuntuados(range);
+       IIterator * it = masPuntuados->getIterator();
+       while (it->hasCurrent())
+       {
+         DtVideojuego * dtVj = (DtVideojuego *)it->getCurrent();
+         cout << "------------- " << dtVj->getNombreVideojuego() << " -------------" << endl;
+         cout << "Promedio Puntuacion:" << dtVj->getPromedioPuntuaciones() << endl;
+         cout << "Cantidad Puntuaciones:" << dtVj->getPuntuaciones()->getSize() << endl;
+         cout << "-----------------------------------------------------------------" << endl;
+         it->next();
+       }
+       system("PAUSE");
+       delete it;
+       delete masPuntuados;
+    }
+    }
+    catch(const std::exception& e)
+    {
+       std::cerr << e.what() << '\n';
+       sleep(2);
+    }
+    
+    return;
+}
+
