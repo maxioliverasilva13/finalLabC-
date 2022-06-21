@@ -69,7 +69,7 @@ void PartidaMultijugador::finalizarPartida(DtFechaHora * fechaSistema)
 
 }
 DtVideojuego* PartidaMultijugador::getVideojuego() {
-  DtVideojuego* Juego = new DtVideojuego(videojuego->getNombre(), videojuego->getDescripcion(), videojuego->getPromedio_puntuacion(), videojuego->getPuntuaciones(), videojuego->getCategorias(), videojuego->getSuscripciones());
+  DtVideojuego* Juego = new DtVideojuego(videojuego->getNombre(), videojuego->getDescripcion(), videojuego->getPromedio_puntuacion(), videojuego->getPuntuaciones(), videojuego->getCategorias(), videojuego->getSuscripciones(), videojuego->getDesarrollador()->getNomEmpresa(), videojuego->getTotalHorasJugadas());
   return Juego;
 }
 

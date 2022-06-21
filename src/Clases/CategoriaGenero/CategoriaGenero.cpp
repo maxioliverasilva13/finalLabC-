@@ -28,7 +28,11 @@ EGeneroJuego CategoriaGenero::getTipo() {
 }
 
 string CategoriaGenero::darTipo() {
-    return getEGeneroJuego(this->tipo);
+    if (tipo == OTROGENERO) {
+        return this->getCustomName();
+    } else {
+        return getEGeneroJuego(this->tipo);
+    }
 }
 
 string CategoriaGenero::darNombreInstancia() {
