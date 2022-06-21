@@ -1,12 +1,11 @@
+#include "src/Clases/Sistema.cpp"
+
 #include <limits> // para validar ints en el cin
 #include <iostream> 
 #include <cstdlib> //es para el clear
 #include <stdlib.h> // tambien para el clear pero fuera de windows
 #include <string>
 #include <cstdlib>
-
-
-
 
 #ifdef _WIN32
 
@@ -115,6 +114,42 @@ string leerString(){
     return eleccion;
 }
 
+// auxiliar verInformacionVideojuego
+void recorerCategorias(IDictionary * categorias) {
+    cout << "---- Categorias del videojuego: ----" << endl; 
+    if (categorias->getSize() == 0) {
+        cout << "  Al parecer no tienes categorias por mostrar :) " << endl;
+    }
+    IIterator * itCategorias = categorias->getIterator();
+    while (itCategorias->hasCurrent())
+    {
+        Categoria * cat = (Categoria *)itCategorias->getCurrent();
+        cout << "  -" << cat->darTipo() << endl;
+        itCategorias->next();
+    }
+}
+
+// auxiliar verInformacionVideojuego
+void recorrerSuscripcionesVJ(IDictionary * suscripciones, bool isDevelop){
+    cout << "---- Suscripciones del videojuego: ----" << endl;
+    if (suscripciones->getSize() == 0) {
+        cout << "Uups ! Al parecer no tienes ninguna suscripcion para este  videojuego " << endl;
+    }
+    IIterator * itSuscripciones = suscripciones->getIterator();
+    while (itSuscripciones->hasCurrent())
+    {
+        Suscripcion * suscr = (Suscripcion *)itSuscripciones->getCurrent();
+        cout << "  -Preiodo:" << getEPeriodo(suscr->getPeriodo()) << endl; 
+        cout << "   Precio: " << suscr->getPrecio() << endl;
+        if (isDevelop) {
+            // mostrar todas las suscripciones
+        }
+        cout << "-------------" << endl;
+        itSuscripciones->next();
+    }
+    
+}
+
 void mostrarMenu(){
     system("cls");
     cout <<"******** Menu de Interaccion ********" << endl;
@@ -221,8 +256,8 @@ bool menuUsuario(){
             case 1: altaUsuarioMenu(); break;
             case 2: iniciarSesionMenu();break;
             case 3: cargarDatosDePruebaMenu(); break;
-            case 4: abandonarPartidaMJMenu();  break;
-            default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
+            case 4: cout << "Saliendo..."; sleep(2); exit(3); break; 
+            default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo." << endl; sleep(2); break; 
         }
     return false;
 }
@@ -293,26 +328,452 @@ void cargarDatosDePruebaMenu(){
         s->altaUsuario(j3);
         s->altaUsuario(j4);
 
-        s->agregarCategoria("PC", "Esta es la cat1", "PLATAFORMA");
-        s->agregarCategoria("PS4", "Esta es la cat2", "PLATAFORMA");
-        s->agregarCategoria("XBOXONE", "Esta es la cat3", "PLATAFORMA");
-        s->agregarCategoria("DEPORTE", "Esta es la cat4", "GENERO");
-        s->agregarCategoria("SUPERVIVENCIA", "Esta es la cat5", "GENERO");
-        s->agregarCategoria("ESTRATEGIA", "Esta es la cat6", "GENERO");
-        s->agregarCategoria("Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
-        s->agregarCategoria("E", "Su contenido está dirigido para todo público", "OTRO");
-        s->agregarCategoria("ACCION", "Esta es la cat9", "GENERO");
-        s->agregarCategoria("AVENTURA", "Esta es la cat10", "GENERO");
-        s->agregarCategoria("SWITCH", "Esta es la cat11", "PLATAFORMA");
-        s->agregarCategoria("XBOXX", "Esta es la cat12", "PLATAFORMA");
-        s->agregarCategoria("PS5", "Esta es la cat13", "PLATAFORMA");
-      
+        s->agregarCategoria("PC", "Esta es la cat1", "PLATAFORMA");                                         // 1
+        s->agregarCategoria("PS4", "Esta es la cat2", "PLATAFORMA");                                        // 2
+        s->agregarCategoria("XBOXONE", "Esta es la cat3", "PLATAFORMA");                                    // 3
+        s->agregarCategoria("DEPORTE", "Esta es la cat4", "GENERO");                                        // 4
+        s->agregarCategoria("SUPERVIVENCIA", "Esta es la cat5", "GENERO");                                  // 5
+        s->agregarCategoria("ESTRATEGIA", "Esta es la cat6", "GENERO");                                     // 6
+        s->agregarCategoria("Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO"); // 7
+        s->agregarCategoria("E", "Su contenido está dirigido para todo publico", "OTRO");                   // 8
+        s->agregarCategoria("ACCION", "Esta es la cat9", "GENERO");                                         // 9
+        s->agregarCategoria("AVENTURA", "Esta es la cat10", "GENERO");                                      // 10
+        s->agregarCategoria("SWITCH", "Esta es la cat11", "PLATAFORMA");                                    // 11
+        s->agregarCategoria("XBOXX", "Esta es la cat12", "PLATAFORMA");                                     // 12
+        s->agregarCategoria("PS5", "Esta es la cat13", "PLATAFORMA");                                       // 13
+
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//  VIDEOJUEGO 1
+        s->iniciarSesion("ironhide@mail.com", "123");
+        ICollection * categorias1 = new List();
+        ICollection * costos_suscripcion = new List();
+        
+        DtCategoria * cat1 = new DtCategoria(1, "PC", "Esta es la cat1", "PLATAFORMA");
+        DtCategoria * cat2 = new DtCategoria(2, "PS4", "Esta es la cat2", "PLATAFORMA");
+        DtCategoria * cat3 = new DtCategoria(6, "ESTRATEGIA", "Esta es la cat6", "GENERO");
+        DtCategoria * cat4 = new DtCategoria(8, "E", "Su contenido está dirigido para todo publico", "OTRO");
+        categorias1->add(cat1);
+        categorias1->add(cat2);
+        categorias1->add(cat3);
+        categorias1->add(cat4);
+
+        DtCostoSuscripcion * costo1 = new DtCostoSuscripcion(VITALICIA, 14);
+        DtCostoSuscripcion * costo2 = new DtCostoSuscripcion(ANUAL, 7);
+        DtCostoSuscripcion * costo3 = new DtCostoSuscripcion(MENSUAL, 1);
+        DtCostoSuscripcion * costo4 = new DtCostoSuscripcion(TRIMESTRAL, 2);
+        costos_suscripcion->add(costo1);
+        costos_suscripcion->add(costo2);
+        costos_suscripcion->add(costo3);
+        costos_suscripcion->add(costo4);
+
+        s->agregarVideojuego("KingdomRush", "Juego 1", costos_suscripcion, categorias1);
+
+        s->cerrarSesion();
+        usuarioActual = "";
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//  VIDEOJUEGO 2
+        s->iniciarSesion("epic@mail.com", "123");
+        ICollection * categorias2 = new List();
+        ICollection * costos_suscripcion2 = new List();
+        
+        DtCategoria * cat5 = new DtCategoria(1, "PC", "Esta es la cat1", "PLATAFORMA");
+        DtCategoria * cat6 = new DtCategoria(2, "PS4", "Esta es la cat2", "PLATAFORMA");
+        DtCategoria * cat7 = new DtCategoria(3, "XBOXONE", "Esta es la cat3", "PLATAFORMA");
+        DtCategoria * cat8 = new DtCategoria(5, "SUPERVIVENCIA", "Esta es la cat5", "GENERO");
+        DtCategoria * cat9 = new DtCategoria(7, "Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
+        categorias2->add(cat5);
+        categorias2->add(cat6);
+        categorias2->add(cat7);
+        categorias2->add(cat8);
+        categorias2->add(cat9);
+
+        DtCostoSuscripcion * costo5 = new DtCostoSuscripcion(VITALICIA, 60); //5
+        DtCostoSuscripcion * costo6 = new DtCostoSuscripcion(ANUAL, 30); //6
+        DtCostoSuscripcion * costo7 = new DtCostoSuscripcion(MENSUAL, 3); //7
+        DtCostoSuscripcion * costo8 = new DtCostoSuscripcion(TRIMESTRAL, 8); //8
+        costos_suscripcion2->add(costo5);
+        costos_suscripcion2->add(costo6);
+        costos_suscripcion2->add(costo7);
+        costos_suscripcion2->add(costo8);
+
+        s->agregarVideojuego("Fortnite", "Juego 2", costos_suscripcion2, categorias2);
+
+        s->cerrarSesion();
+        usuarioActual = "";
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//  VIDEOJUEGO 3
+        s->iniciarSesion("mojang@mail.com", "123");
+        ICollection * categorias3 = new List();
+        ICollection * costos_suscripcion3 = new List();
+        
+        DtCategoria * cat10 = new DtCategoria(1, "PC", "Esta es la cat1", "PLATAFORMA");
+        DtCategoria * cat11 = new DtCategoria(5, "SUPERVIVENCIA", "Esta es la cat5", "GENERO");
+        DtCategoria * cat12 = new DtCategoria(8, "E", "Su contenido está dirigido para todo publico", "OTRO");
+        categorias3->add(cat10);
+        categorias3->add(cat11);
+        categorias3->add(cat12);
+
+        DtCostoSuscripcion * costo9 = new DtCostoSuscripcion(VITALICIA, 40); //9
+        DtCostoSuscripcion * costo10 = new DtCostoSuscripcion(ANUAL, 28); //10 
+        DtCostoSuscripcion * costo11 = new DtCostoSuscripcion(MENSUAL, 2); //11
+        DtCostoSuscripcion * costo12 = new DtCostoSuscripcion(TRIMESTRAL, 5); //12
+        costos_suscripcion3->add(costo9);
+        costos_suscripcion3->add(costo10);
+        costos_suscripcion3->add(costo11);
+        costos_suscripcion3->add(costo12);
+
+        s->agregarVideojuego("Minecraft", "Juego 3", costos_suscripcion3, categorias3);
+
+        s->cerrarSesion();
+        usuarioActual = "";
+        
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//  VIDEOJUEGO 4
+        s->iniciarSesion("ea@mail.com", "123");
+        ICollection * categorias4 = new List();
+        ICollection * costos_suscripcion4 = new List();
+        
+        DtCategoria * cat13 = new DtCategoria(1, "PC", "Esta es la cat1", "PLATAFORMA");
+        DtCategoria * cat14 = new DtCategoria(2, "PS4", "Esta es la cat2", "PLATAFORMA");
+        DtCategoria * cat15 = new DtCategoria(3, "XBOXONE", "Esta es la cat3", "PLATAFORMA");
+        DtCategoria * cat16 = new DtCategoria(5, "SUPERVIVENCIA", "Esta es la cat5", "GENERO");
+        DtCategoria * cat17 = new DtCategoria(7, "Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
+        categorias4->add(cat13);
+        categorias4->add(cat14);
+        categorias4->add(cat15);
+        categorias4->add(cat16);
+        categorias4->add(cat17);
+
+        DtCostoSuscripcion * costo13 = new DtCostoSuscripcion(VITALICIA, 300); //13
+        DtCostoSuscripcion * costo14 = new DtCostoSuscripcion(ANUAL, 200); //14
+        DtCostoSuscripcion * costo15 = new DtCostoSuscripcion(MENSUAL, 100); //15
+        DtCostoSuscripcion * costo16 = new DtCostoSuscripcion(TRIMESTRAL, 150); //16
+        costos_suscripcion4->add(costo13);
+        costos_suscripcion4->add(costo14);
+        costos_suscripcion4->add(costo15);
+        costos_suscripcion4->add(costo16);
+
+        s->agregarVideojuego("FIFA 22", "Juego 4", costos_suscripcion4, categorias4);
+        
+        s->cerrarSesion();
+        usuarioActual = "";
+
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+    // ------------ Suscripcion 1 y 2 (Jugador 1) ------------
+//inicio sesión jugador 1
+        s->iniciarSesion("gamer@mail.com", "123");
+
+
+        // 01/06/22 - 9am
+        int dia = 1;
+        int mes = 6;
+        int anio = 2022;
+        int hora = 9;
+        int minuto = 0;
+
+        DtFechaHora * fechamodificada = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada);
+        delete fechamodificada;
+        s->confirmarSuscripcion("KingdomRush", 4, PAYPAL);       // TRIMESTRAL
+
+        // 02/06/22 - 11am
+        dia = 2;
+        mes = 6;
+        anio = 2022;
+        hora = 11;
+        minuto = 0;
+        DtFechaHora * fechamodificada2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada2);
+        delete fechamodificada2;
+        s->confirmarSuscripcion("Fortnite", 8, TARJETA);         // TRIMESTRAL
+
+        // ---PUNTUACIONES J1---
+        s->asignarPuntajeVideojuego(4, "KingdomRush");
+        s->asignarPuntajeVideojuego(5, "Fortnite");
+        // ---------------------
+
+
+    // -------Partidas individuales J1-------
+        // Partida 1
+
+            // 02/06/22 - 9am INICIO
+            dia = 2;
+            mes = 6;
+            anio = 2022;
+            hora = 10;
+            minuto = 0;
+            DtFechaHora * fechainicio = new DtFechaHora(dia, mes, anio, hora, minuto);
+            s->modificarFechaSistema(fechainicio);
+            s->iniciarPartidaIndividual(true, "KingdomRush");
+            delete fechainicio;
+
+            // 02/06/22 - 10am FIN
+            dia = 2;
+            mes = 6;
+            anio = 2022;
+            hora = 10;
+            minuto = 0;
+            DtFechaHora * fechafin = new DtFechaHora(dia, mes, anio, hora, minuto);
+            s->modificarFechaSistema(fechafin);
+            s->finalizarPartida(1);
+            delete fechafin;
+
+        // ----------------------
+        // Partida 2
+
+            // 03/06/22 - 3pm INICIO
+            dia = 3;
+            mes = 6;
+            anio = 2022;
+            hora = 15;
+            minuto = 0;
+            DtFechaHora * fechainicio2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+            s->modificarFechaSistema(fechainicio2);
+            s->continuarPartida(1);
+            delete fechainicio;
+
+            // 03/06/22 - 4pm FIN
+            dia = 3;
+            mes = 6;
+            anio = 2022;
+            hora = 16;
+            minuto = 0;
+            DtFechaHora * fechafin2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+            s->modificarFechaSistema(fechafin2);
+            s->finalizarPartida(1);
+            delete fechafin;
+        // ----------------------
+    // ----------------------------------
+
+
+    // -------Partidas multijugador J1-------
+        // PartidaMJ 1
+        ICollection * jugadores = new List();
+        string nickJ2 = j2->getNickname();
+        char * charNameJ2 = const_cast<char *>(nickJ2.c_str());
+        String * nomJ2 = new String(charNameJ2);
+
+        string nickJ3 = j3->getNickname();
+        char *charNameVj = const_cast<char *>(nickJ3.c_str());
+        String * nomJ3 = new String(charNameVj);
+        jugadores->add(nomJ2);
+        jugadores->add(nomJ3);
+
+        // 05/06/22 - 5pm INICIO
+        dia = 5;
+        mes = 6;
+        anio = 2022;
+        hora = 17;
+        minuto = 0;
+        DtFechaHora * fechainicioMJ1 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechainicioMJ1);
+        s->iniciarPartidaMultijugador(jugadores, true, "Fortnite");
+        delete fechainicioMJ1;
+
+        // 05/06/22 - 7pm FIN
+        dia = 5;
+        mes = 6;
+        anio = 2022;
+        hora = 19;
+        minuto = 0;
+        DtFechaHora * fechafinMJ1 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechafinMJ1);
+        s->finalizarPartida(2);
+        delete fechafinMJ1;
+
+        // PartidaMJ 2
+
+        // 06/06/22 - 5pm INICIO
+        dia = 6;
+        mes = 6;
+        anio = 2022;
+        hora = 17;
+        minuto = 0;
+        DtFechaHora * fechainicioMJ2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechainicioMJ2);
+        s->iniciarPartidaMultijugador(jugadores, true, "Fortnite");
+        delete fechainicioMJ2;
+
+        // 06/06/22 - 7pm FIN
+        dia = 6;
+        mes = 6;
+        anio = 2022;
+        hora = 19;
+        minuto = 0;
+        DtFechaHora * fechafinMJ2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechafinMJ2);
+        s->finalizarPartida(2);
+        delete fechafinMJ2;
+        delete jugadores;
+    // --------------------------------------
+
+    s->cerrarSesion();
+    usuarioActual = "";
+// cierre de sesión Jugador 1
+
+        // setteo de nuevo la fecha del sistema a la actual para volverlo a la normalidad.
+        time_t t = time(0);
+        tm *now = localtime(&t);
+        dia = now->tm_mday;
+        mes = 1 + now->tm_mon;
+        anio = 1900 + now->tm_year;
+        hora = now->tm_hour;
+        minuto = now->tm_min;
+        DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
+        
+        s->modificarFechaSistema(ahora);
+
+    // -----------------------------------------------------------
+
+
+    // ------------ Suscripcion 3 y 4 (Jugador 2) ------------
+        s->iniciarSesion("ari@mail.com", "123");
+
+
+        // 04/06/22 - 9am
+        dia = 4;
+        mes = 6;
+        anio = 2022;
+        hora = 9;
+        minuto = 0;
+        DtFechaHora * fechamodificada3 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada3);
+        delete fechamodificada3;
+        s->confirmarSuscripcion("Fortnite", 7, PAYPAL);          // MENSUAL
+
+
+        // 11/06/22 - 9am
+        dia = 11;
+        mes = 6;
+        anio = 2022;
+        hora = 9;
+        minuto = 0;
+        DtFechaHora * fechamodificada4 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada4);
+        delete fechamodificada4;
+        s->confirmarSuscripcion("Minecraft", 10, TARJETA);        // ANUAL
+
+        // ---PUNTUACIONES J2---
+        s->asignarPuntajeVideojuego(5, "Fortnite");
+        s->asignarPuntajeVideojuego(3, "Minecraft");
+        // ---------------------
+
+    // -------Partidas individuales J2-------
+        // Partida 1 (La unica que tiene)
+
+        // 12/06/22 - 4pm INICIO, NO TIENE FIN
+        dia = 12;
+        mes = 6;
+        anio = 2022;
+        hora = 16;
+        minuto = 0;
+        DtFechaHora * fechainicio3 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechainicio3);
+        s->iniciarPartidaIndividual(true, "Minecraft");
+        delete fechainicio3;
+    // --------------------------------------
+
+    // -------Partidas multijugador J2-------
+        // PartidaMJ 3
+        ICollection * jugadores2 = new List();
+
+        jugadores2->add(nomJ3);
+
+        // 05/06/22 - 5pm INICIO
+        dia = 5;
+        mes = 6;
+        anio = 2022;
+        hora = 17;
+        minuto = 0;
+        DtFechaHora * fechainicioMJ3 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechainicioMJ2);
+        s->iniciarPartidaMultijugador(jugadores2, false, "Minecraft");
+        delete fechainicioMJ2;
+        delete jugadores2;
+
+    // --------------------------------------
+
+
+    // -------Abandonar Partida multijugador Jugador 2-------
+
+        // 05/06/22 - 6pm ABANDONA A ESA HORA
+        dia = 5;
+        mes = 6;
+        anio = 2022;
+        hora = 18;
+        minuto = 0;
+        DtFechaHora * fechaAbandonar1 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechaAbandonar1);
+        s->abandonarPartida(4);
+        delete fechaAbandonar1;
+
+        // 06/06/22 - 5:30pm ABANDONA A ESA HORA
+        dia = 6;
+        mes = 6;
+        anio = 2022;
+        hora = 17;
+        minuto = 30;
+        DtFechaHora * fechaAbandonar2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechaAbandonar2);
+        s->abandonarPartida(5);
+        delete fechaAbandonar2;
+
+    // ------------------------------------------------------
+
+        // cierre de sesión Jugador 2
+        s->cerrarSesion();
+        usuarioActual = "";
+
+        // setteo de nuevo la fecha del sistema a la actual para volverlo a la normalidad.
+        s->modificarFechaSistema(ahora);
+    // -----------------------------------------------------------
+
+
+    // ------------ Suscripcion 5 y 6 (Jugador 3) ------------
+        s->iniciarSesion("ibai@mail.com", "123");
+
+        // 03/06/22 - 7am
+        dia = 3;
+        mes = 6;
+        anio = 2022;
+        hora = 7;
+        minuto = 0;
+        DtFechaHora * fechamodificada5 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada5);
+        delete fechamodificada5;
+        s->confirmarSuscripcion("Fortnite", 7, TARJETA);         // MENSUAL
+
+
+        // 22/12/20 - 3pm
+        dia = 22;
+        mes = 12;
+        anio = 2020;
+        hora = 15;
+        minuto = 0;
+        DtFechaHora * fechamodificada6 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada6);
+        delete fechamodificada6;
+        s->confirmarSuscripcion("Minecraft", 9, TARJETA);        // VITALICIA
+        
+        // cierre de sesión Jugador 3
+        s->cerrarSesion();
+        usuarioActual = "";
+
+        // setteo de nuevo la fecha del sistema a la actual para volverlo a la normalidad.
+        s->modificarFechaSistema(ahora);
+    // -----------------------------------------------------------
+
         cout << "Datos de prueba cargados." << endl;
         sleep(1);
     }
     catch(const std::exception& e)
     {
-        cout << "ERROR: Ya se habian cargado los datos de prueba." << endl;
+        std::cerr << e.what() << '\n';
+        //cout << "ERROR: Ya se han cargado los datos de prueba." << endl;
         sleep(3);
     }   
 }
@@ -428,7 +889,7 @@ int menuJugadorOdesarrollador(){
         {
         case 1: return 1; opcionValida = true; break;
         case 2: return 2; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo." << endl; sleep(2); break;
         }
     } while (opcionValida == false);
     return -1111;
@@ -485,7 +946,7 @@ int inputTipoCategoria(){
         case 1: return 1; opcionValida = true; break;
         case 2: return 2; opcionValida = true; break;
         case 3: return 3; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo." << endl; sleep(2); break;
         }
     } while (opcionValida == false);
     return -1111;
@@ -576,19 +1037,14 @@ void agregarCategoriaMenu(){
 
     int tipoCategoria = inputTipoCategoria();
 
+    system("cls");
+    cout << "Ingrese el NOMBRE para la CATEGORIA a agregar: "<< endl;
+    nombre = leerString();
     if (tipoCategoria == 1){
-        system("cls");
-        nombre = inputTipoPlataforma();
         tipo = "PLATAFORMA";   
-        // luego le pido el nombre y descripcion
     }else if (tipoCategoria == 2){
-        system("cls");
-        nombre = inputTipoGenero();
         tipo = "GENERO";
     }else if (tipoCategoria == 3){
-        system("cls");
-        cout << "Ingrese el NOMBRE para la CATEGORIA a agregar: "<< endl;
-        nombre = leerString();
         tipo = "OTRO";
     }
 
@@ -598,6 +1054,8 @@ void agregarCategoriaMenu(){
     system("cls");
 
     s->agregarCategoria(nombre, descripcion, tipo);
+    cout << "Categoria registrada correctamente !";
+    sleep(2);
     //s->agregarCategoria(); recibe un icollectible
 }
 
@@ -654,17 +1112,15 @@ void modificarFechaSistemaMenu(){
 // auxiliar publicarVideojuego
 void recorrerCategoriasID(ICollection * colecc ) 
 {
-    system("cls");
+    //system("cls");
     IIterator *it = colecc->getIterator();
-    int contador_categorias = 1;
     while (it->hasCurrent()){
         DtCategoria *cat = (DtCategoria *)it->getCurrent();
-        cout << "Categoria " << contador_categorias << ": " << endl;
         cout << "ID: " << cat->getId() << ": " << endl;
         cout << "Nombre: "<< cat->getNombre() << endl;
         cout << "Descripcion: " << cat->getDescripcion() << endl;
+        cout << "Tipo: " << cat->getTipo() << endl;
         cout << "-----------------------------------------" << endl;
-        contador_categorias++;
         it->next();
     }
     delete it;
@@ -722,11 +1178,12 @@ void publicarVideojuegoMenu(){
         ICollection * categorias_videojuego = new List();
         bool termino = false;
         do{
-            cout << "---- Seleccione una Categoria: ----" << endl;
+            system("cls");
             // PERO TIENE QUE SER UN DICCIONARIO PARA PODER FILTRARLO
             ICollection * cats = s->listarCategorias(); // me traigo una copia (LISTA DE DTS) de las categorias registradas
             recorrerCategoriasID(cats); // muestro todas las categorias registradas
-           
+            cout << "---- Seleccione una Categoria: ----" << endl;
+
             int eleccionIDCategoria;
             int correct_choice = false;
             ICollectible * catAgregar;
@@ -753,7 +1210,39 @@ void publicarVideojuegoMenu(){
       
             
             categorias_videojuego->add(catAgregar);
-            termino = menuDeseaContinuarAgregando();
+
+            bool isFinish = !menuDeseaContinuarAgregando();
+            if (isFinish == true) {
+                IIterator * itCategoriasAgregadas = categorias_videojuego->getIterator();
+                bool hasCategoriaGenero = false;
+                bool hasCategoriaPlataforma = false;
+
+                while (itCategoriasAgregadas->hasCurrent())
+                {
+                    DtCategoria * categ = (DtCategoria *)itCategoriasAgregadas->getCurrent();
+                    if (categ->getTipo() == "GENERO") {
+                        hasCategoriaGenero = true;
+                    }
+                    if (categ->getTipo() == "PLATAFORMA") {
+                        hasCategoriaPlataforma = true;
+                    }
+                    if (hasCategoriaPlataforma && hasCategoriaGenero) {
+                        break;
+                    }
+                    itCategoriasAgregadas->next();
+                }
+                delete itCategoriasAgregadas;
+
+                if (! hasCategoriaGenero || !hasCategoriaPlataforma) {
+                    system("cls");
+                    cout << "El videojuego tiene que tener al menos una categoria de GENERO y una de PLATAFORMA" << endl;
+                    sleep(2);
+                }else {
+                    termino = true;
+                }
+
+            }
+
         }while (!termino);
 
         ICollection * costos_suscr = new List();
@@ -797,23 +1286,30 @@ void eliminarVideojuegoMenu(){
 
 // TODO
 void verInfoVideojuegoMenu(){
-    cin.clear();
+    system("cls");
+    IDictionary * vj = s->listarVJ();
+    recorrerVideojuegosMenu(vj);
     cout << "Ingresa el nombre de un videojuego: \n";
     string nameVj = leerString();
     char salir = 'n';
     DtVideojuego * res = NULL;
-    
     do{
-        res = s->verInfoVideojuego(nameVj);
         if(res == NULL){
             cout << "El juego: " << nameVj << " no existe" << endl;
             cout << "Deseas salir? y/n";
             salir = leerChar();
         }
-    }while (res == NULL && (salir == 'n' || salir == 'N'));
+    }while (res == NULL && (salir == 'n' || salir == 'N')); 
     if(salir == 'y'){
         return;
-    }
+    }*/
+        res = s->verInfoVideojuego(nameVj);
+    system("cls");
+    cout << "------------------- INFORMACION DE VIDEOJUEGO  ------------------------" << endl;
+    cout << "Nombre: " << res->getNombreVideojuego() << endl;
+    cout << "Descripcion: " <<  res->getDescripcionVideojuego() << endl;
+    cout << "Empresa del desarrollador : " <<  res->getEmpresaDesarrollador() << endl;
+    cout << "Suma total de horas jugadas en este juego: " << s->calcularSumaTotalHorasAJuego(res->getNombreVideojuego()) << endl;
 
     cout << "-------------------------------------------";
     cout << "Nombre: " << res->getNombreVideojuego();
@@ -1014,6 +1510,9 @@ void recorrerSuscripcionesVJ(DtVideojuego * vj){
 
 // pseudocodigo, fixear
 void verInformacionVideojuegoMenu(){
+
+    try
+    {
     cout << "---- Videojuegos ya registrados: ----" << endl;
     IDictionary * vj = s->listarVJ();
     recorrerVideojuegosMenu(vj);
@@ -1028,8 +1527,15 @@ void verInformacionVideojuegoMenu(){
     system("cls"); 
     cout << "---- Informacion del VIDEOJUEGO: ----" << endl;
     cout << "Nombre: " << res->getNombreVideojuego() << endl;
-    cout << "Nombre: " << res->getDescripcionVideojuego() << endl;
-    cout << "Nombre: " << res->getPromedioPuntuaciones() << endl;
+    cout << "Descripcion: " << res->getDescripcionVideojuego() << endl;
+    cout << "Promedio Puntuacion: " << res->getPromedioPuntuaciones() << endl;
+    cout << "Cantidad Puntuaciones: " << res->getPuntuaciones()->getSize() << endl;
+    cout << "Empresa del desarrollador : " <<  res->getEmpresaDesarrollador() << endl;
+
+    recorerCategorias(res->getCategorias());
+    recorrerSuscripcionesVJ(res->getSuscripciones(), false);
+    
+    system("PAUSE");
     //cout << "Nombre: " << recorrerSuscripcionesVJ(res) << endl;
     //cout << "Nombre: " << recorrerCategoriasVJ(res) << endl;
 }
@@ -1037,23 +1543,409 @@ void verInformacionVideojuegoMenu(){
 void asignarPuntajeVJMenu(){
     try
     {
-        cout << "---- Videojuegos ya registrados: ----" << endl;
-        IDictionary * vj = s->listarVJ();
-        recorrerVideojuegosMenu(vj);
+        int puntaje;
+        string nombrevj;
+        do {
+            cout << "---- Videojuegos ya registrados: ----" << endl;
+            IDictionary * vj = s->listarVJ();
+            recorrerVideojuegosMenu(vj);
 
-        cout << "Ingrese el NOMBRE del VIDEOJUEGO de la lista: "<< endl;
-        string nombrevj = leerString();
-
-        cout << "Ingrese el PUNTAJE que desea asignar: "<< endl;
-        int puntaje = leerInt();
-
+            cout << "Ingrese el NOMBRE del VIDEOJUEGO de la lista: "<< endl;
+            nombrevj = leerString();
+    
+            cout << "Ingrese el PUNTAJE que desea asignar: "<< endl;
+            puntaje = leerInt();   
+            
+            if (puntaje > 5 or puntaje < 1) {
+                system("cls");
+                cout << "Por favor, ingrese un valor entre 1 y 5";
+                sleep(3);
+            }
+        } while (puntaje > 5 or puntaje < 1); 
         s->asignarPuntajeVideojuego(puntaje, nombrevj);
-        cout << "holi";
+        system("cls");
+        cout << "Puntaje asignado.";
+        sleep(3);
     }  
     catch(const std::exception& e)
     {
         std::cerr << e.what() << '\n';
         sleep(2);
+    }
+}
+
+void recorrerVideojuegosActivosMenu(ICollection * colecc) 
+{
+    system("cls");
+    IIterator *it = colecc->getIterator();
+    int contador_categorias = 1;
+    while (it->hasCurrent()){
+        DtCategoria *cat = (DtCategoria *)it->getCurrent();
+        cout << "Categoria " << contador_categorias << ": " << endl;
+        cout << "Nombre: "<< cat->getNombre() << endl;
+        cout << "Descripcion: " << cat->getDescripcion() << endl;
+        cout << "Tipo: " << cat->getTipo() << endl;
+        cout << "-----------------------------------------" << endl;
+        contador_categorias++;
+        it->next();
+    }
+    delete it;
+}
+
+// auxiliar iniciarPartida
+bool menuIndividualOmultijugador()
+{
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "Seleccione el tipo de partida deseado: "<<endl;
+        cout << "1 - Individual." << endl;
+        cout << "2 - Multijugador." << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return true; opcionValida = true; break;
+        case 2: return false; opcionValida = true; break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+    return false;
+}
+
+// auxiliar iniciarPartida
+bool menuMultijugadorTransmitidaOno()
+{
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "Desea transmitir su partida en vivo?"<<endl;
+        cout << "1 - Si." << endl;
+        cout << "2 - No." << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return true; opcionValida = true; break;
+        case 2: return false; opcionValida = true;break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+    return false;
+}
+
+// auxiliar obtenerJugadoresIniciarPartida
+void recorrerJugadoresMenu(ICollection * colecc ) 
+{
+    system("cls");
+    IIterator *it = colecc->getIterator();
+    while (it->hasCurrent())
+    {
+        String *nick = (String *)it->getCurrent();
+        cout << "Nickname: "<< nick->getValue() << endl;
+        cout << "-----------------------------------------" << endl;
+        it->next();
+    }
+    delete it;
+}
+
+// auxiliar obtenerJugadoresIniciarPartida
+bool menuMostrarSeguirAgregandoJugador()
+{
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "Desea seguir agregando jugadores a esta partida ?"<<endl;
+        cout << "1 - Si." << endl;
+        cout << "2 - No." << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return true; opcionValida = true; break;
+        case 2: return false; opcionValida = true;break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+    return false;
+}
+
+// auxiliar obtenerJugadoresIniciarPartida
+bool recorrerJugadoresEnPartidaMenu(ICollection * colecc, String * nick ) 
+{
+    system("cls");
+    IIterator *it = colecc->getIterator();
+    while (it->hasCurrent())
+    {
+        String *nick = (String *)it->getCurrent();
+        if(nick->getValue());
+        it->next();
+    }
+    delete it;
+}
+
+
+
+
+
+// auxiliar iniciarPartida
+ICollection * obtenerJugadoresIniciarPartida(string nomVJ)
+{
+    system("cls");
+    cout << "---- Jugadores registrados, con suscripcion en ese juego: ----" << endl;
+    ICollection * jugadoresSuscritos = s->listarJugadoresConSuscripcionAJuego(nomVJ);
+    recorrerJugadoresMenu(jugadoresSuscritos);
+
+    ICollection * jugadores = new List();
+
+    bool opcion = true;
+    while (opcion != false)
+    {
+        system("cls");
+        cout << "Ingrese el nickname del jugador que desea agregar a esta partida: " << endl;
+        string nick = leerString();
+        ICollectible * jug = NULL;
+        jug = s->findUserByNickname(nick); // revisar
+        if(jug != NULL){
+            char *charNickk = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
+            String * nickString = new String(charNickk);
+            jugadores->add(nickString);
+        }
+        else
+        {
+            cout << "El jugador no existe." << endl;
+            sleep(2);
+        }
+        //Valido si jugador ya existe en la lista que estoy creando
+        //parseo el nick a char
+        char *charNick = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
+        String * nickString = new String(charNick);
+        bool jugadorYaExiste = recorrerJugadoresEnPartidaMenu(jugadores, nickString);
+        if(jugadorYaExiste){
+            cout << "Este jugador ya es parte de esta partida." << endl;
+            sleep(2);
+        }
+        else
+        {
+            system("cls");
+            cout << "EXITO: El jugador fue agregado a la partida." << endl;
+            sleep(2);
+        }
+        opcion = menuMostrarSeguirAgregandoJugador();
+    }
+    return jugadores;
+}
+
+
+void recorrerPartidasFinalizadas(ICollection * colecc ) 
+{
+    system("cls");
+    IIterator *it = colecc->getIterator();
+    while (it->hasCurrent()){
+        DtPartida *part = (DtPartida *)it->getCurrent();
+        cout << "                    ID: "<< part->getId() << endl;
+        cout << "Fecha/Hora realizacion: "<< part->getFecha() << endl;
+        cout << "              Duracion: "<< part->getDuracion() << endl;
+        cout << "-----------------------------------------" << endl;
+        it->next();
+    }
+    delete it;
+}
+
+// auxiliar iniciarPartida
+bool menuIndividualNuevaoContinuar()
+{
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "Seleccione el tipo de partida deseado: "<<endl;
+        cout << "1 - Partida Nueva." << endl;
+        cout << "2 - Continuar Partida." << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return false; opcionValida = true; break;
+        case 2: return true; opcionValida = true; break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+}
+
+void iniciarPartidaMenu(){
+    IIterator* sus = s->listarVideoJuegosActivos()->getIterator();
+    if(sus->hasCurrent() == false) {
+       cout << "No tiene suscripciones a ningun videojuego, suscribase a uno para inciar una partida" << endl;
+       sleep(4);
+    }
+    else {
+        
+        cout << "---- Videojuegos a los que estas suscrito: ----" << endl;
+        ICollection * vja = s->listarVideoJuegosActivos();
+        //recorrerVideojuegosActivosMenu(vja);
+
+        IIterator *it = vja->getIterator();
+        while (it->hasCurrent()){
+            String *cat = (String *)it->getCurrent();
+            cout << "Nombre: "<< cat->getValue() << endl;
+            cout << "-----------------------------------------" << endl;
+            it->next();
+        }
+        delete it;
+
+        cout << "Ingrese un NOMBRE del VIDEOJUEGO de la lista: "<< endl;
+        string nombrevj = leerString();
+        char *charNameVj = const_cast<char *>(nombrevj.c_str()); // paso de string a char (para poder implementar la key)
+        String *vjKey = new String(charNameVj);
+        //String * res = (String *)vja->find(vjKey);
+        system("cls");
+
+        bool individualOmultij = menuIndividualOmultijugador();
+        if(individualOmultij){
+            // pregunto si será o no una continuación de una anterior
+            // SI LO ES, listamos en orden cronologico las partidas individuales ya finalizadas (ID, fechahora, duracion).
+            // selecciona de la lista con el ID
+            // confirmar o cancelar el inicio de partida.
+            bool continuar = menuIndividualNuevaoContinuar();
+            if (!continuar){ 
+                // eligió crear nueva
+                
+                bool respuestaConfirmar;
+                bool opcionValida = false;
+                do{
+                    system("cls");
+                    cout << "Confirmar la creacion de la partida individual?" << endl;
+                    cout << "1 - Si" << endl;
+                    cout << "2 - No" << endl;
+
+                    int eleccion;
+                    eleccion = leerInt();
+
+                    switch (eleccion)
+                    {
+                    case 1: respuestaConfirmar = true;opcionValida = true; break;
+                    case 2: respuestaConfirmar = false; opcionValida = true;break;
+                    default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                    }
+                } while (opcionValida == false);
+
+                if(respuestaConfirmar){
+                    s->iniciarPartidaIndividual(true, nombrevj);
+                    cout << "EXITO: Creando partida..." << endl;
+                    sleep(2);
+                }
+                else{
+                    cout << "La partida no se creo." << endl;
+                    sleep(2);
+                }
+
+            }else{ // eligió continuar
+
+                bool correct_choice = false;
+                int id;
+                DtPartidaIndividual * res = NULL;
+                do{
+                    system("cls");
+                    cout << "---- Partidas Finalizadas ---- "<< endl;
+                    ICollection * parFinalizadas = s->listarHistorialPartidasFinalizadas(nombrevj);
+                    recorrerPartidasFinalizadas(parFinalizadas);
+
+                    cout << "Ingrese el ID de la partida que desea continuar: "<< endl;
+                    id = leerInt();
+                    cout << endl;
+                    IIterator * it = parFinalizadas->getIterator();
+                    while (it->hasCurrent())
+                    {
+                        DtPartidaIndividual * current = (DtPartidaIndividual *)it->getCurrent();
+                        if(current->getId() == id){
+                            correct_choice = true;
+                            break;
+                        }
+                        it->next();
+                    }
+                    if(!correct_choice){
+                        cout << "ERROR: No existe una partida con ese ID. " << endl;
+                        sleep(2);
+                        bool deseaContinuar = menuDeseaContinuarOcancelar(); // llega acá si ingresó un ID incorrecto
+                        if(!deseaContinuar){
+                            return;
+                        }
+                    }
+                }while (!correct_choice);
+                
+                bool respuestaConfirmar;
+                bool opcionValida = false;
+                do{
+                    system("cls");
+                    cout << "Confirmar la continuacion de la partida?" << endl;
+                    cout << "1 - Si" << endl;
+                    cout << "2 - No" << endl;
+
+                    int eleccion;
+                    eleccion = leerInt();
+
+                    switch (eleccion)
+                    {
+                    case 1: respuestaConfirmar = true;opcionValida = true; break;
+                    case 2: respuestaConfirmar = false; opcionValida = true;break;
+                    default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                    }
+                } while (opcionValida == false);
+                if(respuestaConfirmar){
+                    s->continuarPartida(id);
+                    cout << "EXITO: Continuando partida..." << endl;
+                    sleep(2);
+                }
+                else{
+                    cout << "La partida no se inicio." << endl;
+                    sleep(2);
+                }
+            }
+        }else{ // eligió multijugador
+            // transmitida o no
+            // listamos los jugadores CON SUSCRIPCION ACTIVA que estan en el sistema
+            // elige nickname de la lista para agregar a la partida y se le pregunta si desea seguir agregando
+            // confirmar o cancelar el inicio de partida.
+            system("cls");
+            bool enVivo;
+            enVivo = menuMultijugadorTransmitidaOno(); // preguntamos si quiere transmitirla en vivo o no.
+
+            ICollection * jugadoresEnPartida = obtenerJugadoresIniciarPartida(nombrevj);
+
+            bool respuestaConfirmar;
+            bool opcionValida = false;
+            do{
+                system("cls");
+                cout << "Confirmar el inicio de partida?" << endl;
+                cout << "1 - Si" << endl;
+                cout << "2 - No" << endl;
+
+                int eleccion;
+                eleccion = leerInt();
+
+                switch (eleccion)
+                {
+                case 1: respuestaConfirmar = true;opcionValida = true; break;
+                case 2: respuestaConfirmar = false; opcionValida = true;break;
+                default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                }
+            } while (opcionValida == false);
+            if(respuestaConfirmar){
+                s->iniciarPartidaMultijugador(jugadoresEnPartida, enVivo, nombrevj);
+            }
+            else{
+                cout << "La partida no se inició." << endl;
+                sleep(2);
+            }
+        }
     }
 }
 

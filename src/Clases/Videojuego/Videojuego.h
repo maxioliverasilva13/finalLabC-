@@ -40,6 +40,7 @@ public:
     DtVideojuego * getDtVideojuego();
     void setDesarrollador(Desarrollador *);
     Desarrollador * getDesarrollador();
+    float getTotalHorasJugadas(); 
 };
 
 #endif
