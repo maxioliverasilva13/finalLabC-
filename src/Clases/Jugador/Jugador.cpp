@@ -191,7 +191,6 @@ void Jugador::suscribirseAVideojuego( Suscripcion * sus, ETipoPago tipoPago,DtFe
      IKey * keyId = new Integer(newContratacion->getId());
      ICollectible * newItem = (ICollectible*)newContratacion;
 
-     sus->agregarContratacion(newContratacion);
      this->contrataciones->add(keyId,newItem);
 }
 

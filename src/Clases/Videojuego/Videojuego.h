@@ -34,7 +34,7 @@ public:
     ICollection *getPuntuaciones();
     IDictionary *getCategorias();
     IDictionary *getSuscripciones();
-    ICollection * getInfoSuscripciones(string,DtFechaHora *);
+    ICollection * getInfoSuscripciones(string);
     Suscripcion * getSuscripcion(int);
     void agregarPuntuacion(int ,Jugador *);
     DtVideojuego * getDtVideojuego();
