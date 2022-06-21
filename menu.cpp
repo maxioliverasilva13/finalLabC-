@@ -1301,6 +1301,12 @@ void verInfoVideojuegoMenu(){
     String *vjKey = new String(charNameVj);
     DtVideojuego * res = (DtVideojuego *)vj->find(vjKey);
 
+    if (res == NULL) {
+        cout << "El videojuego que ingreso no existe";
+        sleep(2);
+        return;
+    }
+
     system("cls");
     cout << "------------------- INFORMACION DE VIDEOJUEGO  ------------------------" << endl;
     cout << "Nombre: " << res->getNombreVideojuego() << endl;
@@ -1521,9 +1527,7 @@ void verInformacionVideojuegoMenu(){
         cout << "El videojuego que ingreso no existe";
         sleep(2);
         return;
-    } else {
-        cout << "existe";
-    }
+    } 
 
     system("cls"); 
     cout << "---- Informacion del VIDEOJUEGO: ----" << endl;
@@ -2072,7 +2076,7 @@ void finalizarPartidaMenu() {
         DtPartida* info =(DtPartida*) I->getCurrent();
         cout << endl;
         cout << "ID: " << info->getId() << endl;
-        cout << "Fecha de Inicio: " << info->getFecha();
+        cout << "Fecha de Inicio: " <<  info->getFecha()->getDay() << "/" << info->getFecha()->getMonth() << "/" << info->getFecha()->getYear() << endl;
         cout << "Videojuego: " << info->getJuego()->getNombreVideojuego() << endl;
         if (info->getTipo() == "DtPartidaIndividual") {
             DtPartidaIndividual * infoIndividual = (DtPartidaIndividual *)info;
@@ -2097,8 +2101,8 @@ void finalizarPartidaMenu() {
             cout << endl;
             cout << "Listado de jugadores unidos a la partida: ";
             while (J->hasCurrent()) {
-                DtJugador* jugador =(DtJugador*) J->getCurrent(); 
-                cout << "-" << jugador->getNickname();
+                String* jugadorName =(String*) J->getCurrent(); 
+                cout << "-" << jugadorName->getValue();
                 J->next();
             }
         }

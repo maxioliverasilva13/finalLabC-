@@ -34,7 +34,7 @@ using namespace std;
 
 DtFechaHora::DtFechaHora(int day, int month, int year, int hour, int minute)
 {
-    if (day > 30 || day < 1)
+    if (day > 44 || day < 1)
     {
         throw invalid_argument("Dia es invalido");
     }

@@ -9,7 +9,14 @@ using namespace std;
 EstadoJugador::EstadoJugador(DtFechaHora *fechaHoraEntrada, DtFechaHora *fechaHoraSalida, Partida *partida, Jugador *jugador)
 {
     this->fechaHoraEntrada = fechaHoraEntrada;
-    this->fechaHoraSalida = fechaHoraSalida;
+
+    if (fechaHoraSalida == NULL) {
+        DtFechaHora * fechaTest = new DtFechaHora(44, 12, 2030, 12, 12);
+        this->fechaHoraSalida = fechaTest;
+    }else {
+      this->fechaHoraSalida = fechaHoraSalida;
+    }
+
     this->partida = partida;
     this->jugador = jugador;
 };

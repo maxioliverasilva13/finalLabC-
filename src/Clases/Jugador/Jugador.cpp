@@ -42,19 +42,28 @@ Jugador::Jugador(string nick, string desc, string email, string pass) : Usuario(
 void Jugador::iniciarPartidaMultijugador(ICollection * jugadores, bool enVIvo, Videojuego * juego, DtFechaHora * fecha){
     PartidaMultijugador * partida = new PartidaMultijugador(enVIvo, 0, ENCURSO, fecha, juego, this);
     
+    if (jugadores) {
     IIterator * it = jugadores->getIterator();
     while (it->hasCurrent())
     {
        Jugador * jugador = (Jugador *)it->getCurrent();
        EstadoJugador * est = new EstadoJugador(fecha, NULL, partida, jugador);
        partida->agregarEstadoJugador(est);
+       jugador->agregarEstadojugador(est);
        it->next();
     }
+    
     delete it;
+    }
+    
     IKey * keyP = new Integer(partida->getId());
     this->partidas->add(keyP, partida);
     juego->agregarPartida(partida);
 
+}
+
+void Jugador::Jugador::agregarEstadojugador(ICollectible * est) {
+    this->estadosJugador->add(est);
 }
 
 ICollection *Jugador::listarVideoJuegosActivos(DtFechaHora * ahora)
@@ -287,7 +296,7 @@ void Jugador::abandonarPartida(int idPartida,DtFechaHora * fechaSistema){
    int current_id_partida = 0;
    while (it->hasCurrent())
    {
-    current = (EstadoJugador*)it;
+    current = (EstadoJugador*)it->getCurrent();
     current_partida = current->getPartida();
     current_id_partida = current_partida->getId();
 

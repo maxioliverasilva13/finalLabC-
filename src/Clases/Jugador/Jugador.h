@@ -43,6 +43,7 @@ public:
     Partida * partidaMasLarga();
     int getSizeContrataciones();
     DtJugador * getDtJugador();
+    void agregarEstadojugador(ICollectible *);
 
 };
 
