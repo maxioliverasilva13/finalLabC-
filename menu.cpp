@@ -1683,17 +1683,24 @@ bool menuMostrarSeguirAgregandoJugador()
 }
 
 // auxiliar obtenerJugadoresIniciarPartida
-bool recorrerJugadoresEnPartidaMenu(ICollection * colecc, String * nick ) 
+bool recorrerJugadoresEnPartidaMenu(ICollection * colecc, string  nick ) 
 {
     system("cls");
     IIterator *it = colecc->getIterator();
+    bool res = false;
     while (it->hasCurrent())
     {
-        String *nick = (String *)it->getCurrent();
-        if(nick->getValue());
+    
+        String *nickJ = (String *)it->getCurrent();
+        if(nickJ->getValue() == nick){
+            res = true;
+            break;
+        }
         it->next();
     }
     delete it;
+    return res;
+
 }
 
 
@@ -1713,36 +1720,32 @@ ICollection * obtenerJugadoresIniciarPartida(string nomVJ)
     bool opcion = true;
     while (opcion != false)
     {
-        system("cls");
         cout << "Ingrese el nickname del jugador que desea agregar a esta partida: " << endl;
         string nick = leerString();
-        ICollectible * jug = NULL;
-        jug = s->findUserByNickname(nick); // revisar
-        if(jug != NULL){
-            char *charNickk = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
-            String * nickString = new String(charNickk);
-            jugadores->add(nickString);
+        
+        bool jug = recorrerJugadoresEnPartidaMenu(jugadoresSuscritos, nick);
+        if(jug == true){
+                char *charNick = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
+                String * nickString = new String(charNick);
+                bool jugadorYaExiste = recorrerJugadoresEnPartidaMenu(jugadores, nick);
+                if(jugadorYaExiste){
+                    cout << "Este jugador ya es parte de esta partida." << endl;
+                    sleep(2);
+                }
+                else{
+                    char *charNickk = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
+                    jugadores->add(nickString);
+                    system("cls");
+                    cout << "EXITO: El jugador fue agregado a la partida." << endl;
+                    sleep(2);
+                }
         }
         else
         {
             cout << "El jugador no existe." << endl;
             sleep(2);
         }
-        //Valido si jugador ya existe en la lista que estoy creando
-        //parseo el nick a char
-        char *charNick = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
-        String * nickString = new String(charNick);
-        bool jugadorYaExiste = recorrerJugadoresEnPartidaMenu(jugadores, nickString);
-        if(jugadorYaExiste){
-            cout << "Este jugador ya es parte de esta partida." << endl;
-            sleep(2);
-        }
-        else
-        {
-            system("cls");
-            cout << "EXITO: El jugador fue agregado a la partida." << endl;
-            sleep(2);
-        }
+
         opcion = menuMostrarSeguirAgregandoJugador();
     }
     return jugadores;
@@ -1946,6 +1949,8 @@ void iniciarPartidaMenu(){
             } while (opcionValida == false);
             if(respuestaConfirmar){
                 s->iniciarPartidaMultijugador(jugadoresEnPartida, enVivo, nombrevj);
+                cout << "Hola";
+                sleep(3);
             }
             else{
                 cout << "La partida no se inició." << endl;

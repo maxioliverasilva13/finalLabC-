@@ -80,7 +80,7 @@ void Suscripcion::agregarContratacion(ICollectible *contratacion)
     this->contrataciones->add(contrKey, contr);
 }
 
-ICollection * Suscripcion::getJugadoresActivos(DtFechaHora * fecha) {
+ICollection * Suscripcion::getJugadoresActivos(DtFechaHora * fecha,string nicknameUserLogged) {
     ICollection * nombreJugadoresConSuscrAEsteJuego = new List();
     IIterator * it = this->contrataciones->getIterator();
     while (it->hasCurrent())
@@ -88,9 +88,12 @@ ICollection * Suscripcion::getJugadoresActivos(DtFechaHora * fecha) {
         Contratacion * contr = (Contratacion *)it->getCurrent();
         if (contr->getActiva(fecha)) {
             string nameDuenio = contr->getNickNameDuenio();
-            char *charName = const_cast<char *>(nameDuenio.c_str()); // paso de string a char (para poder implementar la key)
-            String *nameKey = new String(charName);
-            nombreJugadoresConSuscrAEsteJuego->add(nameKey);
+            if(nameDuenio != nicknameUserLogged){
+                char *charName = const_cast<char *>(nameDuenio.c_str()); // paso de string a char (para poder implementar la key)
+                String *nameKey = new String(charName);
+                nombreJugadoresConSuscrAEsteJuego->add(nameKey);
+            }
+            
         }
         it->next();
     }

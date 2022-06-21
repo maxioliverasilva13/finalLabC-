@@ -218,8 +218,9 @@ ICollection * Sistema::listarJugadoresConSuscripcionAJuego(string nombrevj) {
   String *vjKey = new String(charNameVj);
   Videojuego *juego = (Videojuego *)this->videojuegos->find(vjKey);
 
+  Jugador * jugador = (Jugador*)this->loggUser;
   if (juego) {
-    return juego->getJugadoresActivos(this->fechaHora);
+    return juego->getJugadoresActivos(this->fechaHora,  jugador->getNickname());
   } else {
     throw invalid_argument("Este videojuego no existe");
   }
@@ -243,7 +244,7 @@ bool validateExistsGameName(string nameGame, IDictionary *games)
   Videojuego *juego = (Videojuego *)games->find(vjKey);
   if (juego)
   {
-    return true;
+      return true;
   }
   else
   {
