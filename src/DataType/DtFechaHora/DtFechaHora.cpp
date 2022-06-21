@@ -20,6 +20,13 @@ public:
     int getYear();
     int getHour();
     int getMinute();
+
+    void setDay(int);
+    void setMonth(int);
+    void setYear(int);
+    void setHour(int);
+    void setMinute(int);
+    
     DtFechaHora * getAhora();
 };
 
@@ -89,6 +96,22 @@ int DtFechaHora::getHour()
 int DtFechaHora::getMinute()
 {
     return this->minute;
+}
+
+void DtFechaHora::setDay(int day) {
+    this->day = day;
+}
+void DtFechaHora::setMonth(int month) {
+    this->month = month;
+}
+void DtFechaHora::setYear(int year) {
+    this->year = year;
+}
+void DtFechaHora::setHour(int hour) {
+    this->hour = hour;
+}
+void DtFechaHora::setMinute(int minute) {
+    this->minute = minute;
 }
 
 #endif

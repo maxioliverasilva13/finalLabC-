@@ -69,6 +69,12 @@ Videojuego::~Videojuego()
     this->categorias = NULL;
 }
 
+void Videojuego::agregarPartida(ICollectible * partida) {
+    Partida * part = (Partida *)partida;
+    Integer * partKey = new Integer(part->getId());
+    this->partidas->add(partKey, part);
+}
+
 string Videojuego::getNombre()
 {
     return this->nombre;
@@ -264,12 +270,11 @@ DtVideojuego * Videojuego::getDtVideojuego() {
 float Videojuego::getTotalHorasJugadas() {
     float totalHorasJugadas = 0;
 
-    if (this->partidas->getSize() == 0) {
+    if (this->partidas == NULL || this->partidas->getSize() == 0) {
         return 0;
     }
-    cout << "hola" << endl;
     IIterator * it = this->partidas->getIterator();
-    while (it->getCurrent())
+    while (it->hasCurrent())
     {
         Partida * part = (Partida *)it->getCurrent();
         if (part->darTipo() == "PartidaIndividual") {
@@ -281,7 +286,6 @@ float Videojuego::getTotalHorasJugadas() {
         }
         it->next();
     }
-    cout << "hola2" << endl;
     return totalHorasJugadas;
 }
 
