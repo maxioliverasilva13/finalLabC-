@@ -304,9 +304,9 @@ void Jugador::abandonarPartida(int idPartida,DtFechaHora * fechaSistema){
 
 
 
-PartidaMultijugador * Jugador::partidaMasLarga() {
+Partida * Jugador::partidaMasLarga() {
     IIterator * itPartidas = this->partidas->getIterator();
-    PartidaMultijugador * partidaMasLarga = NULL;
+    Partida * partidaMasLarga = NULL;
     
     while (itPartidas->hasCurrent())
     {
@@ -319,10 +319,17 @@ PartidaMultijugador * Jugador::partidaMasLarga() {
         if (partM->getDuracion() > partidaMasLarga->getDuracion()){
             partidaMasLarga = partM;
         }
+      } else {
+         PartidaIndividual * partI = (PartidaIndividual *)part;
+        if (partidaMasLarga == NULL) {
+            partidaMasLarga = partI;
+        }
+        if (partI->getDuracion() > partidaMasLarga->getDuracion()){
+            partidaMasLarga = partI;
+        }
       }
       itPartidas->next();
     }
-
     return partidaMasLarga;
   }
 

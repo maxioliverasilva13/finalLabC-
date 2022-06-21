@@ -159,7 +159,7 @@ public:
   ICollection * listarPartidasUnido();  //DtPartidaMultijugador
   void abandonarPartida(int idPartida);
   ICollectible * findUserByNickname(string);
-  PartidaMultijugador * partidaMasLarga();
+  Partida * partidaMasLarga();
   DtJugador * jugadorConMasContrataciones();
   ICollection * juegosMejoresPuntuados(int); // coleccion de DtVideojuego
   void cerrarSesion();
@@ -858,16 +858,16 @@ IDictionary* Sistema::listarPartidasActivas() {
 
   }
 
-  PartidaMultijugador * Sistema::partidaMasLarga() {
+  Partida * Sistema::partidaMasLarga() {
     IIterator * itJugadores = this->usuarios->getIterator();
-    PartidaMultijugador * partidaMasLarga = NULL;
+    Partida * partidaMasLarga = NULL;
     
     while (itJugadores->hasCurrent())
     {
       Usuario * user = (Usuario *)itJugadores->getCurrent();
       if (user->getTipo() == "Jugador") {
         Jugador * player = (Jugador *)user;
-        PartidaMultijugador * partidaMasLargaDeUser = player->partidaMasLarga();
+        Partida * partidaMasLargaDeUser = player->partidaMasLarga();
         if (partidaMasLarga == NULL && partidaMasLargaDeUser != NULL) {
           partidaMasLarga = partidaMasLargaDeUser;
         } 

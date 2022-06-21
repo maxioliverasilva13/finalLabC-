@@ -1315,11 +1315,6 @@ void verInfoVideojuegoMenu(){
 }
 
 
-void consultarEstadisticasMenu(){
-    cout << "pendiente...";
-    return;
-}
-
 // TODO es re larga xd
 void suscribirseAvideojuegoMenu(){
    ICollection * videojuegos_info = s->listarSuscripcionesPorVideojuego();
@@ -1793,7 +1788,6 @@ bool menuIndividualNuevaoContinuar()
 
 void iniciarPartidaMenu(){
     IIterator* sus = s->listarVideoJuegosActivos()->getIterator();
-    system("PAUSE");
     if(sus->hasCurrent() == false) {
        cout << "No tiene suscripciones a ningun videojuego, suscribase a uno para inciar una partida" << endl;
        sleep(4);
@@ -2140,3 +2134,98 @@ void finalizarPartidaMenu() {
     }
     
 }
+
+int inputMenuTipoEstadistica(){
+    bool opcionValida = false;
+    do{
+        system("cls");
+        cout << "**** Seleccione el tipo de estadistica que desea consultar: ****"<<endl;
+        cout << "1 - Partida mas Larga " << endl;
+        cout << "2 - Jugador con mas contrataciones" << endl;
+        cout << "3 - Juegos mejores puntuados" << endl;
+        cout << "****************************************************************" << endl;
+        cout << " Ingrese una opcion: (entre 1-3)" << endl;
+
+        int eleccion;
+        eleccion = leerInt();
+
+        switch (eleccion)
+        {
+        case 1: return 1; opcionValida = true; break;
+        case 2: return 2; opcionValida = true; break;
+        case 3: return 3; opcionValida = true; break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        }
+    } while (opcionValida == false);
+}
+
+
+void consultarEstadisticasMenu(){
+    try
+    {
+    int eleccion = inputMenuTipoEstadistica();
+
+    if (eleccion == 1) {
+        system("cls");
+        Partida * partidaMasLarga = s->partidaMasLarga();
+
+        if (partidaMasLarga == NULL) {
+            cout << "Uups ! al parecer no tenemos partidas para procesar la informacion !" << endl;
+            sleep(2);
+        } else {
+            cout << "La id de la partida es " << partidaMasLarga->getId() << endl;
+            cout << "La duracion es " << partidaMasLarga->getDuracion() << " Minutos" << endl;
+            cout << "La partida fue iniciada el " <<  partidaMasLarga->getFecha()->getDay() << "/" << partidaMasLarga->getFecha()->getMonth() << "/" << partidaMasLarga->getFecha()->getYear() << endl;
+            cout << "El jugador " << partidaMasLarga->getCreador()->getNickname() << " inicio esta partida" << endl;
+            sleep(4);
+        }
+    }
+    if (eleccion == 2) {
+        system("cls");
+          DtJugador * jugadorConMasContrataciones = s->jugadorConMasContrataciones();
+
+          if (jugadorConMasContrataciones == NULL) {
+            cout << "Uups ! al parecer no tenemos partidas para procesar la informacion !" << endl;
+          } else {
+            cout << "***** Jugador con mas Contrataciones: ******" << endl;
+            cout << "Nickname: " << jugadorConMasContrataciones->getNickname() << endl;
+            cout << "Descripcion: " << jugadorConMasContrataciones->getDescripcion() << endl;
+            cout << "Email: " << jugadorConMasContrataciones->getEmail() << endl;
+            cout << "Contrataciones: " << jugadorConMasContrataciones->getSizeContrataciones() << endl;
+            sleep(4);
+          }
+          
+      }
+    if (eleccion == 3) {
+       system("cls");
+
+       cout << "Ingrese un Top (1-5)" << endl;
+       int range = leerInt();
+
+       system("cls");
+       cout << "***** Los juegos mas puntuados son: *****" << endl;
+       ICollection * masPuntuados = s->juegosMejoresPuntuados(range);
+       IIterator * it = masPuntuados->getIterator();
+       while (it->hasCurrent())
+       {
+         DtVideojuego * dtVj = (DtVideojuego *)it->getCurrent();
+         cout << "------------- " << dtVj->getNombreVideojuego() << " -------------" << endl;
+         cout << "Promedio Puntuacion:" << dtVj->getPromedioPuntuaciones() << endl;
+         cout << "Cantidad Puntuaciones:" << dtVj->getPuntuaciones()->getSize() << endl;
+         cout << "-----------------------------------------------------------------" << endl;
+         it->next();
+       }
+       system("PAUSE");
+       delete it;
+       delete masPuntuados;
+    }
+    }
+    catch(const std::exception& e)
+    {
+       std::cerr << e.what() << '\n';
+       sleep(2);
+    }
+    
+    return;
+}
+

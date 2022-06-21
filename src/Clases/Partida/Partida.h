@@ -31,6 +31,7 @@ public:
   virtual string darTipo() = 0;
   virtual DtPartida *getDtPartida() = 0;
   virtual void finalizarPartida(DtFechaHora *) = 0;
+  virtual float getDuracion() = 0;
 };
 
 #endif
