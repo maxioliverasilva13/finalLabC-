@@ -735,10 +735,11 @@ ICollection * Sistema::listarSuscripcionesPorVideojuego(){
     ICollection * info_suscr_current;
 
     while (it->hasCurrent()){
+      
         current = (Videojuego*)it->getCurrent();
         nombreV = current->getNombre();
-        info_suscr_current = current->getInfoSuscripciones(nickname);
-        
+
+        info_suscr_current = current->getInfoSuscripciones(nickname,this->fechaHora);
         ICollectible * videoJuegoInfoSus = new DtSuscripcion(nombreV,info_suscr_current);
         res->add(videoJuegoInfoSus);
         it->next();

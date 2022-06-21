@@ -193,7 +193,7 @@ IDictionary* Videojuego::getSuscripciones() {
     return this->suscripciones;
 }
 
-ICollection * Videojuego::getInfoSuscripciones(string nickname){
+ICollection * Videojuego::getInfoSuscripciones(string nickname,DtFechaHora * fecha_sistema){
     IIterator * it = this->suscripciones->getIterator();
     Suscripcion * current;
 
@@ -202,10 +202,10 @@ ICollection * Videojuego::getInfoSuscripciones(string nickname){
     bool jugador_tiene_contratacion;
     while (it->hasCurrent()){
         current = (Suscripcion*)it->getCurrent();
-
-        jugador_tiene_contratacion = current->jugadorTieneContratacion(nickname);
+        jugador_tiene_contratacion = current->jugadorTieneContratacion(nickname,fecha_sistema);
         ICollectible * item = new DtInfoSuscripcion(current->getId(), current->getPeriodo(),current->getPrecio(), jugador_tiene_contratacion);
         res->add(item);
+        it->next();
     }
     delete it;
     return res;
