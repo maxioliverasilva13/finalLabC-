@@ -463,6 +463,7 @@ void Sistema::agregarCategoria(string nombre, string descripcion, string tipo)
 
 void Sistema::agregarVideojuego(string nombre, string descricpcion, ICollection *costos_suscripcion, ICollection *dtsCategorias)
 {
+  Desarrollador * loggDesarrollador = (Desarrollador *)this->loggUser;
   bool existsGame = validateExistsGameName(nombre, this->videojuegos);
 
   if (existsGame)
@@ -470,6 +471,7 @@ void Sistema::agregarVideojuego(string nombre, string descricpcion, ICollection 
     throw invalid_argument("El videojuego " + nombre + " videojuego ya existe");
   }
   Videojuego *vj = new Videojuego(nombre, descricpcion, 0);
+  vj->setDesarrollador(loggDesarrollador);
 
   if (costos_suscripcion) {
     IIterator *iterator = costos_suscripcion->getIterator();
