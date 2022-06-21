@@ -1,10 +1,11 @@
+#include "src/Clases/Sistema.cpp"
+
 #include <limits> // para validar ints en el cin
 #include <iostream> 
 #include <cstdlib> //es para el clear
 #include <stdlib.h> // tambien para el clear pero fuera de windows
 #include <string>
 #include <cstdlib>
-
 
 #ifdef _WIN32
 
@@ -114,7 +115,7 @@ string leerString(){
 void recorerCategorias(IDictionary * categorias) {
     cout << "---- Categorias del videojuego: ----" << endl; 
     if (categorias->getSize() == 0) {
-        cout << "  Al parecer no tienes categorias por mostrar :) ";
+        cout << "  Al parecer no tienes categorias por mostrar :) " << endl;
     }
     IIterator * itCategorias = categorias->getIterator();
     while (itCategorias->hasCurrent())
@@ -251,8 +252,8 @@ bool menuUsuario(){
             case 1: altaUsuarioMenu(); break;
             case 2: iniciarSesionMenu();break;
             case 3: cargarDatosDePruebaMenu(); break;
-            case 4: abandonarPartidaMJMenu();  break;
-            default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break; 
+            case 4: cout << "Saliendo..."; sleep(2); exit(3); break; 
+            default: system("cls"); cout<<"Valor invalido, vuelva a intentarlo." << endl; sleep(2); break; 
         }
     return false;
 }
@@ -351,7 +352,7 @@ void cargarDatosDePruebaMenu(){
     }
     catch(const std::exception& e)
     {
-        cout << "ERROR: Ya se habian cargado los datos de prueba." << endl;
+        cout << "ERROR: Ya se han cargado los datos de prueba." << endl;
         sleep(3);
     }   
 }
@@ -467,7 +468,7 @@ int menuJugadorOdesarrollador(){
         {
         case 1: return 1; opcionValida = true; break;
         case 2: return 2; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo." << endl; sleep(2); break;
         }
     } while (opcionValida == false);
     return -1111;
@@ -524,7 +525,7 @@ int inputTipoCategoria(){
         case 1: return 1; opcionValida = true; break;
         case 2: return 2; opcionValida = true; break;
         case 3: return 3; opcionValida = true; break;
-        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+        default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo." << endl; sleep(2); break;
         }
     } while (opcionValida == false);
     return -1111;
@@ -753,7 +754,7 @@ void finalizarPartidaMenu() {
 // auxiliar publicarVideojuego
 void recorrerCategoriasID(ICollection * colecc ) 
 {
-    system("cls");
+    //system("cls");
     IIterator *it = colecc->getIterator();
     int contador_categorias = 1;
     while (it->hasCurrent()){
@@ -821,11 +822,12 @@ void publicarVideojuegoMenu(){
         ICollection * categorias_videojuego = new List();
         bool termino = false;
         do{
-            cout << "---- Seleccione una Categoria: ----" << endl;
+            system("cls");
             // PERO TIENE QUE SER UN DICCIONARIO PARA PODER FILTRARLO
             ICollection * cats = s->listarCategorias(); // me traigo una copia (LISTA DE DTS) de las categorias registradas
             recorrerCategoriasID(cats); // muestro todas las categorias registradas
-           
+            cout << "---- Seleccione una Categoria: ----" << endl;
+
             int eleccionIDCategoria;
             int correct_choice = false;
             ICollectible * catAgregar;
@@ -989,7 +991,7 @@ void consultarEstadisticasMenu(){
     if (eleccion == 3) {
        system("cls");
 
-       cout << "Ingrese un rango entre (1-5)" << endl;
+       cout << "Ingrese un Top (1-5)" << endl;
        int range = leerInt();
 
        system("cls");
@@ -1072,18 +1074,29 @@ void verInformacionVideojuegoMenu(){
 void asignarPuntajeVJMenu(){
     try
     {
-        cout << "---- Videojuegos ya registrados: ----" << endl;
-        IDictionary * vj = s->listarVJ();
-        recorrerVideojuegosMenu(vj);
+        int puntaje;
+        string nombrevj;
+        do {
+            cout << "---- Videojuegos ya registrados: ----" << endl;
+            IDictionary * vj = s->listarVJ();
+            recorrerVideojuegosMenu(vj);
 
-        cout << "Ingrese el NOMBRE del VIDEOJUEGO de la lista: "<< endl;
-        string nombrevj = leerString();
-
-        cout << "Ingrese el PUNTAJE que desea asignar: "<< endl;
-        int puntaje = leerInt();
-
+            cout << "Ingrese el NOMBRE del VIDEOJUEGO de la lista: "<< endl;
+            nombrevj = leerString();
+    
+            cout << "Ingrese el PUNTAJE que desea asignar: "<< endl;
+            puntaje = leerInt();   
+            
+            if (puntaje > 5 or puntaje < 1) {
+                system("cls");
+                cout << "Por favor, ingrese un valor entre 1 y 5";
+                sleep(3);
+            }
+        } while (puntaje > 5 or puntaje < 1); 
         s->asignarPuntajeVideojuego(puntaje, nombrevj);
-        cout << "holi";
+        system("cls");
+        cout << "Puntaje asignado.";
+        sleep(3);
     }  
     catch(const std::exception& e)
     {
@@ -1092,7 +1105,7 @@ void asignarPuntajeVJMenu(){
     }
 }
 
-void recorrerVideojuegosActivosMenu(ICollection * colecc ) 
+void recorrerVideojuegosActivosMenu(ICollection * colecc) 
 {
     system("cls");
     IIterator *it = colecc->getIterator();
@@ -1297,162 +1310,170 @@ bool menuIndividualNuevaoContinuar()
 }
 
 void iniciarPartidaMenu(){
-    cout << "---- Videojuegos a los que estás suscrito: ----" << endl;
-    ICollection * vja = s->listarVideoJuegosActivos();
-    //recorrerVideojuegosActivosMenu(vja);
-
-    IIterator *it = vja->getIterator();
-    while (it->hasCurrent()){
-        String *cat = (String *)it->getCurrent();
-        cout << "Nombre: "<< cat->getValue() << endl;
-        cout << "-----------------------------------------" << endl;
-        it->next();
+    IIterator* sus = s->listarVideoJuegosActivos()->getIterator();
+    if(sus->hasCurrent() == false) {
+       cout << "No tiene suscripciones a ningun videojuego, suscribase a uno para inciar una partida" << endl;
+       sleep(4);
     }
-    delete it;
+    else {
+        
+        cout << "---- Videojuegos a los que estas suscrito: ----" << endl;
+        ICollection * vja = s->listarVideoJuegosActivos();
+        //recorrerVideojuegosActivosMenu(vja);
 
-    cout << "Ingrese un NOMBRE del VIDEOJUEGO de la lista: "<< endl;
-    string nombrevj = leerString();
-    char *charNameVj = const_cast<char *>(nombrevj.c_str()); // paso de string a char (para poder implementar la key)
-    String *vjKey = new String(charNameVj);
-    //String * res = (String *)vja->find(vjKey);
-    system("cls");
-
-    bool individualOmultij = menuIndividualOmultijugador();
-    if(individualOmultij){
-        // pregunto si será o no una continuación de una anterior
-        // SI LO ES, listamos en orden cronologico las partidas individuales ya finalizadas (ID, fechahora, duracion).
-        // selecciona de la lista con el ID
-        // confirmar o cancelar el inicio de partida.
-        bool continuar = menuIndividualNuevaoContinuar();
-        if (!continuar){ 
-            // eligió crear nueva
-            
-            bool respuestaConfirmar;
-            bool opcionValida = false;
-            do{
-                system("cls");
-                cout << "Confirmar la creacion de la partida individual?" << endl;
-                cout << "1 - Si" << endl;
-                cout << "2 - No" << endl;
-
-                int eleccion;
-                eleccion = leerInt();
-
-                switch (eleccion)
-                {
-                case 1: respuestaConfirmar = true;opcionValida = true; break;
-                case 2: respuestaConfirmar = false; opcionValida = true;break;
-                default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
-                }
-            } while (opcionValida == false);
-
-            if(respuestaConfirmar){
-                s->iniciarPartidaIndividual(true, nombrevj);
-                cout << "EXITO: Creando partida..." << endl;
-                sleep(2);
-            }
-            else{
-                cout << "La partida no se creo." << endl;
-                sleep(2);
-            }
-
-        }else{ // eligió continuar
-
-            bool correct_choice = false;
-            int id;
-            DtPartidaIndividual * res = NULL;
-            do{
-                system("cls");
-                cout << "---- Partidas Finalizadas ---- "<< endl;
-                ICollection * parFinalizadas = s->listarHistorialPartidasFinalizadas(nombrevj);
-                recorrerPartidasFinalizadas(parFinalizadas);
-
-                cout << "Ingrese el ID de la partida que desea continuar: "<< endl;
-                id = leerInt();
-                cout << endl;
-                IIterator * it = parFinalizadas->getIterator();
-                while (it->hasCurrent())
-                {
-                    DtPartidaIndividual * current = (DtPartidaIndividual *)it->getCurrent();
-                    if(current->getId() == id){
-                        correct_choice = true;
-                        break;
-                    }
-                    it->next();
-                }
-                if(!correct_choice){
-                    cout << "ERROR: No existe una partida con ese ID. " << endl;
-                    sleep(2);
-                    bool deseaContinuar = menuDeseaContinuarOcancelar(); // llega acá si ingresó un ID incorrecto
-                    if(!deseaContinuar){
-                        return;
-                    }
-                }
-            }while (!correct_choice);
-            
-            bool respuestaConfirmar;
-            bool opcionValida = false;
-            do{
-                system("cls");
-                cout << "Confirmar la continuacion de la partida?" << endl;
-                cout << "1 - Si" << endl;
-                cout << "2 - No" << endl;
-
-                int eleccion;
-                eleccion = leerInt();
-
-                switch (eleccion)
-                {
-                case 1: respuestaConfirmar = true;opcionValida = true; break;
-                case 2: respuestaConfirmar = false; opcionValida = true;break;
-                default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
-                }
-            } while (opcionValida == false);
-            if(respuestaConfirmar){
-                s->continuarPartida(id);
-                cout << "EXITO: Continuando partida..." << endl;
-                sleep(2);
-            }
-            else{
-                cout << "La partida no se inicio." << endl;
-                sleep(2);
-            }
+        IIterator *it = vja->getIterator();
+        while (it->hasCurrent()){
+            String *cat = (String *)it->getCurrent();
+            cout << "Nombre: "<< cat->getValue() << endl;
+            cout << "-----------------------------------------" << endl;
+            it->next();
         }
-    }else{ // eligió multijugador
-        // transmitida o no
-        // listamos los jugadores CON SUSCRIPCION ACTIVA que estan en el sistema
-        // elige nickname de la lista para agregar a la partida y se le pregunta si desea seguir agregando
-        // confirmar o cancelar el inicio de partida.
+        delete it;
+
+        cout << "Ingrese un NOMBRE del VIDEOJUEGO de la lista: "<< endl;
+        string nombrevj = leerString();
+        char *charNameVj = const_cast<char *>(nombrevj.c_str()); // paso de string a char (para poder implementar la key)
+        String *vjKey = new String(charNameVj);
+        //String * res = (String *)vja->find(vjKey);
         system("cls");
-        bool enVivo;
-        enVivo = menuMultijugadorTransmitidaOno(); // preguntamos si quiere transmitirla en vivo o no.
 
-        ICollection * jugadoresEnPartida = obtenerJugadoresIniciarPartida(nombrevj);
+        bool individualOmultij = menuIndividualOmultijugador();
+        if(individualOmultij){
+            // pregunto si será o no una continuación de una anterior
+            // SI LO ES, listamos en orden cronologico las partidas individuales ya finalizadas (ID, fechahora, duracion).
+            // selecciona de la lista con el ID
+            // confirmar o cancelar el inicio de partida.
+            bool continuar = menuIndividualNuevaoContinuar();
+            if (!continuar){ 
+                // eligió crear nueva
+                
+                bool respuestaConfirmar;
+                bool opcionValida = false;
+                do{
+                    system("cls");
+                    cout << "Confirmar la creacion de la partida individual?" << endl;
+                    cout << "1 - Si" << endl;
+                    cout << "2 - No" << endl;
 
-        bool respuestaConfirmar;
-        bool opcionValida = false;
-        do{
-            system("cls");
-            cout << "Confirmar el inicio de partida?" << endl;
-            cout << "1 - Si" << endl;
-            cout << "2 - No" << endl;
+                    int eleccion;
+                    eleccion = leerInt();
 
-            int eleccion;
-            eleccion = leerInt();
+                    switch (eleccion)
+                    {
+                    case 1: respuestaConfirmar = true;opcionValida = true; break;
+                    case 2: respuestaConfirmar = false; opcionValida = true;break;
+                    default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                    }
+                } while (opcionValida == false);
 
-            switch (eleccion)
-            {
-            case 1: respuestaConfirmar = true;opcionValida = true; break;
-            case 2: respuestaConfirmar = false; opcionValida = true;break;
-            default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                if(respuestaConfirmar){
+                    s->iniciarPartidaIndividual(true, nombrevj);
+                    cout << "EXITO: Creando partida..." << endl;
+                    sleep(2);
+                }
+                else{
+                    cout << "La partida no se creo." << endl;
+                    sleep(2);
+                }
+
+            }else{ // eligió continuar
+
+                bool correct_choice = false;
+                int id;
+                DtPartidaIndividual * res = NULL;
+                do{
+                    system("cls");
+                    cout << "---- Partidas Finalizadas ---- "<< endl;
+                    ICollection * parFinalizadas = s->listarHistorialPartidasFinalizadas(nombrevj);
+                    recorrerPartidasFinalizadas(parFinalizadas);
+
+                    cout << "Ingrese el ID de la partida que desea continuar: "<< endl;
+                    id = leerInt();
+                    cout << endl;
+                    IIterator * it = parFinalizadas->getIterator();
+                    while (it->hasCurrent())
+                    {
+                        DtPartidaIndividual * current = (DtPartidaIndividual *)it->getCurrent();
+                        if(current->getId() == id){
+                            correct_choice = true;
+                            break;
+                        }
+                        it->next();
+                    }
+                    if(!correct_choice){
+                        cout << "ERROR: No existe una partida con ese ID. " << endl;
+                        sleep(2);
+                        bool deseaContinuar = menuDeseaContinuarOcancelar(); // llega acá si ingresó un ID incorrecto
+                        if(!deseaContinuar){
+                            return;
+                        }
+                    }
+                }while (!correct_choice);
+                
+                bool respuestaConfirmar;
+                bool opcionValida = false;
+                do{
+                    system("cls");
+                    cout << "Confirmar la continuacion de la partida?" << endl;
+                    cout << "1 - Si" << endl;
+                    cout << "2 - No" << endl;
+
+                    int eleccion;
+                    eleccion = leerInt();
+
+                    switch (eleccion)
+                    {
+                    case 1: respuestaConfirmar = true;opcionValida = true; break;
+                    case 2: respuestaConfirmar = false; opcionValida = true;break;
+                    default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                    }
+                } while (opcionValida == false);
+                if(respuestaConfirmar){
+                    s->continuarPartida(id);
+                    cout << "EXITO: Continuando partida..." << endl;
+                    sleep(2);
+                }
+                else{
+                    cout << "La partida no se inicio." << endl;
+                    sleep(2);
+                }
             }
-        } while (opcionValida == false);
-        if(respuestaConfirmar){
-            s->iniciarPartidaMultijugador(jugadoresEnPartida, enVivo, nombrevj);
-        }
-        else{
-            cout << "La partida no se inició." << endl;
-            sleep(2);
+        }else{ // eligió multijugador
+            // transmitida o no
+            // listamos los jugadores CON SUSCRIPCION ACTIVA que estan en el sistema
+            // elige nickname de la lista para agregar a la partida y se le pregunta si desea seguir agregando
+            // confirmar o cancelar el inicio de partida.
+            system("cls");
+            bool enVivo;
+            enVivo = menuMultijugadorTransmitidaOno(); // preguntamos si quiere transmitirla en vivo o no.
+
+            ICollection * jugadoresEnPartida = obtenerJugadoresIniciarPartida(nombrevj);
+
+            bool respuestaConfirmar;
+            bool opcionValida = false;
+            do{
+                system("cls");
+                cout << "Confirmar el inicio de partida?" << endl;
+                cout << "1 - Si" << endl;
+                cout << "2 - No" << endl;
+
+                int eleccion;
+                eleccion = leerInt();
+
+                switch (eleccion)
+                {
+                case 1: respuestaConfirmar = true;opcionValida = true; break;
+                case 2: respuestaConfirmar = false; opcionValida = true;break;
+                default:system("cls"); cout<<"Valor invalido, vuelva a intentarlo."; sleep(2); break;
+                }
+            } while (opcionValida == false);
+            if(respuestaConfirmar){
+                s->iniciarPartidaMultijugador(jugadoresEnPartida, enVivo, nombrevj);
+            }
+            else{
+                cout << "La partida no se inició." << endl;
+                sleep(2);
+            }
         }
     }
 }
