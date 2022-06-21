@@ -5,43 +5,30 @@
 #include <iostream>
 
 using namespace std;
-class DtPartidaIndividual: public ICollectible
+class DtPartidaIndividual: public DtPartida
 {
 private:
-    int id;
     bool continuar;
-    float duracion; 
     EEstado estado;
-    DtFechaHora * fecha;
     string nombreVideojuego;
     string nombreJugador;
 public:
-    DtPartidaIndividual(int, bool, EEstado, float, DtFechaHora*, string, string);
-    int getId();
-    DtFechaHora * getFecha();
+    DtPartidaIndividual(int, bool, EEstado, float, DtFechaHora*, string, string, DtVideojuego *);
     string getNombreV();
     string getNombreJ();
     bool getContinuar();
-    EEstado getEstado();
-    float getDuracion();
+    string getTipo();
 };
 
-DtPartidaIndividual::DtPartidaIndividual(int id, bool continuar, EEstado estado, float duracion, DtFechaHora * fecha, string nombreVideojuego, string nombreJugador){
-    this->id = id;
+DtPartidaIndividual::DtPartidaIndividual(int id, bool continuar, EEstado estado, float duracion, DtFechaHora * fecha, string nombreVideojuego, string nombreJugador, DtVideojuego * juego) : DtPartida(id, fecha, duracion, juego){
     this->continuar = continuar;
     this->estado = estado;
-    this->duracion = duracion;
-    this->fecha = fecha;
     this->nombreVideojuego = nombreVideojuego;
     this->nombreJugador = nombreJugador;
 }
 
-int DtPartidaIndividual::getId(){
-    return this->id;
-}
-
-DtFechaHora * DtPartidaIndividual::getFecha(){
-    return this->fecha;
+string DtPartidaIndividual::getTipo(){
+    return "DtPartidaIndividual";
 }
 
 string DtPartidaIndividual::getNombreV(){
@@ -53,15 +40,8 @@ string DtPartidaIndividual::getNombreJ(){
 }
 
 bool DtPartidaIndividual::getContinuar(){
-    return this->transmitidaEnVivo;
+    return this->continuar;
 }
 
-EEstado DtPartidaIndividual::getEstado(){
-    return this->estado;
-}
-
-float DtPartidaIndividual::getDuracion(){
-    return this->duracion;
-}
 
 #endif

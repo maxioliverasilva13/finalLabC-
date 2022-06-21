@@ -91,9 +91,7 @@ ICollection *Jugador::listarHistorialPartidasFinalizadas(string nombrevj)
             PartidaIndividual *part = (PartidaIndividual *)it->getCurrent();
             if (part->esFinalizada() && part->darNombreJuego() == nombrevj)
             {
-
-                DtPartidaIndividual *part1 = new DtPartidaIndividual(part->getId(), part->getContinuar(), part->getEstado(), part->getDuracion(), part->getFecha(), part->darNombreJuego() , part->getCreador()->getNickname());
-                partidasFinalizadas->add(part1);
+                partidasFinalizadas->add(part->getDtPartida());
             }
         }
         it->next();
@@ -262,7 +260,7 @@ ICollection * Jugador::listarPartidasUnido(){
                 isOwner = true;
             }
             //int id, DtFechaHora * fecha, string nombreVideojuego, bool transmitidaEnVivo, ICollection * jugadores_unidos,bool isOwner
-            ICollectible * newItem = new DtPartidaMultijugador(current_partida->getId(),current_partida->getFecha(), current_partida->darNombreJuego(),current_partida->getEnVivo(),current_partida->getJugadoresUnidos(),isOwner,current_partida->getCreador()->getNickname());
+            ICollectible * newItem = current_partida->getDtPartida(isOwner);
             res->add(newItem);
         }
         it->next();

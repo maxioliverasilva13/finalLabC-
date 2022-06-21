@@ -18,6 +18,7 @@ public:
     ~PartidaMultijugador();
     void finalizarPartida(DtFechaHora *);
     DtPartida *getDtPartida();
+    DtPartida *getDtPartida(bool isOwner);
     void setEnVivo(bool);
     void setDuracion(float);
     bool getEnVivo();
