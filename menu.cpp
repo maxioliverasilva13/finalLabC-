@@ -329,7 +329,7 @@ void cargarDatosDePruebaMenu(){
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 //  VIDEOJUEGO 1
-
+        s->iniciarSesion("ironhide@mail.com", "123");
         ICollection * categorias1 = new List();
         ICollection * costos_suscripcion = new List();
         
@@ -353,10 +353,11 @@ void cargarDatosDePruebaMenu(){
 
         s->agregarVideojuego("KingdomRush", "Juego 1", costos_suscripcion, categorias1);
 
-
+        s->cerrarSesion();
+        usuarioActual = "";
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 //  VIDEOJUEGO 2
-
+        s->iniciarSesion("epic@mail.com", "123");
         ICollection * categorias2 = new List();
         ICollection * costos_suscripcion2 = new List();
         
@@ -382,10 +383,12 @@ void cargarDatosDePruebaMenu(){
 
         s->agregarVideojuego("Fortnite", "Juego 2", costos_suscripcion2, categorias2);
 
+        s->cerrarSesion();
+        usuarioActual = "";
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 //  VIDEOJUEGO 3
-
+        s->iniciarSesion("mojang@mail.com", "123");
         ICollection * categorias3 = new List();
         ICollection * costos_suscripcion3 = new List();
         
@@ -407,9 +410,12 @@ void cargarDatosDePruebaMenu(){
 
         s->agregarVideojuego("Minecraft", "Juego 3", costos_suscripcion3, categorias3);
 
+        s->cerrarSesion();
+        usuarioActual = "";
+        
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 //  VIDEOJUEGO 4
-
+        s->iniciarSesion("ea@mail.com", "123");
         ICollection * categorias4 = new List();
         ICollection * costos_suscripcion4 = new List();
         
@@ -434,6 +440,10 @@ void cargarDatosDePruebaMenu(){
         costos_suscripcion4->add(costo16);
 
         s->agregarVideojuego("FIFA 22", "Juego 4", costos_suscripcion4, categorias4);
+        
+        s->cerrarSesion();
+        usuarioActual = "";
+
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
@@ -741,23 +751,13 @@ void cargarDatosDePruebaMenu(){
         s->modificarFechaSistema(ahora);
     // -----------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
         cout << "Datos de prueba cargados." << endl;
         sleep(1);
     }
     catch(const std::exception& e)
     {
-        cout << "ERROR: Ya se han cargado los datos de prueba." << endl;
+        std::cerr << e.what() << '\n';
+        //cout << "ERROR: Ya se han cargado los datos de prueba." << endl;
         sleep(3);
     }   
 }
@@ -1330,24 +1330,23 @@ void eliminarVideojuegoMenu(){
 void verInfoVideojuegoMenu(){
     system("cls");
     IDictionary * vj = s->listarVJ();
-    cout << "el size es " << vj->getSize();
     recorrerVideojuegosMenu(vj);
     cout << "Ingresa el nombre de un videojuego: \n";
     string nameVj = leerString();
     char salir = 'n';
     DtVideojuego * res = NULL;
-
+/*
     do{
-        res = s->verInfoVideojuego(nameVj);
         if(res == NULL){
             cout << "El juego: " << nameVj << " no existe" << endl;
             cout << "Deseas salir? y/n";
             salir = leerChar();
         }
-    }while (res == NULL && (salir == 'n' || salir == 'N'));
+    }while (res == NULL && (salir == 'n' || salir == 'N')); 
     if(salir == 'y'){
         return;
-    }
+    }*/
+        res = s->verInfoVideojuego(nameVj);
     system("cls");
     cout << "------------------- INFORMACION DE VIDEOJUEGO  ------------------------" << endl;
     cout << "Nombre: " << res->getNombreVideojuego() << endl;

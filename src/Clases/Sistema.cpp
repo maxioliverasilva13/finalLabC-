@@ -184,8 +184,6 @@ Sistema::Sistema()
   int minuto = now->tm_min;
   DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
   this->fechaHora = ahora;
-
-  this->loggUser = new Jugador("rodrigo","ddsada","rodrigo@gmail.com","rodrigo123");
 }
 
 ICollection *Sistema::listarVideoJuegosActivos()
@@ -243,9 +241,9 @@ bool validateExistsGameName(string nameGame, IDictionary *games)
   char *charNameVj = const_cast<char *>(nameGame.c_str()); // paso de string a char (para poder implementar la key)
   String *vjKey = new String(charNameVj);
   Videojuego *juego = (Videojuego *)games->find(vjKey);
-
   if (juego)
   {
+    cout << "juego: " << juego->getNombre() << endl;
     return true;
   }
   else
@@ -488,6 +486,7 @@ void Sistema::agregarVideojuego(string nombre, string descricpcion, ICollection 
     throw invalid_argument("El videojuego " + nombre + " videojuego ya existe");
   }
   Videojuego *vj = new Videojuego(nombre, descricpcion, 0);
+  //cout << loggDesarrollador->getEmail() << endl;
   vj->setDesarrollador(loggDesarrollador);
 
   if (costos_suscripcion) {
