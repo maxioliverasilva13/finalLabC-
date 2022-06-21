@@ -15,6 +15,7 @@ private:
     IDictionary *categorias;
     IDictionary *suscripciones;
     IDictionary *partidas;
+    Desarrollador * creador;
 
 public:
     Videojuego(string, string, int);
@@ -37,6 +38,8 @@ public:
     Suscripcion * getSuscripcion(int);
     void agregarPuntuacion(int ,Jugador *);
     DtVideojuego * getDtVideojuego();
+    void setDesarrollador(Desarrollador *);
+    Desarrollador * getDesarrollador();
 };
 
 #endif

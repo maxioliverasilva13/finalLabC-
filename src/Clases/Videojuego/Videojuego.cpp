@@ -84,6 +84,14 @@ string Videojuego::getDescripcion()
     return this->descripcion;
 }
 
+void Videojuego::setDesarrollador(Desarrollador * creador) {
+    this->creador = creador;
+}
+
+Desarrollador * Videojuego::getDesarrollador() {
+    return this->creador;
+}
+
 void Videojuego::setDescripcion(string descripcion)
 {
     this->descripcion = descripcion;

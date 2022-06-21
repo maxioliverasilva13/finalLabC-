@@ -135,7 +135,7 @@ void recorrerSuscripcionesVJ(IDictionary * suscripciones, bool isDevelop){
     while (itSuscripciones->hasCurrent())
     {
         Suscripcion * suscr = (Suscripcion *)itSuscripciones->getCurrent();
-        cout << "  -Preiodo:" << getEPeriodo(suscr->getPeriodo()) << endl;
+        cout << "  -Preiodo:" << getEPeriodo(suscr->getPeriodo()) << endl; 
         cout << "   Precio: " << suscr->getPrecio() << endl;
         if (isDevelop) {
             // mostrar todas las suscripciones
