@@ -311,47 +311,453 @@ void cargarDatosDePruebaMenu(){
         s->altaUsuario(j3);
         s->altaUsuario(j4);
 
-        s->agregarCategoria("PC", "Esta es la cat1", "PLATAFORMA");
-        s->agregarCategoria("PS4", "Esta es la cat2", "PLATAFORMA");
-        s->agregarCategoria("XBOXONE", "Esta es la cat3", "PLATAFORMA");
-        s->agregarCategoria("DEPORTE", "Esta es la cat4", "GENERO");
-        s->agregarCategoria("SUPERVIVENCIA", "Esta es la cat5", "GENERO");
-        s->agregarCategoria("ESTRATEGIA", "Esta es la cat6", "GENERO");
-        s->agregarCategoria("Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
-        s->agregarCategoria("E", "Su contenido está dirigido para todo público", "OTRO");
-        s->agregarCategoria("ACCION", "Esta es la cat9", "GENERO");
-        s->agregarCategoria("AVENTURA", "Esta es la cat10", "GENERO");
-        s->agregarCategoria("SWITCH", "Esta es la cat11", "PLATAFORMA");
-        s->agregarCategoria("XBOXX", "Esta es la cat12", "PLATAFORMA");
-        s->agregarCategoria("PS5", "Esta es la cat13", "PLATAFORMA");
+        s->agregarCategoria("PC", "Esta es la cat1", "PLATAFORMA");                                         // 1
+        s->agregarCategoria("PS4", "Esta es la cat2", "PLATAFORMA");                                        // 2
+        s->agregarCategoria("XBOXONE", "Esta es la cat3", "PLATAFORMA");                                    // 3
+        s->agregarCategoria("DEPORTE", "Esta es la cat4", "GENERO");                                        // 4
+        s->agregarCategoria("SUPERVIVENCIA", "Esta es la cat5", "GENERO");                                  // 5
+        s->agregarCategoria("ESTRATEGIA", "Esta es la cat6", "GENERO");                                     // 6
+        s->agregarCategoria("Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO"); // 7
+        s->agregarCategoria("E", "Su contenido está dirigido para todo publico", "OTRO");                   // 8
+        s->agregarCategoria("ACCION", "Esta es la cat9", "GENERO");                                         // 9
+        s->agregarCategoria("AVENTURA", "Esta es la cat10", "GENERO");                                      // 10
+        s->agregarCategoria("SWITCH", "Esta es la cat11", "PLATAFORMA");                                    // 11
+        s->agregarCategoria("XBOXX", "Esta es la cat12", "PLATAFORMA");                                     // 12
+        s->agregarCategoria("PS5", "Esta es la cat13", "PLATAFORMA");                                       // 13
 
-        s->agregarVideojuego("Minecraft", "desc1", NULL, NULL);
 
-        ICollection * categorias = new List();
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//  VIDEOJUEGO 1
+
+        ICollection * categorias1 = new List();
         ICollection * costos_suscripcion = new List();
         
-        DtCategoria * cat1 = new DtCategoria(10, "AVENTURA", "Esta es la cat10", "GENERO");
-        DtCategoria * cat2 = new DtCategoria(13, "PS5", "Esta es la cat13", "PLATAFORMA");
-        categorias->add(cat1);
-        categorias->add(cat2);
+        DtCategoria * cat1 = new DtCategoria(1, "PC", "Esta es la cat1", "PLATAFORMA");
+        DtCategoria * cat2 = new DtCategoria(2, "PS4", "Esta es la cat2", "PLATAFORMA");
+        DtCategoria * cat3 = new DtCategoria(6, "ESTRATEGIA", "Esta es la cat6", "GENERO");
+        DtCategoria * cat4 = new DtCategoria(8, "E", "Su contenido está dirigido para todo publico", "OTRO");
+        categorias1->add(cat1);
+        categorias1->add(cat2);
+        categorias1->add(cat3);
+        categorias1->add(cat4);
 
-        DtCostoSuscripcion * costo1 = new DtCostoSuscripcion(VITALICIA, 300);
-        DtCostoSuscripcion * costo2 = new DtCostoSuscripcion(ANUAL, 200);
-        DtCostoSuscripcion * costo3 = new DtCostoSuscripcion(MENSUAL, 100);
-        DtCostoSuscripcion * costo4 = new DtCostoSuscripcion(TRIMESTRAL, 150);
+        DtCostoSuscripcion * costo1 = new DtCostoSuscripcion(VITALICIA, 14);
+        DtCostoSuscripcion * costo2 = new DtCostoSuscripcion(ANUAL, 7);
+        DtCostoSuscripcion * costo3 = new DtCostoSuscripcion(MENSUAL, 1);
+        DtCostoSuscripcion * costo4 = new DtCostoSuscripcion(TRIMESTRAL, 2);
         costos_suscripcion->add(costo1);
         costos_suscripcion->add(costo2);
         costos_suscripcion->add(costo3);
         costos_suscripcion->add(costo4);
 
-        s->agregarVideojuego("Lol", "desc1", costos_suscripcion, categorias);
-      
+        s->agregarVideojuego("KingdomRush", "Juego 1", costos_suscripcion, categorias1);
+
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//  VIDEOJUEGO 2
+
+        ICollection * categorias2 = new List();
+        ICollection * costos_suscripcion2 = new List();
+        
+        DtCategoria * cat5 = new DtCategoria(1, "PC", "Esta es la cat1", "PLATAFORMA");
+        DtCategoria * cat6 = new DtCategoria(2, "PS4", "Esta es la cat2", "PLATAFORMA");
+        DtCategoria * cat7 = new DtCategoria(3, "XBOXONE", "Esta es la cat3", "PLATAFORMA");
+        DtCategoria * cat8 = new DtCategoria(5, "SUPERVIVENCIA", "Esta es la cat5", "GENERO");
+        DtCategoria * cat9 = new DtCategoria(7, "Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
+        categorias2->add(cat5);
+        categorias2->add(cat6);
+        categorias2->add(cat7);
+        categorias2->add(cat8);
+        categorias2->add(cat9);
+
+        DtCostoSuscripcion * costo5 = new DtCostoSuscripcion(VITALICIA, 60); //5
+        DtCostoSuscripcion * costo6 = new DtCostoSuscripcion(ANUAL, 30); //6
+        DtCostoSuscripcion * costo7 = new DtCostoSuscripcion(MENSUAL, 3); //7
+        DtCostoSuscripcion * costo8 = new DtCostoSuscripcion(TRIMESTRAL, 8); //8
+        costos_suscripcion2->add(costo5);
+        costos_suscripcion2->add(costo6);
+        costos_suscripcion2->add(costo7);
+        costos_suscripcion2->add(costo8);
+
+        s->agregarVideojuego("Fortnite", "Juego 2", costos_suscripcion2, categorias2);
+
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//  VIDEOJUEGO 3
+
+        ICollection * categorias3 = new List();
+        ICollection * costos_suscripcion3 = new List();
+        
+        DtCategoria * cat10 = new DtCategoria(1, "PC", "Esta es la cat1", "PLATAFORMA");
+        DtCategoria * cat11 = new DtCategoria(5, "SUPERVIVENCIA", "Esta es la cat5", "GENERO");
+        DtCategoria * cat12 = new DtCategoria(8, "E", "Su contenido está dirigido para todo publico", "OTRO");
+        categorias3->add(cat10);
+        categorias3->add(cat11);
+        categorias3->add(cat12);
+
+        DtCostoSuscripcion * costo9 = new DtCostoSuscripcion(VITALICIA, 40); //9
+        DtCostoSuscripcion * costo10 = new DtCostoSuscripcion(ANUAL, 28); //10 
+        DtCostoSuscripcion * costo11 = new DtCostoSuscripcion(MENSUAL, 2); //11
+        DtCostoSuscripcion * costo12 = new DtCostoSuscripcion(TRIMESTRAL, 5); //12
+        costos_suscripcion3->add(costo9);
+        costos_suscripcion3->add(costo10);
+        costos_suscripcion3->add(costo11);
+        costos_suscripcion3->add(costo12);
+
+        s->agregarVideojuego("Minecraft", "Juego 3", costos_suscripcion3, categorias3);
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+//  VIDEOJUEGO 4
+
+        ICollection * categorias4 = new List();
+        ICollection * costos_suscripcion4 = new List();
+        
+        DtCategoria * cat13 = new DtCategoria(1, "PC", "Esta es la cat1", "PLATAFORMA");
+        DtCategoria * cat14 = new DtCategoria(2, "PS4", "Esta es la cat2", "PLATAFORMA");
+        DtCategoria * cat15 = new DtCategoria(3, "XBOXONE", "Esta es la cat3", "PLATAFORMA");
+        DtCategoria * cat16 = new DtCategoria(5, "SUPERVIVENCIA", "Esta es la cat5", "GENERO");
+        DtCategoria * cat17 = new DtCategoria(7, "Teen", "Su contenido está dirigido a jóvenes de 13 años en adelante", "OTRO");
+        categorias4->add(cat13);
+        categorias4->add(cat14);
+        categorias4->add(cat15);
+        categorias4->add(cat16);
+        categorias4->add(cat17);
+
+        DtCostoSuscripcion * costo13 = new DtCostoSuscripcion(VITALICIA, 300); //13
+        DtCostoSuscripcion * costo14 = new DtCostoSuscripcion(ANUAL, 200); //14
+        DtCostoSuscripcion * costo15 = new DtCostoSuscripcion(MENSUAL, 100); //15
+        DtCostoSuscripcion * costo16 = new DtCostoSuscripcion(TRIMESTRAL, 150); //16
+        costos_suscripcion4->add(costo13);
+        costos_suscripcion4->add(costo14);
+        costos_suscripcion4->add(costo15);
+        costos_suscripcion4->add(costo16);
+
+        s->agregarVideojuego("FIFA 22", "Juego 4", costos_suscripcion4, categorias4);
+
+// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+    // ------------ Suscripcion 1 y 2 (Jugador 1) ------------
+//inicio sesión jugador 1
+        s->iniciarSesion("gamer@mail.com", "123");
+
+
+        // 01/06/22 - 9am
+        int dia = 1;
+        int mes = 6;
+        int anio = 2022;
+        int hora = 9;
+        int minuto = 0;
+
+        DtFechaHora * fechamodificada = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada);
+        delete fechamodificada;
+        s->confirmarSuscripcion("KingdomRush", 4, PAYPAL);       // TRIMESTRAL
+
+        // 02/06/22 - 11am
+        dia = 2;
+        mes = 6;
+        anio = 2022;
+        hora = 11;
+        minuto = 0;
+        DtFechaHora * fechamodificada2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada2);
+        delete fechamodificada2;
+        s->confirmarSuscripcion("Fortnite", 8, TARJETA);         // TRIMESTRAL
+
+        // ---PUNTUACIONES J1---
+        s->asignarPuntajeVideojuego(4, "KingdomRush");
+        s->asignarPuntajeVideojuego(5, "Fortnite");
+        // ---------------------
+
+
+    // -------Partidas individuales J1-------
+        // Partida 1
+
+            // 02/06/22 - 9am INICIO
+            dia = 2;
+            mes = 6;
+            anio = 2022;
+            hora = 10;
+            minuto = 0;
+            DtFechaHora * fechainicio = new DtFechaHora(dia, mes, anio, hora, minuto);
+            s->modificarFechaSistema(fechainicio);
+            s->iniciarPartidaIndividual(true, "KingdomRush");
+            delete fechainicio;
+
+            // 02/06/22 - 10am FIN
+            dia = 2;
+            mes = 6;
+            anio = 2022;
+            hora = 10;
+            minuto = 0;
+            DtFechaHora * fechafin = new DtFechaHora(dia, mes, anio, hora, minuto);
+            s->modificarFechaSistema(fechafin);
+            s->finalizarPartida(1);
+            delete fechafin;
+
+        // ----------------------
+        // Partida 2
+
+            // 03/06/22 - 3pm INICIO
+            dia = 3;
+            mes = 6;
+            anio = 2022;
+            hora = 15;
+            minuto = 0;
+            DtFechaHora * fechainicio2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+            s->modificarFechaSistema(fechainicio2);
+            s->continuarPartida(1);
+            delete fechainicio;
+
+            // 03/06/22 - 4pm FIN
+            dia = 3;
+            mes = 6;
+            anio = 2022;
+            hora = 16;
+            minuto = 0;
+            DtFechaHora * fechafin2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+            s->modificarFechaSistema(fechafin2);
+            s->finalizarPartida(1);
+            delete fechafin;
+        // ----------------------
+    // ----------------------------------
+
+
+    // -------Partidas multijugador J1-------
+        // PartidaMJ 1
+        ICollection * jugadores = new List();
+        string nickJ2 = j2->getNickname();
+        char * charNameJ2 = const_cast<char *>(nickJ2.c_str());
+        String * nomJ2 = new String(charNameJ2);
+
+        string nickJ3 = j3->getNickname();
+        char *charNameVj = const_cast<char *>(nickJ3.c_str());
+        String * nomJ3 = new String(charNameVj);
+        jugadores->add(nomJ2);
+        jugadores->add(nomJ3);
+
+        // 05/06/22 - 5pm INICIO
+        dia = 5;
+        mes = 6;
+        anio = 2022;
+        hora = 17;
+        minuto = 0;
+        DtFechaHora * fechainicioMJ1 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechainicioMJ1);
+        s->iniciarPartidaMultijugador(jugadores, true, "Fortnite");
+        delete fechainicioMJ1;
+
+        // 05/06/22 - 7pm FIN
+        dia = 5;
+        mes = 6;
+        anio = 2022;
+        hora = 19;
+        minuto = 0;
+        DtFechaHora * fechafinMJ1 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechafinMJ1);
+        s->finalizarPartida(2);
+        delete fechafinMJ1;
+
+        // PartidaMJ 2
+
+        // 06/06/22 - 5pm INICIO
+        dia = 6;
+        mes = 6;
+        anio = 2022;
+        hora = 17;
+        minuto = 0;
+        DtFechaHora * fechainicioMJ2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechainicioMJ2);
+        s->iniciarPartidaMultijugador(jugadores, true, "Fortnite");
+        delete fechainicioMJ2;
+
+        // 06/06/22 - 7pm FIN
+        dia = 6;
+        mes = 6;
+        anio = 2022;
+        hora = 19;
+        minuto = 0;
+        DtFechaHora * fechafinMJ2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechafinMJ2);
+        s->finalizarPartida(2);
+        delete fechafinMJ2;
+        delete jugadores;
+    // --------------------------------------
+
+    s->cerrarSesion();
+    usuarioActual = "";
+// cierre de sesión Jugador 1
+
+        // setteo de nuevo la fecha del sistema a la actual para volverlo a la normalidad.
+        time_t t = time(0);
+        tm *now = localtime(&t);
+        dia = now->tm_mday;
+        mes = 1 + now->tm_mon;
+        anio = 1900 + now->tm_year;
+        hora = now->tm_hour;
+        minuto = now->tm_min;
+        DtFechaHora *ahora = new DtFechaHora(dia, mes, anio, hora, minuto);
+        
+        s->modificarFechaSistema(ahora);
+
+    // -----------------------------------------------------------
+
+
+    // ------------ Suscripcion 3 y 4 (Jugador 2) ------------
+        s->iniciarSesion("ari@mail.com", "123");
+
+
+        // 04/06/22 - 9am
+        dia = 4;
+        mes = 6;
+        anio = 2022;
+        hora = 9;
+        minuto = 0;
+        DtFechaHora * fechamodificada3 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada3);
+        delete fechamodificada3;
+        s->confirmarSuscripcion("Fortnite", 7, PAYPAL);          // MENSUAL
+
+
+        // 11/06/22 - 9am
+        dia = 11;
+        mes = 6;
+        anio = 2022;
+        hora = 9;
+        minuto = 0;
+        DtFechaHora * fechamodificada4 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada4);
+        delete fechamodificada4;
+        s->confirmarSuscripcion("Minecraft", 10, TARJETA);        // ANUAL
+
+        // ---PUNTUACIONES J2---
+        s->asignarPuntajeVideojuego(5, "Fortnite");
+        s->asignarPuntajeVideojuego(3, "Minecraft");
+        // ---------------------
+
+    // -------Partidas individuales J2-------
+        // Partida 1 (La unica que tiene)
+
+        // 12/06/22 - 4pm INICIO, NO TIENE FIN
+        dia = 12;
+        mes = 6;
+        anio = 2022;
+        hora = 16;
+        minuto = 0;
+        DtFechaHora * fechainicio3 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechainicio3);
+        s->iniciarPartidaIndividual(true, "Minecraft");
+        delete fechainicio3;
+    // --------------------------------------
+
+    // -------Partidas multijugador J2-------
+        // PartidaMJ 3
+        ICollection * jugadores2 = new List();
+
+        jugadores2->add(nomJ3);
+
+        // 05/06/22 - 5pm INICIO
+        dia = 5;
+        mes = 6;
+        anio = 2022;
+        hora = 17;
+        minuto = 0;
+        DtFechaHora * fechainicioMJ3 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechainicioMJ2);
+        s->iniciarPartidaMultijugador(jugadores2, false, "Minecraft");
+        delete fechainicioMJ2;
+        delete jugadores2;
+
+    // --------------------------------------
+
+
+    // -------Abandonar Partida multijugador Jugador 2-------
+
+        // 05/06/22 - 6pm ABANDONA A ESA HORA
+        dia = 5;
+        mes = 6;
+        anio = 2022;
+        hora = 18;
+        minuto = 0;
+        DtFechaHora * fechaAbandonar1 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechaAbandonar1);
+        s->abandonarPartida(4);
+        delete fechaAbandonar1;
+
+        // 06/06/22 - 5:30pm ABANDONA A ESA HORA
+        dia = 6;
+        mes = 6;
+        anio = 2022;
+        hora = 17;
+        minuto = 30;
+        DtFechaHora * fechaAbandonar2 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechaAbandonar2);
+        s->abandonarPartida(5);
+        delete fechaAbandonar2;
+
+    // ------------------------------------------------------
+
+        // cierre de sesión Jugador 2
+        s->cerrarSesion();
+        usuarioActual = "";
+
+        // setteo de nuevo la fecha del sistema a la actual para volverlo a la normalidad.
+        s->modificarFechaSistema(ahora);
+    // -----------------------------------------------------------
+
+
+    // ------------ Suscripcion 5 y 6 (Jugador 3) ------------
+        s->iniciarSesion("ibai@mail.com", "123");
+
+        // 03/06/22 - 7am
+        dia = 3;
+        mes = 6;
+        anio = 2022;
+        hora = 7;
+        minuto = 0;
+        DtFechaHora * fechamodificada5 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada5);
+        delete fechamodificada5;
+        s->confirmarSuscripcion("Fortnite", 7, TARJETA);         // MENSUAL
+
+
+        // 22/12/20 - 3pm
+        dia = 22;
+        mes = 12;
+        anio = 2020;
+        hora = 15;
+        minuto = 0;
+        DtFechaHora * fechamodificada6 = new DtFechaHora(dia, mes, anio, hora, minuto);
+        s->modificarFechaSistema(fechamodificada6);
+        delete fechamodificada6;
+        s->confirmarSuscripcion("Minecraft", 9, TARJETA);        // VITALICIA
+        
+        // cierre de sesión Jugador 3
+        s->cerrarSesion();
+        usuarioActual = "";
+
+        // setteo de nuevo la fecha del sistema a la actual para volverlo a la normalidad.
+        s->modificarFechaSistema(ahora);
+    // -----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
         cout << "Datos de prueba cargados." << endl;
         sleep(1);
     }
     catch(const std::exception& e)
     {
-        cout << "ERROR: Ya se habian cargado los datos de prueba." << endl;
+        std::cerr << e.what() << '\n';
+        //cout << "ERROR: Ya se habian cargado los datos de prueba." << endl;
         sleep(3);
     }   
 }
@@ -1262,7 +1668,9 @@ ICollection * obtenerJugadoresIniciarPartida(string nomVJ)
         ICollectible * jug = NULL;
         jug = s->findUserByNickname(nick); // revisar
         if(jug != NULL){
-            jugadores->add(jug);
+            char *charNickk = const_cast<char *>(nick.c_str()); // paso de string a char (para poder implementar la key)
+            String * nickString = new String(charNickk);
+            jugadores->add(nickString);
         }
         else
         {

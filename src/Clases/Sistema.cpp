@@ -162,6 +162,7 @@ public:
   PartidaMultijugador * partidaMasLarga();
   DtJugador * jugadorConMasContrataciones();
   ICollection * juegosMejoresPuntuados(int); // coleccion de DtVideojuego
+  void cerrarSesion();
   float calcularSumaTotalHorasAJuego(string);
 
 };
@@ -633,7 +634,7 @@ bool Sistema::iniciarSesion(string email, string password)
       if (dev->getPassword() == password)
       {
         this->loggUser = dev;
-        cout << "EXITO: Te logueaste como desarrollador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
+        //cout << "EXITO: Te logueaste como desarrollador!" << endl; // TODO: INTENTAR HACERLO CON UN MENSAJE DE EXITO PERO EN EL MENU
         login = true;
       }
       else
@@ -648,7 +649,7 @@ bool Sistema::iniciarSesion(string email, string password)
       if (player->getPassword() == password)
       {
         this->loggUser = player;
-        cout << "EXITO: Te logueaste como jugador!" << endl; // BORRAR ESTA LINEA, SOLO PARA TESTEO
+        //cout << "EXITO: Te logueaste como jugador!" << endl; // TODO: INTENTAR HACERLO CON UN MENSAJE DE EXITO PERO EN EL MENU
         login = true;
       }
       else
@@ -883,5 +884,8 @@ IDictionary* Sistema::listarPartidasActivas() {
     return partidaMasLarga;
   }
 
+void Sistema::cerrarSesion(){
+  this->loggUser = NULL;
+}
 
 #endif
