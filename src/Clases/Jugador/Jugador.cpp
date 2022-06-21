@@ -7,7 +7,7 @@ using namespace std;
 DtFechaHora * getFechaVencimientoByPeriodo(DtFechaHora * date, EPeriodo periodo){
     DtFechaHora * fechaVenc;
     if(periodo == VITALICIA){
-        fechaVenc = NULL;
+        fechaVenc = new DtFechaHora(12,12,2050,12,12);
      }else if(periodo == MENSUAL){
         if(date->getMonth() + 1 > 12){
             fechaVenc = new DtFechaHora(date->getDay(),1,date->getYear() + 1, date->getHour(),date->getMinute());
@@ -24,6 +24,8 @@ DtFechaHora * getFechaVencimientoByPeriodo(DtFechaHora * date, EPeriodo periodo)
         }
      }else if(periodo == ANUAL){
         fechaVenc = new DtFechaHora(date->getDay(),date->getMonth(),date->getYear() + 1 , date->getHour(),date->getMinute()); 
+     } else {
+        fechaVenc = new DtFechaHora(12,12,2050,12,12);
      }
      return fechaVenc;
 }
@@ -58,7 +60,7 @@ ICollection *Jugador::listarVideoJuegosActivos(DtFechaHora * ahora)
     {
         Contratacion *c = (Contratacion *)it->getCurrent();
 
-        if (c->getActiva(NULL) == true)
+        if (c->getActiva(ahora) == true)
         {
             string nameGame = c->getNombreVideojuego();
             char *charNameVj = const_cast<char *>(nameGame.c_str()); // paso de string a char (para poder implementar la key)
@@ -184,13 +186,13 @@ void Jugador::suscribirseAVideojuego( Suscripcion * sus, ETipoPago tipoPago,DtFe
      float monto = sus->getPrecio();
      EPeriodo periodo = sus->getPeriodo();
 
-     DtFechaHora *fechaVenc = getFechaVencimientoByPeriodo(fecha_sistema,periodo);
+     DtFechaHora *fechaVenc = getFechaVencimientoByPeriodo(fecha_sistema ,periodo);
 
      Contratacion * newContratacion = new Contratacion(tipoPago,monto,fecha_sistema,fechaVenc,false,sus,this);
      
      IKey * keyId = new Integer(newContratacion->getId());
      ICollectible * newItem = (ICollectible*)newContratacion;
-
+     sus->agregarContratacion(newContratacion);  
      this->contrataciones->add(keyId,newItem);
 }
 

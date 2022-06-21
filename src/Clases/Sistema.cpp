@@ -737,7 +737,7 @@ ICollection * Sistema::listarSuscripcionesPorVideojuego(){
     while (it->hasCurrent()){
         current = (Videojuego*)it->getCurrent();
         nombreV = current->getNombre();
-        info_suscr_current = current->getInfoSuscripciones(nickname);
+        info_suscr_current = current->getInfoSuscripciones(nickname, this->fechaHora);
         
         ICollectible * videoJuegoInfoSus = new DtSuscripcion(nombreV,info_suscr_current);
         res->add(videoJuegoInfoSus);
@@ -830,7 +830,9 @@ IDictionary* Sistema::listarPartidasActivas() {
     Partida * partidas =(Partida*) P->getCurrent();
     if (partidas->getEstado() == ENCURSO) {
       DtPartida* infoP = partidas->getDtPartida();
-      IKey* Pkey =(IKey*)new int(partidas->getId());
+      cout << "obtengo bien el dt" << endl;
+      system("PAUSE");
+      Integer * Pkey = new Integer(partidas->getId());
       dataPartidas->add(Pkey, infoP);
     }
     P->next();

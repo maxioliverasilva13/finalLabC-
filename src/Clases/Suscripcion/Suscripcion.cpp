@@ -96,7 +96,7 @@ ICollection * Suscripcion::getJugadoresActivos(DtFechaHora * fecha) {
     }
     return nombreJugadoresConSuscrAEsteJuego;
 }
-bool Suscripcion::jugadorTieneContratacion(string nickname){
+bool Suscripcion::jugadorTieneContratacion(string nickname ,DtFechaHora * fecha_sistema){
     IIterator * it = this->contrataciones->getIterator();
     Contratacion * current;
 
