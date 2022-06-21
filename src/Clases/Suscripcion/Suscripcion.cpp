@@ -96,14 +96,14 @@ ICollection * Suscripcion::getJugadoresActivos(DtFechaHora * fecha) {
     }
     return nombreJugadoresConSuscrAEsteJuego;
 }
-bool Suscripcion::jugadorTieneContratacion(string nickname,DtFechaHora * fecha_sistema){
+bool Suscripcion::jugadorTieneContratacion(string nickname){
     IIterator * it = this->contrataciones->getIterator();
     Contratacion * current;
 
     bool es_duenio = false;
     while (it->hasCurrent()){
         current = (Contratacion*)it->getCurrent();
-        if((nickname == current->getNickNameDuenio()) && current->getActiva(fecha_sistema)){
+        if(nickname == current->getNickNameDuenio()){
             es_duenio = true;
             break;
         }
