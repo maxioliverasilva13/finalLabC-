@@ -118,6 +118,9 @@ class DtPartidaIndividual;
 #include "../Clases/Usuario/Usuario.cpp"
 #include "../Clases/Videojuego/Videojuego.cpp"
 
+#define ANSI_COLOR_RED     "\u001b[41;1m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 class Sistema
 {
 private:
@@ -569,12 +572,12 @@ void Sistema::altaUsuario(DtUsuario *user)
         if (jg->getEmail() == email)
         {
           emailExiste = true;
-          throw invalid_argument("ERROR: Ya existe un usuario con el email \"" + email +  "\"");
+          throw invalid_argument(ANSI_COLOR_RED "ERROR: Ya existe un usuario con el email \""  + email +  "\"" ANSI_COLOR_RESET );
         }
         if (jg->getNickname() == nickname)
         {
           nicknameExiste = true;
-          throw invalid_argument("ERROR: Ya existe un usuario con el nickname \"" + nickname + "\"");
+          throw invalid_argument(ANSI_COLOR_RED "ERROR: Ya existe un usuario con el nickname \""  + nickname + "\"" ANSI_COLOR_RESET);
         }
       }
       it->next();
@@ -607,7 +610,7 @@ void Sistema::altaUsuario(DtUsuario *user)
     else
     {
       delete key;
-      throw invalid_argument("ERROR: Ya existe un desarrollador con el email \"" + stremail + "\"");
+      throw invalid_argument(ANSI_COLOR_RED "ERROR: Ya existe un desarrollador con el email \""  + stremail + "\"" ANSI_COLOR_RESET); 
     }
   }
 }
@@ -638,7 +641,7 @@ bool Sistema::iniciarSesion(string email, string password)
       else
       {
         login = false;
-        throw invalid_argument("ERROR: Password incorrecto");
+        throw invalid_argument(ANSI_COLOR_RED "ERROR: Password incorrecto" ANSI_COLOR_RESET);
       }
     }
     else if (instancename == "Jugador")
@@ -653,13 +656,13 @@ bool Sistema::iniciarSesion(string email, string password)
       else
       {
         login = false;
-        throw invalid_argument("ERROR: Password incorrecto");
+        throw invalid_argument(ANSI_COLOR_RED "ERROR: Password incorrecto" ANSI_COLOR_RESET);
       }
     }
   }
   else
   {
-    throw invalid_argument("ERROR: No existe un usuario con el email \"" + email + "\"");
+    throw invalid_argument(ANSI_COLOR_RED "ERROR: No existe un usuario con el email \""  + email + "\"" ANSI_COLOR_RESET);
   }
   return login;
 }
