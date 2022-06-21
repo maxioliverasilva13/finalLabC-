@@ -2060,9 +2060,10 @@ void abandonarPartidaMJMenu(){
 
 void finalizarPartidaMenu() {
     IDictionary* P = s->listarPartidasActivas();
-    cout << "Listado de partidas activas: " << endl;
     IIterator* I = P->getIterator();
-
+    
+    int cont = 0;
+    cout << "Listado de partidas activas: " << endl;
     while (I->hasCurrent()) {
         DtPartida* info =(DtPartida*) I->getCurrent();
         cout << endl;
@@ -2098,8 +2099,15 @@ void finalizarPartidaMenu() {
             }
         }
         I->next();
+        cont ++;
         }
         
+        if(cont == 0){
+            cout << endl << "No tienes partida inicada" << endl;
+            cout << "Redirigiendo al menu..";
+            sleep(3);
+            return;
+        }
         cout << endl;
         DtPartida * existe = NULL;
         do {

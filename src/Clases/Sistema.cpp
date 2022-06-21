@@ -823,12 +823,12 @@ void Sistema::finalizarPartida(int idPartida){
 IDictionary* Sistema::listarPartidasActivas() {
   Jugador *jugadorLogueado = (Jugador *)this->loggUser;
   
-  IDictionary* dataPartidas = new OrderedDictionary();
+  IDictionary * dataPartidas = new OrderedDictionary();
 
   IIterator* P = jugadorLogueado->getPartidas()->getIterator();
   while (P->hasCurrent()) {
     Partida * partidas =(Partida*) P->getCurrent();
-    if (partidas->getEstado() == ENCURSO) {
+    if (partidas->getEstado() == ENCURSO && partidas->getCreador()->getNickname() == jugadorLogueado->getNickname()) {
       DtPartida* infoP = partidas->getDtPartida();
       cout << "obtengo bien el dt" << endl;
       system("PAUSE");
